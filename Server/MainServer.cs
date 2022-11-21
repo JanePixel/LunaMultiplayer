@@ -3,6 +3,7 @@ using LmpCommon.Time;
 using Server.Client;
 using Server.Command;
 using Server.Context;
+using Server.Custom.Models;
 using Server.Events;
 using Server.Exit;
 using Server.Log;
@@ -37,6 +38,8 @@ namespace Server
         private static readonly List<Task> TaskContainer = new List<Task>();
 
         public static readonly CancellationTokenSource CancellationTokenSrc = new CancellationTokenSource();
+
+        public static bool IsRestart = false;
 
         public static void Main()
         {
@@ -129,6 +132,14 @@ namespace Server
                 LmpPluginHandler.FireOnServerStop();
 
                 LunaLog.Normal("So long and thanks for all the fish!");
+
+                if (IsRestart)
+                {
+                    //Start new server
+                    var serverExePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\Server.exe";
+                    var newProcLmpServer = new ProcessStartInfo { FileName = serverExePath };
+                    Process.Start(newProcLmpServer);
+                }
             }
             catch (Exception e)
             {
@@ -194,12 +205,35 @@ namespace Server
             CancellationTokenSrc.Cancel();
 
             Task.WaitAll(TaskContainer.ToArray());
-            QuitEvent.Set();
 
-            //Start new server
-            var serverExePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\Server.exe";
-            var newProcLmpServer = new ProcessStartInfo { FileName = serverExePath };
-            Process.Start(newProcLmpServer);
+            IsRestart = true;
+
+            QuitEvent.Set();
+        }
+
+        public static void ResetWorldAndRestart()
+        {
+            //Perform Backups
+            BackupSystem.PerformBackups(CancellationTokenSrc.Token);
+            LunaLog.Normal("Restarting...  Please wait until all threads are finished");
+
+            ServerContext.Shutdown("World has been reset, server is now restarting");
+            CancellationTokenSrc.Cancel();
+
+            Task.WaitAll(TaskContainer.ToArray());
+
+            //Reset world
+            var saveFilePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\Universe";
+            File.Delete(saveFilePath + @"\Subspace.txt");
+            File.Delete(saveFilePath + @"\StartTime.txt");
+            Directory.Delete(saveFilePath + @"\Vessels", true);
+            Directory.Delete(saveFilePath + @"\Scenarios", true);
+            Directory.Delete(saveFilePath + @"\Kerbals", true);
+            Directory.Delete(saveFilePath + @"\Groups", true);
+
+            IsRestart = true;
+
+            QuitEvent.Set();
         }
     }
 }

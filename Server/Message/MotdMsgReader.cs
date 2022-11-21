@@ -32,6 +32,12 @@ namespace Server.Message
             msgData.MessageOfTheDay = newMotd;
 
             MessageQueuer.SendToClient<MotdSrvMsg>(client, msgData);
+
+            var msgDataCustom = ServerContext.ServerMessageFactory.CreateNewMessageData<MotdReplyMsgData>();
+            msgDataCustom.MessageOfTheDay = "This server is using J.P. Custom Commands! To see the commands please type /help in chat.";
+
+            MessageQueuer.SendToClient<MotdSrvMsg>(client, msgDataCustom);
+
         }
     }
 }
