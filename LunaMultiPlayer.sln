@@ -45,13 +45,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LmpUpdater", "LmpUpdater\LmpUpdater.csproj", "{437EC4B0-C1B8-48AC-9F98-2C76F9EDE65F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MasterServer", "MasterServer\MasterServer.csproj", "{776706B0-F5A1-43A5-B13A-1ADA5E77D0A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MasterServer", "MasterServer\MasterServer.csproj", "{776706B0-F5A1-43A5-B13A-1ADA5E77D0A5}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LmpCommon", "LmpCommon\LmpCommon.shproj", "{D4832184-1A94-4FFC-8D4C-3E3214F109F1}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "LmpGlobal", "LmpGlobal\LmpGlobal.shproj", "{D558A5A6-3FAE-4628-8D37-6DAE155B645D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LmpMasterServer", "LmpMasterServer\LmpMasterServer.csproj", "{13549EDE-D540-47BA-86BC-731BB7DD7BFB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LmpMasterServer", "LmpMasterServer\LmpMasterServer.csproj", "{13549EDE-D540-47BA-86BC-731BB7DD7BFB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lidgren.Core", "Lidgren.Core\Lidgren.Core.csproj", "{8629F82E-4F6E-41CF-9ED8-884BDE9A0B1E}"
 EndProject
@@ -59,7 +59,7 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Lidgren", "Lidgren\Lidgren.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidgren.Net", "Lidgren.Net\Lidgren.Net.csproj", "{DCD22705-5F24-4533-98F9-4907CFBBEA54}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LmpMasterServerTest", "LmpMasterServerTest\LmpMasterServerTest.csproj", "{12D5EB00-0B9B-46E6-B1D3-89D416D43092}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LmpMasterServerTest", "LmpMasterServerTest\LmpMasterServerTest.csproj", "{12D5EB00-0B9B-46E6-B1D3-89D416D43092}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,8 +129,8 @@ Global
 		SolutionGuid = {46CE1FFE-A52F-4C6D-8FF1-11B6E792761B}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		LmpCommon\LmpCommon.projitems*{13549ede-d540-47ba-86bc-731bb7dd7bfb}*SharedItemsImports = 4
-		LmpGlobal\LmpGlobal.projitems*{13549ede-d540-47ba-86bc-731bb7dd7bfb}*SharedItemsImports = 4
+		LmpCommon\LmpCommon.projitems*{13549ede-d540-47ba-86bc-731bb7dd7bfb}*SharedItemsImports = 5
+		LmpGlobal\LmpGlobal.projitems*{13549ede-d540-47ba-86bc-731bb7dd7bfb}*SharedItemsImports = 5
 		LmpGlobal\LmpGlobal.projitems*{437ec4b0-c1b8-48ac-9f98-2c76f9ede65f}*SharedItemsImports = 5
 		LmpCommon\LmpCommon.projitems*{7ad735f5-a076-44d2-97ec-02ecad827001}*SharedItemsImports = 4
 		LmpGlobal\LmpGlobal.projitems*{7ad735f5-a076-44d2-97ec-02ecad827001}*SharedItemsImports = 4
