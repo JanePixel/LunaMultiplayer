@@ -17,6 +17,8 @@ namespace Server.Custom.Handler
 {
     public class ChatCommandsHandler
     {
+        private static MessageDispatcherHandler MessageDispatcher = new MessageDispatcherHandler();
+
         private static VotingTracker VoteTracker = new VotingTracker();
 
         private static readonly ChatCommands ChatCmds = new ChatCommands();
@@ -105,37 +107,22 @@ namespace Server.Custom.Handler
         private void InvalidCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
         {
             LunaLog.Info($"Invalid Command Handler activated for player {client.PlayerName}");
-
-            var messageData = new ChatMsgData();
-            messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-            messageData.Relay = true;
-            messageData.Text = "Beep Boop, command not recognized!";
-
-            MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
+            
+            MessageDispatcher.DispatchMessageToSingleClient("Beep Boop, command not recognized!", client);
         }
 
         private void HelpCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
         {
             LunaLog.Info($"Help Command Handler activated for player {client.PlayerName}");
 
-            var messageData = new ChatMsgData();
-            messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-            messageData.Relay = true;
-            messageData.Text = "Available commands are: " + Environment.NewLine + string.Join(Environment.NewLine, chatCommands.CommandsDescriptionList);
-
-            MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
+            MessageDispatcher.DispatchMessageToSingleClient("Available commands are: " + Environment.NewLine + string.Join(Environment.NewLine, chatCommands.CommandsDescriptionList), client);
         }
 
         private void AboutCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
         {
             LunaLog.Info($"About Command Handler activated for player {client.PlayerName}");
 
-            var messageData = new ChatMsgData();
-            messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-            messageData.Relay = true;
-            messageData.Text = "J.P. Custom Commands v0.0.1 by Jane Pixel.";
-
-            MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
+            MessageDispatcher.DispatchMessageToSingleClient(ChatCmds.About, client);
         }
 
         private void SayCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
@@ -151,22 +138,12 @@ namespace Server.Custom.Handler
                     messageContent = messageContent + command[i] + " ";
                 }
 
-                var messageData = new ChatMsgData();
-                messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                messageData.Relay = true;
-                messageData.Text = messageContentPrefix + messageContent;
-
-                MessageQueuer.SendToAllClients<ChatSrvMsg>(messageData);
+                MessageDispatcher.DispatchMessageToAllClients(messageContentPrefix + messageContent);
                 LunaLog.Info($"{client.PlayerName} has sent everyone the following message: {messageContent}");
             }
             else
             {
-                var messageData = new ChatMsgData();
-                messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                messageData.Relay = true;
-                messageData.Text = "Error, no message provided!";
-
-                MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
+                MessageDispatcher.DispatchMessageToSingleClient("Error, no message provided!", client);
             }
         }
 
@@ -204,22 +181,12 @@ namespace Server.Custom.Handler
                 }
                 else
                 {
-                    var messageData = new ChatMsgData();
-                    messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    messageData.Relay = true;
-                    messageData.Text = "Error, player not found!";
-
-                    MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
+                    MessageDispatcher.DispatchMessageToSingleClient("Error, player not found!", client);
                 }
             }
             else
             {
-                var messageData = new ChatMsgData();
-                messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                messageData.Relay = true;
-                messageData.Text = "Error, no message or playername included!";
-
-                MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
+                MessageDispatcher.DispatchMessageToSingleClient("Error, no message or playername included!", client);
             }
         }
 
