@@ -33,10 +33,11 @@ namespace Server.Message
 
             MessageQueuer.SendToClient<MotdSrvMsg>(client, msgData);
 
-            var msgDataCustom = ServerContext.ServerMessageFactory.CreateNewMessageData<MotdReplyMsgData>();
-            msgDataCustom.MessageOfTheDay = "This server is using J.P. Custom Commands! To see the commands please type /help in chat.";
+            // Let players know we are using J.P. Custom Commands
+            var customCommandsMessage = ServerContext.ServerMessageFactory.CreateNewMessageData<MotdReplyMsgData>();
+            customCommandsMessage.MessageOfTheDay = "This server is using J.P. Custom Commands! To see the commands please type /help in chat.";
 
-            MessageQueuer.SendToClient<MotdSrvMsg>(client, msgDataCustom);
+            MessageQueuer.SendToClient<MotdSrvMsg>(client, customCommandsMessage);
 
         }
     }
