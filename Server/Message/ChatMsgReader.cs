@@ -1,27 +1,17 @@
 ﻿using LmpCommon.Message.Data.Chat;
-using LmpCommon.Message.Data.Motd;
 using LmpCommon.Message.Interface;
 using LmpCommon.Message.Server;
-using Microsoft.VisualStudio.Threading;
 using Server.Client;
-using Server.Command;
-using Server.Context;
 using Server.Custom.Handler;
-using Server.Custom.Models;
 using Server.Log;
 using Server.Message.Base;
 using Server.Server;
-using Server.Settings.Structures;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using uhttpsharp.Clients;
 
 namespace Server.Message
 {
     public class ChatMsgReader : ReaderBase
     {
-        public static ChatCommandsHandler CommandsHandler = new ChatCommandsHandler();
+        private static ChatCommandsHandler CommandsHandler = new ChatCommandsHandler();
 
         public override void HandleMessage(ClientStructure client, IClientMessageBase message)
         {
