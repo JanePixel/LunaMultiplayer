@@ -298,39 +298,21 @@ namespace Server.Custom.Handler
 
                 if (VoteTracker.VoteType == "resetworld")
                 {
-                    var messageData = new ChatMsgData();
-                    messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    messageData.Relay = true;
-                    messageData.Text = "A vote on resetting the world has been initiated! Please use the commands /yes or /no to cast your vote!";
-
-                    MessageQueuer.SendToAllClients<ChatSrvMsg>(messageData);
-
+                    MessageDispatcher.DispatchMessageToAllClients("A vote on resetting the world has been initiated! Please use the commands /yes or /no to cast your vote!");
                     LunaLog.Info($"{client.PlayerName} has started a vote on resetting the world!");
 
                     VoteTimerAsync(command, chatCommands, client, message, voteType);
                 }
                 if (VoteTracker.VoteType == "kickplayer")
                 {
-                    var messageData = new ChatMsgData();
-                    messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    messageData.Relay = true;
-                    messageData.Text = $"A vote on kicking {command[1]} from the server has been initiated! Please use the commands /yes or /no to cast your vote!";
-
-                    MessageQueuer.SendToAllClients<ChatSrvMsg>(messageData);
-
+                    MessageDispatcher.DispatchMessageToAllClients($"A vote on kicking {command[1]} from the server has been initiated! Please use the commands /yes or /no to cast your vote!");
                     LunaLog.Info($"{client.PlayerName} has started a vote on kicking {command[1]} from the server!");
 
                     VoteTimerAsync(command, chatCommands, client, message, voteType);
                 }
                 if (VoteTracker.VoteType == "banplayer")
                 {
-                    var messageData = new ChatMsgData();
-                    messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    messageData.Relay = true;
-                    messageData.Text = $"A vote on banning {command[1]} from the server has been initiated! Please use the commands /yes or /no to cast your vote!";
-
-                    MessageQueuer.SendToAllClients<ChatSrvMsg>(messageData);
-
+                    MessageDispatcher.DispatchMessageToAllClients($"A vote on banning {command[1]} from the server has been initiated! Please use the commands /yes or /no to cast your vote!");
                     LunaLog.Info($"{client.PlayerName} has started a vote on banning {command[1]} from the server!");
 
                     VoteTimerAsync(command, chatCommands, client, message, voteType);
@@ -338,12 +320,7 @@ namespace Server.Custom.Handler
             }
             else
             {
-                var messageData = new ChatMsgData();
-                messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                messageData.Relay = true;
-                messageData.Text = "Vote is currently running, can not start a new one!";
-
-                MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
+                MessageDispatcher.DispatchMessageToSingleClient("Vote is currently running, can not start a new one!", client);
             }
         }
 
@@ -351,32 +328,17 @@ namespace Server.Custom.Handler
         {
             await Task.Delay(5000);
 
-            var message1 = new ChatMsgData();
-            message1.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-            message1.Relay = true;
-            message1.Text = "30 seconds left to vote!";
-
-            MessageQueuer.SendToAllClients<ChatSrvMsg>(message1);
+            MessageDispatcher.DispatchMessageToAllClients("30 seconds left to vote!");
             LunaLog.Info($"Vote has 30 seconds left!");
 
             await Task.Delay(10000);
 
-            var message2 = new ChatMsgData();
-            message2.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-            message2.Relay = true;
-            message2.Text = "20 seconds left to vote!";
-
-            MessageQueuer.SendToAllClients<ChatSrvMsg>(message2);
+            MessageDispatcher.DispatchMessageToAllClients("20 seconds left to vote!");
             LunaLog.Info($"Vote has 20 seconds left!");
 
             await Task.Delay(10000);
 
-            var message3 = new ChatMsgData();
-            message3.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-            message3.Relay = true;
-            message3.Text = "10 seconds left to vote!";
-
-            MessageQueuer.SendToAllClients<ChatSrvMsg>(message3);
+            MessageDispatcher.DispatchMessageToAllClients("10 seconds left to vote!");
             LunaLog.Info($"Vote has 10 seconds left!");
 
             await Task.Delay(10000);
@@ -388,12 +350,7 @@ namespace Server.Custom.Handler
             await Task.Delay(0100);
             VoteTracker.IsVoteRunning = false;
 
-            var message1 = new ChatMsgData();
-            message1.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-            message1.Relay = true;
-            message1.Text = $"Vote has finished! Results: {VoteTracker.PlayersWhoVoted.Count()} total votes, {VoteTracker.VotedYesCount.ToString()} voted yes, {VoteTracker.VotedNoCount.ToString()} voted no";
-
-            MessageQueuer.SendToAllClients<ChatSrvMsg>(message1);
+            MessageDispatcher.DispatchMessageToAllClients($"Vote has finished! Results: {VoteTracker.PlayersWhoVoted.Count()} total votes, {VoteTracker.VotedYesCount.ToString()} voted yes, {VoteTracker.VotedNoCount.ToString()} voted no");
             LunaLog.Info($"Vote is over! Results: {VoteTracker.PlayersWhoVoted.Count()} total votes, {VoteTracker.VotedYesCount.ToString()} voted yes, {VoteTracker.VotedNoCount.ToString()} voted no");
 
             await Task.Delay(4000);
@@ -402,22 +359,12 @@ namespace Server.Custom.Handler
             {
                 if (VoteTracker.VotedYesCount > VoteTracker.VotedNoCount)
                 {
-                    var message2 = new ChatMsgData();
-                    message2.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    message2.Relay = true;
-                    message2.Text = $"Vote has succeeded! Enough players voted yes. World will be reset.";
-
-                    MessageQueuer.SendToAllClients<ChatSrvMsg>(message2);
+                    MessageDispatcher.DispatchMessageToAllClients($"Vote has succeeded! Enough players voted yes. World will be reset.");
                     LunaLog.Info($"Vote has succeeded! Enough players voted yes. World will be reset.");
 
                     await Task.Delay(4000);
 
-                    var message3 = new ChatMsgData();
-                    message3.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    message3.Relay = true;
-                    message3.Text = $"Server will reboot in 5 seconds...";
-
-                    MessageQueuer.SendToAllClients<ChatSrvMsg>(message3);
+                    MessageDispatcher.DispatchMessageToAllClients($"Server will reboot in 5 seconds...");
                     LunaLog.Info($"Server will reboot in 5 seconds...");
 
                     await Task.Delay(5000);
@@ -426,12 +373,7 @@ namespace Server.Custom.Handler
                 }
                 else
                 {
-                    var message2 = new ChatMsgData();
-                    message2.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    message2.Relay = true;
-                    message2.Text = $"Vote has failed! Not enough players voted yes. World will not be reset.";
-
-                    MessageQueuer.SendToAllClients<ChatSrvMsg>(message2);
+                    MessageDispatcher.DispatchMessageToAllClients($"Vote has failed! Not enough players voted yes. World will not be reset.");
                     LunaLog.Info($"Vote has failed! Not enough players voted yes. World will not be reset.");
                 }
             }
@@ -439,12 +381,7 @@ namespace Server.Custom.Handler
             {
                 if ((VoteTracker.VotedYesCount > VoteTracker.VotedNoCount) && VoteTracker.PlayersWhoVoted.Count() >= 1)
                 {
-                    var message2 = new ChatMsgData();
-                    message2.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    message2.Relay = true;
-                    message2.Text = $"Vote has succeeded! Enough players voted yes. Player {command[1]} will be kicked.";
-
-                    MessageQueuer.SendToAllClients<ChatSrvMsg>(message2);
+                    MessageDispatcher.DispatchMessageToAllClients($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be kicked.");
                     LunaLog.Info($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be kicked.");
 
                     await Task.Delay(2000);
@@ -456,33 +393,18 @@ namespace Server.Custom.Handler
                         var kickMessage = "The server voted to kick you out!";
                         CommandHandler.Commands["kick"].Func($"{player.PlayerName} {kickMessage}");
 
-                        var message3 = new ChatMsgData();
-                        message3.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                        message3.Relay = true;
-                        message3.Text = $"{command[1]} has been kicked!";
-
-                        MessageQueuer.SendToAllClients<ChatSrvMsg>(message3);
+                        MessageDispatcher.DispatchMessageToAllClients($"{command[1]} has been kicked!");
                         LunaLog.Info($"{command[1]} has been kicked!");
                     }
                     else
                     {
-                        var message3 = new ChatMsgData();
-                        message3.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                        message3.Relay = true;
-                        message3.Text = $"Error, {command[1]} could not be kicked as they are no longer on the server!";
-
-                        MessageQueuer.SendToAllClients<ChatSrvMsg>(message3);
+                        MessageDispatcher.DispatchMessageToAllClients($"Error, {command[1]} could not be kicked as they are no longer on the server!");
                         LunaLog.Info($"Error, {command[1]} could not be kicked as they are no longer on the server!");
                     }
                 }
                 else
                 {
-                    var message2 = new ChatMsgData();
-                    message2.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    message2.Relay = true;
-                    message2.Text = $"Vote has failed! Not enough players voted yes. Player {command[1]} will not be kicked.";
-
-                    MessageQueuer.SendToAllClients<ChatSrvMsg>(message2);
+                    MessageDispatcher.DispatchMessageToAllClients($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be kicked.");
                     LunaLog.Info($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be kicked.");
                 }
             }
@@ -490,12 +412,7 @@ namespace Server.Custom.Handler
             {
                 if ((VoteTracker.VotedYesCount > VoteTracker.VotedNoCount) && VoteTracker.PlayersWhoVoted.Count() >= 2)
                 {
-                    var message2 = new ChatMsgData();
-                    message2.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    message2.Relay = true;
-                    message2.Text = $"Vote has succeeded! Enough players voted yes. Player {command[1]} will be banned.";
-
-                    MessageQueuer.SendToAllClients<ChatSrvMsg>(message2);
+                    MessageDispatcher.DispatchMessageToAllClients($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be banned.");
                     LunaLog.Info($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be banned.");
 
                     await Task.Delay(2000);
@@ -507,33 +424,18 @@ namespace Server.Custom.Handler
                         var banMessage = "The server voted to ban you!";
                         CommandHandler.Commands["ban"].Func($"{player.PlayerName} {banMessage}");
 
-                        var message3 = new ChatMsgData();
-                        message3.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                        message3.Relay = true;
-                        message3.Text = $"{command[1]} has been banned!";
-
-                        MessageQueuer.SendToAllClients<ChatSrvMsg>(message3);
+                        MessageDispatcher.DispatchMessageToAllClients($"{command[1]} has been banned!");
                         LunaLog.Info($"{command[1]} has been banned!");
                     }
                     else
                     {
-                        var message3 = new ChatMsgData();
-                        message3.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                        message3.Relay = true;
-                        message3.Text = $"Error, {command[1]} could not be banned as they are no longer on the server!";
-
-                        MessageQueuer.SendToAllClients<ChatSrvMsg>(message3);
+                        MessageDispatcher.DispatchMessageToAllClients($"Error, {command[1]} could not be banned as they are no longer on the server!");
                         LunaLog.Info($"Error, {command[1]} could not be banned as they are no longer on the server!");
                     }
                 }
                 else
                 {
-                    var message2 = new ChatMsgData();
-                    message2.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    message2.Relay = true;
-                    message2.Text = $"Vote has failed! Not enough players voted yes. Player {command[1]} will not be banned.";
-
-                    MessageQueuer.SendToAllClients<ChatSrvMsg>(message2);
+                    MessageDispatcher.DispatchMessageToAllClients($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be banned.");
                     LunaLog.Info($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be banned.");
                 }
             }
