@@ -157,25 +157,16 @@ namespace Server.Custom.Handler
 
                 if (player != null)
                 {
-                    var messageData = new ChatMsgData();
-                    messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    messageData.Relay = true;
-                    messageData.Text = $"Sending message to: {player.PlayerName}";
+                    MessageDispatcher.DispatchMessageToSingleClient($"Sending message to: {player.PlayerName}", client);
 
-                    MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
-
-                    var messageDataToSend = new ChatMsgData();
-                    messageDataToSend.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    messageDataToSend.Relay = true;
                     var messageContentPrefix = $"{client.PlayerName} has sent you a private message: ";
                     var messageContent = "";
                     for (var i = 2; i < command.Count(); i++)
                     {
                         messageContent = messageContent + command[i] + " ";
                     }
-                    messageDataToSend.Text = messageContentPrefix + messageContent;
-
-                    MessageQueuer.SendToClient<ChatSrvMsg>(player, messageDataToSend);
+                  
+                    MessageDispatcher.DispatchMessageToSingleClient(messageContentPrefix + messageContent, player);
 
                     LunaLog.Info($"{client.PlayerName} sent {player.PlayerName} the following message: {messageContent}");
                 }
@@ -201,32 +192,17 @@ namespace Server.Custom.Handler
                     VoteTracker.PlayersWhoVoted.Add(client.PlayerName);
                     VoteTracker.VotedYesCount = VoteTracker.VotedYesCount + 1;
 
-                    var messageData = new ChatMsgData();
-                    messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    messageData.Relay = true;
-                    messageData.Text = "You have voted! Please wait until the next vote in order to vote again.";
-
-                    MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
+                    MessageDispatcher.DispatchMessageToSingleClient("You have voted! Please wait until the next vote in order to vote again.", client);
                     LunaLog.Info($"{client.PlayerName} has voted: yes");
                 }
                 else
                 {
-                    var messageData = new ChatMsgData();
-                    messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    messageData.Relay = true;
-                    messageData.Text = "You can only vote once for a vote!";
-
-                    MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
+                    MessageDispatcher.DispatchMessageToSingleClient("You can only vote once for a vote!", client);
                 }
             }
             else
             {
-                var messageData = new ChatMsgData();
-                messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                messageData.Relay = true;
-                messageData.Text = "Can not vote, no vote is running!";
-
-                MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
+                MessageDispatcher.DispatchMessageToSingleClient("Can not vote, no vote is running!", client);
             }
         }
 
@@ -241,32 +217,17 @@ namespace Server.Custom.Handler
                     VoteTracker.PlayersWhoVoted.Add(client.PlayerName);
                     VoteTracker.VotedNoCount = VoteTracker.VotedNoCount + 1;
 
-                    var messageData = new ChatMsgData();
-                    messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    messageData.Relay = true;
-                    messageData.Text = "You have voted! Please wait until the next vote in order to vote again.";
-
-                    MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
+                    MessageDispatcher.DispatchMessageToSingleClient("You have voted! Please wait until the next vote in order to vote again.", client);
                     LunaLog.Info($"{client.PlayerName} has voted: no");
                 }
                 else
                 {
-                    var messageData = new ChatMsgData();
-                    messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    messageData.Relay = true;
-                    messageData.Text = "You can only vote once for a vote!";
-
-                    MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
+                    MessageDispatcher.DispatchMessageToSingleClient("You can only vote once for a vote!", client);
                 }
             }
             else
             {
-                var messageData = new ChatMsgData();
-                messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                messageData.Relay = true;
-                messageData.Text = "Can not vote, no vote is running!";
-
-                MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
+                MessageDispatcher.DispatchMessageToSingleClient("Can not vote, no vote is running!", client);
             }
         }
 
@@ -291,22 +252,12 @@ namespace Server.Custom.Handler
                 }
                 else
                 {
-                    var messageData = new ChatMsgData();
-                    messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    messageData.Relay = true;
-                    messageData.Text = "Error, player not found!";
-
-                    MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
+                    MessageDispatcher.DispatchMessageToSingleClient("Error, player not found!", client);
                 }
             }
             else
             {
-                var messageData = new ChatMsgData();
-                messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                messageData.Relay = true;
-                messageData.Text = "Error, playername not provided!";
-
-                MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
+                MessageDispatcher.DispatchMessageToSingleClient("Error, playername not provided!", client);
             }
         }
 
@@ -324,22 +275,12 @@ namespace Server.Custom.Handler
                 }
                 else
                 {
-                    var messageData = new ChatMsgData();
-                    messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                    messageData.Relay = true;
-                    messageData.Text = "Error, player not found!";
-
-                    MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
+                    MessageDispatcher.DispatchMessageToSingleClient("Error, player not found!", client);
                 }
             }
             else
             {
-                var messageData = new ChatMsgData();
-                messageData.From = GeneralSettings.SettingsStore.ConsoleIdentifier;
-                messageData.Relay = true;
-                messageData.Text = "Error, playername not provided!";
-
-                MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
+                MessageDispatcher.DispatchMessageToSingleClient("Error, playername not provided!", client);
             }
         }
 
