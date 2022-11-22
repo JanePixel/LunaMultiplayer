@@ -17,9 +17,9 @@ namespace Server.Custom.Handler
 {
     public class ChatCommandsHandler
     {
-        public static VotingTracker VoteTracker = new VotingTracker();
+        private static VotingTracker VoteTracker = new VotingTracker();
 
-        public static readonly ChatCommands ChatCmds = new ChatCommands();
+        private static readonly ChatCommands ChatCmds = new ChatCommands();
 
         public ChatCommandsHandler() { }
 
@@ -102,7 +102,7 @@ namespace Server.Custom.Handler
             }
         }
 
-        public void InvalidCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
+        private void InvalidCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
         {
             LunaLog.Info($"Invalid Command Handler activated for player {client.PlayerName}");
 
@@ -114,7 +114,7 @@ namespace Server.Custom.Handler
             MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
         }
 
-        public void HelpCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
+        private void HelpCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
         {
             LunaLog.Info($"Help Command Handler activated for player {client.PlayerName}");
 
@@ -126,7 +126,7 @@ namespace Server.Custom.Handler
             MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
         }
 
-        public void AboutCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
+        private void AboutCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
         {
             LunaLog.Info($"About Command Handler activated for player {client.PlayerName}");
 
@@ -138,7 +138,7 @@ namespace Server.Custom.Handler
             MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
         }
 
-        public void SayCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
+        private void SayCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
         {
             LunaLog.Info($"Say Command Handler activated for player {client.PlayerName}");
 
@@ -170,7 +170,7 @@ namespace Server.Custom.Handler
             }
         }
 
-        public void MsgCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
+        private void MsgCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
         {
             LunaLog.Info($"Private Message Command Handler activated for player {client.PlayerName}");
 
@@ -223,7 +223,7 @@ namespace Server.Custom.Handler
             }
         }
 
-        public void YesCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
+        private void YesCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
         {
             LunaLog.Info($"Yes Vote Command Handler activated for player {client.PlayerName}");
 
@@ -263,7 +263,7 @@ namespace Server.Custom.Handler
             }
         }
 
-        public void NoCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
+        private void NoCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
         {
             LunaLog.Info($"No Vote Command Handler activated for player {client.PlayerName}");
 
@@ -303,14 +303,14 @@ namespace Server.Custom.Handler
             }
         }
 
-        public void VoteResetWorldCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
+        private void VoteResetWorldCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
         {
             LunaLog.Info($"Vote Reset World Command Handler activated for player {client.PlayerName}");
 
             StartVoteHandler(command, chatCommands, client, message, "resetworld");
         }
 
-        public void VoteKickPlayerCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
+        private void VoteKickPlayerCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
         {
             LunaLog.Info($"Vote Kick Player Command Handler activated for player {client.PlayerName}");
 
@@ -343,7 +343,7 @@ namespace Server.Custom.Handler
             }
         }
 
-        public void VoteBanPlayerCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
+        private void VoteBanPlayerCommandHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message)
         {
             LunaLog.Info($"Vote Ban Player Command Handler activated for player {client.PlayerName}");
 
@@ -376,7 +376,7 @@ namespace Server.Custom.Handler
             }
         }
 
-        public void StartVoteHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message, string voteType)
+        private void StartVoteHandler(string[] command, ChatCommands chatCommands, ClientStructure client, IClientMessageBase message, string voteType)
         {
             LunaLog.Info($"Start Vote Handler activated for player {client.PlayerName}");
 

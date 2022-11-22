@@ -10,6 +10,14 @@ namespace Server.Custom.Handler
     {
         public MessageDispatcherHandler() { }
 
+        public void DispatchMessageToSingleClient() 
+        {
+        
+        }
 
+        public void DispatchMessageToAllClients()
+        {
+
+        }
     }
 }
