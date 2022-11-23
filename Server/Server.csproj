@@ -28,10 +28,6 @@
     <ProjectReference Include="..\uhttpsharp\uhttpsharp.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Custom\Commands\SubHandler\" />
-  </ItemGroup>
-
   <Import Project="..\LmpCommon\LmpCommon.projitems" Label="Shared" />
 
 </Project>

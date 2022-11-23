@@ -1,0 +1,47 @@
+﻿using LmpCommon.Message.Interface;
+using Server.Client;
+using Server.Custom.Handler;
+using Server.Custom.Models;
+using Server.Log;
+using System.Linq;
+
+namespace Server.Custom.Commands
+{
+    public class YesChatCommand
+    {
+        private static MessageDispatcherHandler _messageDispatcherHandler;
+        private static VotingTracker _votingTracker;
+
+        public YesChatCommand(MessageDispatcherHandler messageDispatcherHandler, VotingTracker votingTracker)
+        {
+            _messageDispatcherHandler = messageDispatcherHandler;
+            _votingTracker = votingTracker;
+            LunaLog.Info($"YesChatCommand object spawned");
+        }
+
+        public void YesCommandHandler(string[] command, ClientStructure client, IClientMessageBase message)
+        {
+            LunaLog.Info($"Yes Vote Command Handler activated for player {client.PlayerName}");
+
+            if (_votingTracker.IsVoteRunning)
+            {
+                if (!(_votingTracker.PlayersWhoVoted.Contains(client.PlayerName)))
+                {
+                    _votingTracker.PlayersWhoVoted.Add(client.PlayerName);
+                    _votingTracker.VotedYesCount = _votingTracker.VotedYesCount + 1;
+
+                    _messageDispatcherHandler.DispatchMessageToSingleClient("You have voted! Please wait until the next vote in order to vote again.", client);
+                    LunaLog.Info($"{client.PlayerName} has voted: yes");
+                }
+                else
+                {
+                    _messageDispatcherHandler.DispatchMessageToSingleClient("You can only vote once for a vote!", client);
+                }
+            }
+            else
+            {
+                _messageDispatcherHandler.DispatchMessageToSingleClient("Can not vote, no vote is running!", client);
+            }
+        }
+    }
+}
