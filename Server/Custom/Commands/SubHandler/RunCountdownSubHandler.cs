@@ -95,8 +95,8 @@ namespace Server.Custom.Commands.SubHandler
             }
 
             _countdownTracker.SecondsCount = 0;
-            _countdownTracker.IsCountdownRunning = true;
-            _countdownTracker.CanStartNewCountdown = false;
+            _countdownTracker.IsCountdownRunning = false;
+            _countdownTracker.CanStartNewCountdown = true;
         }
 
         private async Task AnnounceSecondsAsync(int seconds)
