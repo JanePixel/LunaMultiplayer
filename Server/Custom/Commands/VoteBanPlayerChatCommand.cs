@@ -32,7 +32,12 @@ namespace Server.Custom.Commands
 
                 if (player != null)
                 {
-                    _runVoteSubHandler.StartVoteHandler(command, client, message, "banplayer");
+                    if (!_votingTracker.IsVoteRunning && _votingTracker.CanStartNewVote)
+                    {
+                        _votingTracker.VoteType = "banplayer";
+                    }
+
+                    _runVoteSubHandler.StartVoteHandler(command, client, message);
                 }
                 else
                 {

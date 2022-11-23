@@ -24,14 +24,14 @@ namespace Server.Custom.Commands.SubHandler
             LunaLog.Info($"RunVoteSubHandler object spawned");
         }
 
-        public void StartVoteHandler(string[] command, ClientStructure client, IClientMessageBase message, string voteType)
+        public void StartVoteHandler(string[] command, ClientStructure client, IClientMessageBase message)
         {
-            LunaLog.Info($"Start Vote Handler activated for player {client.PlayerName}");
+            LunaLog.Info($"Start Vote Sub Handler activated for player {client.PlayerName}");
 
-            if (!_votingTracker.IsVoteRunning)
+            if (!_votingTracker.IsVoteRunning && _votingTracker.CanStartNewVote)
             {
                 _votingTracker.IsVoteRunning = true;
-                _votingTracker.VoteType = voteType;
+                _votingTracker.CanStartNewVote = false;
                 _votingTracker.PlayersWhoVoted.Clear();
                 _votingTracker.VotedYesCount = 0;
                 _votingTracker.VotedNoCount = 0;
@@ -41,21 +41,21 @@ namespace Server.Custom.Commands.SubHandler
                     _messageDispatcherHandler.DispatchMessageToAllClients("A vote on resetting the world has been initiated! Please use the commands /yes or /no to cast your vote!");
                     LunaLog.Info($"{client.PlayerName} has started a vote on resetting the world!");
 
-                    VoteTimerAsync(command, client, message, voteType);
+                    VoteTimerAsync(command, client, message);
                 }
                 if (_votingTracker.VoteType == "kickplayer")
                 {
                     _messageDispatcherHandler.DispatchMessageToAllClients($"A vote on kicking {command[1]} from the server has been initiated! Please use the commands /yes or /no to cast your vote!");
                     LunaLog.Info($"{client.PlayerName} has started a vote on kicking {command[1]} from the server!");
 
-                    VoteTimerAsync(command, client, message, voteType);
+                    VoteTimerAsync(command, client, message);
                 }
                 if (_votingTracker.VoteType == "banplayer")
                 {
                     _messageDispatcherHandler.DispatchMessageToAllClients($"A vote on banning {command[1]} from the server has been initiated! Please use the commands /yes or /no to cast your vote!");
                     LunaLog.Info($"{client.PlayerName} has started a vote on banning {command[1]} from the server!");
 
-                    VoteTimerAsync(command, client, message, voteType);
+                    VoteTimerAsync(command, client, message);
                 }
             }
             else
@@ -64,7 +64,7 @@ namespace Server.Custom.Commands.SubHandler
             }
         }
 
-        private async Task VoteTimerAsync(string[] command, ClientStructure client, IClientMessageBase message, string voteType)
+        private async Task VoteTimerAsync(string[] command, ClientStructure client, IClientMessageBase message)
         {
             await Task.Delay(5000);
 
@@ -82,17 +82,17 @@ namespace Server.Custom.Commands.SubHandler
             LunaLog.Info($"Vote has 10 seconds left!");
 
             await Task.Delay(10000);
-            VoteResultHandlerAsync(command, client, message, voteType);
+            VoteResultHandlerAsync(command, client, message);
         }
 
-        private async Task VoteResultHandlerAsync(string[] command, ClientStructure client, IClientMessageBase message, string voteType)
+        private async Task VoteResultHandlerAsync(string[] command, ClientStructure client, IClientMessageBase message)
         {
             await Task.Delay(0100);
             _votingTracker.IsVoteRunning = false;
             _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has finished! Results: {_votingTracker.PlayersWhoVoted.Count()} total votes, {_votingTracker.VotedYesCount.ToString()} voted yes, {_votingTracker.VotedNoCount.ToString()} voted no");
             LunaLog.Info($"Vote is over! Results: {_votingTracker.PlayersWhoVoted.Count()} total votes, {_votingTracker.VotedYesCount.ToString()} voted yes, {_votingTracker.VotedNoCount.ToString()} voted no");
             await Task.Delay(4000);
-            if (voteType == "resetworld")
+            if (_votingTracker.VoteType == "resetworld")
             {
                 if (_votingTracker.VotedYesCount > _votingTracker.VotedNoCount)
                 {
@@ -113,7 +113,7 @@ namespace Server.Custom.Commands.SubHandler
                     LunaLog.Info($"Vote has failed! Not enough players voted yes. World will not be reset.");
                 }
             }
-            if (voteType == "kickplayer")
+            if (_votingTracker.VoteType == "kickplayer")
             {
                 if ((_votingTracker.VotedYesCount > _votingTracker.VotedNoCount) && _votingTracker.PlayersWhoVoted.Count() >= 1)
                 {
@@ -144,7 +144,7 @@ namespace Server.Custom.Commands.SubHandler
                     LunaLog.Info($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be kicked.");
                 }
             }
-            if (voteType == "banplayer")
+            if (_votingTracker.VoteType == "banplayer")
             {
                 if ((_votingTracker.VotedYesCount > _votingTracker.VotedNoCount) && _votingTracker.PlayersWhoVoted.Count() >= 2)
                 {
@@ -180,6 +180,7 @@ namespace Server.Custom.Commands.SubHandler
             _votingTracker.PlayersWhoVoted.Clear();
             _votingTracker.VotedYesCount = 0;
             _votingTracker.VotedNoCount = 0;
+            _votingTracker.CanStartNewVote = true;
         }
     }
 }

@@ -12,9 +12,11 @@ namespace Server.Custom.Handler
     {
         private static MessageDispatcherHandler _messageDispatcherHandler = new MessageDispatcherHandler();
         private static VotingTracker _votingTracker = new VotingTracker();
+        private static CountdownTracker _countdownTracker = new CountdownTracker();
         private static readonly ChatCommands _chatCommands = new ChatCommands();
 
         private static RunVoteSubHandler _runVoteSubHandler = new RunVoteSubHandler(_messageDispatcherHandler, _votingTracker);
+        private static RunCountdownSubHandler _runCountdownSubHandler = new RunCountdownSubHandler(_messageDispatcherHandler, _countdownTracker);
 
         private static InvalidChatCommand _invalidChatCommand = new InvalidChatCommand(_messageDispatcherHandler);
         private static HelpChatCommand _helpChatCommand = new HelpChatCommand(_messageDispatcherHandler, _chatCommands);
@@ -27,6 +29,7 @@ namespace Server.Custom.Handler
         private static VoteResetWorldChatCommand _voteResetWorldChatCommand = new VoteResetWorldChatCommand(_messageDispatcherHandler, _votingTracker, _runVoteSubHandler);
         private static VoteKickPlayerChatCommand _voteKickPlayerChatCommand = new VoteKickPlayerChatCommand(_messageDispatcherHandler, _votingTracker, _runVoteSubHandler);
         private static VoteBanPlayerChatCommand _voteBanPlayerChatCommand = new VoteBanPlayerChatCommand(_messageDispatcherHandler, _votingTracker, _runVoteSubHandler);
+        private static CountdownChatCommand _countdownChatCommand = new CountdownChatCommand(_messageDispatcherHandler, _countdownTracker, _runCountdownSubHandler);
 
         public ChatCommandsHandler()
         {
@@ -82,6 +85,10 @@ namespace Server.Custom.Handler
                 case var value when value == _chatCommands.CommandsList[9]:
                     // Discord command handler
                     _discordChatCommand.DiscordCommandHandler(parsedCommand, client, message);
+                    break;
+                case var value when value == _chatCommands.CommandsList[10]:
+                    // Countdown command handler
+                    _countdownChatCommand.CountdownCommandHandler(parsedCommand, client, message);
                     break;
                 default:
                     // No valid command found

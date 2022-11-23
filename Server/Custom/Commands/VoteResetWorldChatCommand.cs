@@ -26,7 +26,12 @@ namespace Server.Custom.Commands
         {
             LunaLog.Info($"Vote Reset World Command Handler activated for player {client.PlayerName}");
 
-            _runVoteSubHandler.StartVoteHandler(command, client, message, "resetworld");
+            if (!_votingTracker.IsVoteRunning && _votingTracker.CanStartNewVote) 
+            {
+                _votingTracker.VoteType = "resetworld";
+            }
+
+            _runVoteSubHandler.StartVoteHandler(command, client, message);
         }
     }
 }

@@ -32,7 +32,12 @@ namespace Server.Custom.Commands
 
                 if (player != null)
                 {
-                    _runVoteSubHandler.StartVoteHandler(command, client, message, "kickplayer");
+                    if (!_votingTracker.IsVoteRunning && _votingTracker.CanStartNewVote)
+                    {
+                        _votingTracker.VoteType = "kickplayer";
+                    }
+
+                    _runVoteSubHandler.StartVoteHandler(command, client, message);
                 }
                 else
                 {

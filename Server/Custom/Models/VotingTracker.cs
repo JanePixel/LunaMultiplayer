@@ -15,6 +15,8 @@ namespace Server.Custom.Models
 
         public bool IsVoteRunning = false;
 
+        public bool CanStartNewVote = false;
+
         public string VoteType = "";
 
         public List<string> PlayersWhoVoted = new List<string>();
