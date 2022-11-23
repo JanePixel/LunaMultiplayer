@@ -15,7 +15,7 @@ namespace Server.Custom.Models
 
         public bool IsCountdownRunning = false;
 
-        public bool CanStartNewCountdown = false;
+        public bool CanStartNewCountdown = true;
 
         public int SecondsCount = 0;
     }

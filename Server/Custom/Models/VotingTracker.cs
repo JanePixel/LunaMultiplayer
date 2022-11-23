@@ -15,7 +15,7 @@ namespace Server.Custom.Models
 
         public bool IsVoteRunning = false;
 
-        public bool CanStartNewVote = false;
+        public bool CanStartNewVote = true;
 
         public string VoteType = "";
 
