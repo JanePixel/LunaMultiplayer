@@ -1,15 +1,10 @@
 ﻿using LmpCommon.Message.Data.Chat;
 using LmpCommon.Message.Interface;
 using Server.Client;
-using Server.Command;
 using Server.Custom.Commands;
 using Server.Custom.Commands.SubHandler;
 using Server.Custom.Models;
 using Server.Log;
-using System;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace Server.Custom.Handler
 {
@@ -24,6 +19,7 @@ namespace Server.Custom.Handler
         private static InvalidChatCommand _invalidChatCommand = new InvalidChatCommand(_messageDispatcherHandler);
         private static HelpChatCommand _helpChatCommand = new HelpChatCommand(_messageDispatcherHandler, _chatCommands);
         private static AboutChatCommand _aboutChatCommand = new AboutChatCommand(_messageDispatcherHandler, _chatCommands);
+        private static DiscordChatCommand _discordChatCommand = new DiscordChatCommand(_messageDispatcherHandler, _chatCommands);
         private static MsgChatCommand _msgChatCommand = new MsgChatCommand(_messageDispatcherHandler);
         private static SayChatCommand _sayChatCommand = new SayChatCommand(_messageDispatcherHandler);
         private static YesChatCommand _yesChatCommand = new YesChatCommand(_messageDispatcherHandler, _votingTracker);
@@ -82,6 +78,10 @@ namespace Server.Custom.Handler
                 case var value when value == _chatCommands.CommandsList[8]:
                     // Say command handler
                     _sayChatCommand.SayCommandHandler(parsedCommand, client, message);
+                    break;
+                case var value when value == _chatCommands.CommandsList[9]:
+                    // Discord command handler
+                    _discordChatCommand.DiscordCommandHandler(parsedCommand, client, message);
                     break;
                 default:
                     // No valid command found
