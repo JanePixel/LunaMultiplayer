@@ -12,10 +12,10 @@ namespace Server.Custom.Models
         {
         }
 
-        public readonly int TimeBetweenBroadcastsInMilliseconds = 120000;
+        public readonly int TimeBetweenBroadcastsInMilliseconds = 240000;
 
         public int SelectedMessage = 0;
 
-        public readonly string[] Broadcast = { "This server uses chat commands! Use command /help to learn more.", "Did you know that we have a public Discord server? Use command /discord to join!", "Experiencing lag or low fps? A world reset may be in order! Use the command /vote_resetworld to start a vote on resetting the world.", "Is someone annoying you? Take action! Use commands /vote_kickplayer and /vote_banplayer to start a vote on kicking or banning someone." };
+        public readonly string[] Broadcast = { "This server uses chat commands! Use command /help to learn more.", "Did you know that we have a public Discord server? Use command /discord to join!", "Experiencing lag or low fps? A world reset may be in order! Use the command /vote_resetworld to start a vote on resetting the world.", "Is someone annoying you? Take action! Use commands /vote_kickplayer and /vote_banplayer to start a vote on kicking or banning someone.", "If you encounter any problems, feel free to report them in the problems and bugs channel of our public Discord server." };
     }
 }
