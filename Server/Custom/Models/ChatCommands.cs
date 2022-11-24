@@ -13,9 +13,9 @@ namespace Server.Custom.Models
         
         }
 
-        public readonly string About = "J.P. Custom Commands v0.0.1 by Jane Pixel. GitHub Repository: https://github.com/JanePixel/LunaMultiplayer";
+        public readonly string About = "J.P. Custom Commands v1.0.2 by Jane Pixel. GitHub Repository: https://github.com/JanePixel/LunaMultiplayer";
 
-        public readonly string DiscordText = "Discord Server: https://discord.gg/SKqYxWHFth";
+        public readonly string DiscordText = "Link to public Discord server: https://discord.gg/SKqYxWHFth";
 
         public readonly string[] CommandsList = { "/help", "/about", "/msg", "/yes", "/no", "/vote_resetworld", "/vote_kickplayer", "/vote_banplayer", "/say", "/discord", "/countdown" };
 
