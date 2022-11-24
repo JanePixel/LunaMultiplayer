@@ -14,7 +14,6 @@ namespace Server.Custom.Handler
     {
         private static MessageDispatcherHandler _messageDispatcherHandler = new MessageDispatcherHandler();
         private static BroadcasterWheel _broadcasterWheel = new BroadcasterWheel();
-        private static bool IsBroadcasting = false;
 
         public BroadcastHandler()
         {
@@ -23,9 +22,9 @@ namespace Server.Custom.Handler
 
         public void StartBroadcast()
         {
-            if (!IsBroadcasting)
+            if (!_broadcasterWheel.IsBroadcasting)
             {
-                IsBroadcasting = true;
+                _broadcasterWheel.IsBroadcasting = true;
                 BroadcasterLoop();
             }
         }

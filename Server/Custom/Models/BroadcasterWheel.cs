@@ -12,7 +12,9 @@ namespace Server.Custom.Models
         {
         }
 
-        public readonly int TimeBetweenBroadcastsInMilliseconds = 300000;
+        public readonly int TimeBetweenBroadcastsInMilliseconds = 480000;
+
+        public bool IsBroadcasting = false;
 
         public int SelectedMessage = 0;
 
