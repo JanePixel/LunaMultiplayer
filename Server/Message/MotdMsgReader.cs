@@ -4,6 +4,7 @@ using LmpCommon.Message.Interface;
 using LmpCommon.Message.Server;
 using Server.Client;
 using Server.Context;
+using Server.Custom.Handler;
 using Server.Message.Base;
 using Server.Server;
 using Server.Settings.Structures;
@@ -12,6 +13,8 @@ namespace Server.Message
 {
     public class MotdMsgReader : ReaderBase
     {
+        private static BroadcastHandler _broadcastHandler = new BroadcastHandler();
+
         public override void HandleMessage(ClientStructure client, IClientMessageBase message)
         {
             //We don't use this message anymore so we can recycle it
@@ -39,6 +42,8 @@ namespace Server.Message
 
             MessageQueuer.SendToClient<MotdSrvMsg>(client, customCommandsMessage);
 
+            // Try and start a Broadcaster
+            _broadcastHandler.StartBroadcast();
         }
     }
 }
