@@ -17,6 +17,8 @@
 135.23.120.245:8800
 #ABrit's Server
 abritin.space:8800
+abritin.space:8900
+abritin.space:9100
 #Tserver
 ksp.trickys.gg:8800
 #Checha
@@ -26,3 +28,10 @@ checha.ru:8888
 92.221.152.39:8800
 #FireStryker
 ksp.lekekelparadox.xyz:8800
+#Space Twitter Xmas Server
+server.emlynlj.co.uk:2185
+#KSPDogFightServer
+140.238.203.31:8001
+140.238.203.31:19132
+#Zandstraal Server
+zandstra.duckdns.org:8800
