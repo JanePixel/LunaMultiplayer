@@ -11,6 +11,8 @@ namespace JPCC
 {
     public class JPCCPlugin : ILmpPlugin
     {
+        private static string version = "v2.0.0";
+
         private static SettingsLoader settingsLoader;
         private static SettingsKeeper settingsKeeper;
 
@@ -25,7 +27,8 @@ namespace JPCC
                 LunaLog.Info("Loading J.P.C.C. Settings...");
                 settingsLoader = new SettingsLoader();
                 settingsKeeper = settingsLoader.GetSettings();
-                LunaLog.Info("J.P.C.C. Loaded!");
+                settingsKeeper.Version = version;
+                LunaLog.Info("J.P.C.C. " + settingsKeeper.Version + " Loaded!");
             }
             catch (Exception ex) 
             {

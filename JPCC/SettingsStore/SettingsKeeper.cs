@@ -10,6 +10,8 @@ namespace JPCC.SettingsStore
     {
         public SettingsKeeper() { }
 
+        public string Version = "";
+
         public string One = "";
 
         public string Two = "";
