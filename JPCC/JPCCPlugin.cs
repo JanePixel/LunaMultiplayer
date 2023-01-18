@@ -32,14 +32,15 @@ namespace JPCC
             {
                 LunaLog.Info("Loading J.P.C.C. Systems and Settings...");
                 
-                chatCommands = new ChatCommandsHandler();
                 settingsLoader = new SettingsLoader();
-                
+
                 settingsKeeper = settingsLoader.GetSettings();
-                
+
                 settingsKeeper.Version = version;
                 settingsKeeper.About = about;
-                
+
+                chatCommands = new ChatCommandsHandler();
+
                 loadingDone = true;
                 LunaLog.Info("J.P.C.C. " + settingsKeeper.Version + " Loaded!");
             }

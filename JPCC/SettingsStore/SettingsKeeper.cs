@@ -23,7 +23,7 @@ namespace JPCC.SettingsStore
 
         public string DiscordUrl = "";
 
-        public List<string> UniverseFoldersToReset;
+        public List<string> UniverseFolderFilesToReset;
 
         public bool EnableBroadcaster = false;
 

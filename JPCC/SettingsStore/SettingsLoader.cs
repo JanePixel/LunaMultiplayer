@@ -43,8 +43,8 @@ namespace JPCC.SettingsStore
                     case "DiscordUrl":
                         settingsKeeper.DiscordUrl = pair[1];
                         break;
-                    case "UniverseFoldersToReset":
-                        settingsKeeper.UniverseFoldersToReset = ParseList(pair[1]);
+                    case "UniverseFolderFilesToReset":
+                        settingsKeeper.UniverseFolderFilesToReset = ParseList(pair[1]);
                         break;
                     case "EnableBroadcaster":
                         settingsKeeper.EnableBroadcaster = bool.Parse(pair[1]);
@@ -71,9 +71,7 @@ namespace JPCC.SettingsStore
 
             foreach (var item in items) 
             {
-                item.Replace("[", "");
-                item.Replace("]", "");
-                parsedList.Add(item);
+                parsedList.Add(item.Replace("[", "").Replace("]", ""));
             }
 
             return parsedList;
