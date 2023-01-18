@@ -24,7 +24,7 @@ namespace JPCC.Commands.SubHandler
             LunaLog.Info($"RunVoteSubHandler object spawned");
         }
 
-        public void StartVoteHandler(string[] command, ClientStructure client, IClientMessageBase message)
+        public void StartVoteHandler(string[] command, ClientStructure client)
         {
             LunaLog.Info($"Start Vote Sub Handler activated for player {client.PlayerName}");
 
@@ -41,21 +41,21 @@ namespace JPCC.Commands.SubHandler
                     _messageDispatcherHandler.DispatchMessageToAllClients("A vote on resetting the world has been initiated! Please use the commands /yes or /no to cast your vote!");
                     LunaLog.Info($"{client.PlayerName} has started a vote on resetting the world!");
 
-                    VoteTimerAsync(command, client, message);
+                    VoteTimerAsync(command, client);
                 }
                 if (_votingTracker.VoteType == "kickplayer")
                 {
                     _messageDispatcherHandler.DispatchMessageToAllClients($"A vote on kicking {command[1]} from the server has been initiated! Please use the commands /yes or /no to cast your vote!");
                     LunaLog.Info($"{client.PlayerName} has started a vote on kicking {command[1]} from the server!");
 
-                    VoteTimerAsync(command, client, message);
+                    VoteTimerAsync(command, client);
                 }
                 if (_votingTracker.VoteType == "banplayer")
                 {
                     _messageDispatcherHandler.DispatchMessageToAllClients($"A vote on banning {command[1]} from the server has been initiated! Please use the commands /yes or /no to cast your vote!");
                     LunaLog.Info($"{client.PlayerName} has started a vote on banning {command[1]} from the server!");
 
-                    VoteTimerAsync(command, client, message);
+                    VoteTimerAsync(command, client);
                 }
             }
             else
@@ -64,7 +64,7 @@ namespace JPCC.Commands.SubHandler
             }
         }
 
-        private async Task VoteTimerAsync(string[] command, ClientStructure client, IClientMessageBase message)
+        private async Task VoteTimerAsync(string[] command, ClientStructure client)
         {
             await Task.Delay(5000);
 
@@ -82,10 +82,10 @@ namespace JPCC.Commands.SubHandler
             LunaLog.Info($"Vote has 10 seconds left!");
 
             await Task.Delay(10000);
-            VoteResultHandlerAsync(command, client, message);
+            VoteResultHandlerAsync(command, client);
         }
 
-        private async Task VoteResultHandlerAsync(string[] command, ClientStructure client, IClientMessageBase message)
+        private async Task VoteResultHandlerAsync(string[] command, ClientStructure client)
         {
             await Task.Delay(0100);
             _votingTracker.IsVoteRunning = false;

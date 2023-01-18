@@ -22,7 +22,7 @@ namespace JPCC.Commands
             LunaLog.Info($"VoteKickPlayerChatCommand object spawned");
         }
 
-        public void VoteKickPlayerCommandHandler(string[] command, ClientStructure client, IClientMessageBase message)
+        public void VoteKickPlayerCommandHandler(string[] command, ClientStructure client)
         {
             LunaLog.Info($"Vote Kick Player Command Handler activated for player {client.PlayerName}");
 
@@ -37,7 +37,7 @@ namespace JPCC.Commands
                         _votingTracker.VoteType = "kickplayer";
                     }
 
-                    _runVoteSubHandler.StartVoteHandler(command, client, message);
+                    _runVoteSubHandler.StartVoteHandler(command, client);
                 }
                 else
                 {

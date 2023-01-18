@@ -17,7 +17,7 @@ namespace JPCC.Commands
             LunaLog.Info($"MsgChatCommand object spawned");
         }
 
-        public void MsgCommandHandler(string[] command, ClientStructure client, IClientMessageBase message)
+        public void MsgCommandHandler(string[] command, ClientStructure client)
         {
             LunaLog.Info($"Private Message Command Handler activated for player {client.PlayerName}");
 

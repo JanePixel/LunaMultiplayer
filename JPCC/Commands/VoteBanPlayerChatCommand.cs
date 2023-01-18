@@ -22,7 +22,7 @@ namespace JPCC.Commands
             LunaLog.Info($"VoteBanPlayerChatCommand object spawned");
         }
 
-        public void VoteBanPlayerCommandHandler(string[] command, ClientStructure client, IClientMessageBase message)
+        public void VoteBanPlayerCommandHandler(string[] command, ClientStructure client)
         {
             LunaLog.Info($"Vote Ban Player Command Handler activated for player {client.PlayerName}");
 
@@ -37,7 +37,7 @@ namespace JPCC.Commands
                         _votingTracker.VoteType = "banplayer";
                     }
 
-                    _runVoteSubHandler.StartVoteHandler(command, client, message);
+                    _runVoteSubHandler.StartVoteHandler(command, client);
                 }
                 else
                 {

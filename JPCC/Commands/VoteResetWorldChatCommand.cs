@@ -22,7 +22,7 @@ namespace JPCC.Commands
             LunaLog.Info($"VoteResetWorldChatCommand object spawned");
         }
 
-        public void VoteResetWorldCommandHandler(string[] command, ClientStructure client, IClientMessageBase message)
+        public void VoteResetWorldCommandHandler(string[] command, ClientStructure client)
         {
             LunaLog.Info($"Vote Reset World Command Handler activated for player {client.PlayerName}");
 
@@ -31,7 +31,7 @@ namespace JPCC.Commands
                 _votingTracker.VoteType = "resetworld";
             }
 
-            _runVoteSubHandler.StartVoteHandler(command, client, message);
+            _runVoteSubHandler.StartVoteHandler(command, client);
         }
     }
 }

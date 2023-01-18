@@ -19,7 +19,7 @@ namespace JPCC.Commands
             LunaLog.Info($"YesChatCommand object spawned");
         }
 
-        public void YesCommandHandler(string[] command, ClientStructure client, IClientMessageBase message)
+        public void YesCommandHandler(string[] command, ClientStructure client)
         {
             LunaLog.Info($"Yes Vote Command Handler activated for player {client.PlayerName}");
 

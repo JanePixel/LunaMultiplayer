@@ -24,7 +24,7 @@ namespace JPCC.Commands.SubHandler
             LunaLog.Info($"RunCountdownSubHandler object spawned");
         }
 
-        public void StartCountdownHandler(string[] command, ClientStructure client, IClientMessageBase message)
+        public void StartCountdownHandler(string[] command, ClientStructure client)
         {
             LunaLog.Info($"Start Countdown Sub Handler activated for player {client.PlayerName}");
 
@@ -33,7 +33,7 @@ namespace JPCC.Commands.SubHandler
                 _countdownTracker.IsCountdownRunning = true;
                 _countdownTracker.CanStartNewCountdown = false;
 
-                CountdownTimerAsync(command, client, message);
+                CountdownTimerAsync(command, client);
             }
             else
             {
@@ -41,7 +41,7 @@ namespace JPCC.Commands.SubHandler
             }
         }
 
-        private async Task CountdownTimerAsync(string[] command, ClientStructure client, IClientMessageBase message)
+        private async Task CountdownTimerAsync(string[] command, ClientStructure client)
         {
             await Task.Delay(0100);
 

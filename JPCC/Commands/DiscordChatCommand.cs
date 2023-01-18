@@ -19,7 +19,7 @@ namespace JPCC.Commands
             LunaLog.Info($"DiscordChatCommand object spawned");
         }
 
-        public void DiscordCommandHandler(string[] command, ClientStructure client, IClientMessageBase message)
+        public void DiscordCommandHandler(string[] command, ClientStructure client)
         {
             LunaLog.Info($"Discord Command Handler activated for player {client.PlayerName}");
 

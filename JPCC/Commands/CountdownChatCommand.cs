@@ -23,7 +23,7 @@ namespace JPCC.Commands
             LunaLog.Info($"CountdownChatCommand object spawned");
         }
 
-        public void CountdownCommandHandler(string[] command, ClientStructure client, IClientMessageBase message)
+        public void CountdownCommandHandler(string[] command, ClientStructure client)
         {
             LunaLog.Info($"Countdown Command Handler activated for player {client.PlayerName}");
 
@@ -51,7 +51,7 @@ namespace JPCC.Commands
                         {
                             _countdownTracker.SecondsCount = seconds;
                         }
-                        _runCountdownSubHandler.StartCountdownHandler(command, client, message);
+                        _runCountdownSubHandler.StartCountdownHandler(command, client);
                     }
                     else 
                     {

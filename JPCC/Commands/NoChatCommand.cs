@@ -19,7 +19,7 @@ namespace JPCC.Commands
             LunaLog.Info($"NoChatCommand object spawned");
         }
 
-        public void NoCommandHandler(string[] command, ClientStructure client, IClientMessageBase message)
+        public void NoCommandHandler(string[] command, ClientStructure client)
         {
             LunaLog.Info($"No Vote Command Handler activated for player {client.PlayerName}");
 

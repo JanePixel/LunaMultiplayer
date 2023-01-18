@@ -60,51 +60,51 @@ namespace JPCC.Handler
                 {
                     case var value when value == _chatCommands.CommandsList[0]:
                         // Help command handler
-                        _helpChatCommand.HelpCommandHandler(parsedCommand, client, message);
+                        _helpChatCommand.HelpCommandHandler(parsedCommand, client);
                         break;
                     case var value when value == _chatCommands.CommandsList[1]:
                         // About command handler
-                        _aboutChatCommand.AboutCommandHandler(parsedCommand, client, message);
+                        _aboutChatCommand.AboutCommandHandler(parsedCommand, client);
                         break;
                     case var value when value == _chatCommands.CommandsList[2]:
                         // Msg command handler
-                        _msgChatCommand.MsgCommandHandler(parsedCommand, client, message);
+                        _msgChatCommand.MsgCommandHandler(parsedCommand, client);
                         break;
                     case var value when value == _chatCommands.CommandsList[3]:
                         // Yes command handler
-                        _yesChatCommand.YesCommandHandler(parsedCommand, client, message);
+                        _yesChatCommand.YesCommandHandler(parsedCommand, client);
                         break;
                     case var value when value == _chatCommands.CommandsList[4]:
                         // No command handler
-                        _noChatCommand.NoCommandHandler(parsedCommand, client, message);
+                        _noChatCommand.NoCommandHandler(parsedCommand, client);
                         break;
                     case var value when value == _chatCommands.CommandsList[5]:
                         // Reset world command handler
-                        _voteResetWorldChatCommand.VoteResetWorldCommandHandler(parsedCommand, client, message);
+                        _voteResetWorldChatCommand.VoteResetWorldCommandHandler(parsedCommand, client);
                         break;
                     case var value when value == _chatCommands.CommandsList[6]:
                         // Kick player command handler
-                        _voteKickPlayerChatCommand.VoteKickPlayerCommandHandler(parsedCommand, client, message);
+                        _voteKickPlayerChatCommand.VoteKickPlayerCommandHandler(parsedCommand, client);
                         break;
                     case var value when value == _chatCommands.CommandsList[7]:
                         // Ban player command handler
-                        _voteBanPlayerChatCommand.VoteBanPlayerCommandHandler(parsedCommand, client, message);
+                        _voteBanPlayerChatCommand.VoteBanPlayerCommandHandler(parsedCommand, client);
                         break;
                     case var value when value == _chatCommands.CommandsList[8]:
                         // Say command handler
-                        _sayChatCommand.SayCommandHandler(parsedCommand, client, message);
+                        _sayChatCommand.SayCommandHandler(parsedCommand, client);
                         break;
                     case var value when value == _chatCommands.CommandsList[9]:
                         // Discord command handler
-                        _discordChatCommand.DiscordCommandHandler(parsedCommand, client, message);
+                        _discordChatCommand.DiscordCommandHandler(parsedCommand, client);
                         break;
                     case var value when value == _chatCommands.CommandsList[10]:
                         // Countdown command handler
-                        _countdownChatCommand.CountdownCommandHandler(parsedCommand, client, message);
+                        _countdownChatCommand.CountdownCommandHandler(parsedCommand, client);
                         break;
                     default:
                         // No valid command found
-                        _invalidChatCommand.InvalidCommandHandler(parsedCommand, client, message);
+                        _invalidChatCommand.InvalidCommandHandler(parsedCommand, client);
                         break;
                 }
             }

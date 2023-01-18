@@ -19,7 +19,7 @@ namespace JPCC.Commands
             LunaLog.Info($"HelpChatCommand object spawned");
         }
 
-        public void HelpCommandHandler(string[] command, ClientStructure client, IClientMessageBase message)
+        public void HelpCommandHandler(string[] command, ClientStructure client)
         {
             LunaLog.Info($"Help Command Handler activated for player {client.PlayerName}");
 

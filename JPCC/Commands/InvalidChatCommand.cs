@@ -15,7 +15,7 @@ namespace JPCC.Commands
             LunaLog.Info($"InvalidChatCommand object spawned");
         }
 
-        public void InvalidCommandHandler(string[] command, ClientStructure client, IClientMessageBase message)
+        public void InvalidCommandHandler(string[] command, ClientStructure client)
         {
             LunaLog.Info($"Invalid Command Handler activated for player {client.PlayerName}");
 
