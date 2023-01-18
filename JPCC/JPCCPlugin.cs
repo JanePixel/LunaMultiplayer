@@ -1,4 +1,5 @@
-﻿using JPCC.SettingsStore;
+﻿using JPCC.Handler;
+using JPCC.SettingsStore;
 using LmpCommon.Enums;
 using LmpCommon.Message.Interface;
 using Server;
@@ -16,6 +17,8 @@ namespace JPCC
         private static SettingsLoader settingsLoader;
         private static SettingsKeeper settingsKeeper;
 
+        private static ChatCommandsHandler chatCommands;
+
         public virtual void OnUpdate()
         {
         }
@@ -24,7 +27,8 @@ namespace JPCC
         {
             try
             {
-                LunaLog.Info("Loading J.P.C.C. Settings...");
+                LunaLog.Info("Loading J.P.C.C. Systems and Settings...");
+                chatCommands = new ChatCommandsHandler();
                 settingsLoader = new SettingsLoader();
                 settingsKeeper = settingsLoader.GetSettings();
                 settingsKeeper.Version = version;
@@ -32,7 +36,7 @@ namespace JPCC
             }
             catch (Exception ex) 
             {
-                LunaLog.Error($"Error! Could not load J.P.C.C. Settings! Exception: {ex}");
+                LunaLog.Error($"Error! Could not load J.P.C.C.! Exception: {ex}");
             }
         }
 
@@ -56,7 +60,7 @@ namespace JPCC
         {
             if (messageData.MessageType == ClientMessageType.Chat) 
             {
-                messageData.Handled = true;
+                chatCommands.HandleChatCommand(client, messageData);
             }
         }
 

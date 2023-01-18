@@ -105,7 +105,9 @@ namespace JPCC.Commands.SubHandler
 
                     await Task.Delay(5000);
 
-                    MainServer.ResetWorldAndRestart();
+                    //MainServer.ResetWorldAndRestart();
+
+                    CommandHandler.Commands["restartserver"].Func(null);
                 }
                 else
                 {

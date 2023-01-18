@@ -1,6 +1,8 @@
-﻿using LmpCommon.Message.Data.Chat;
+﻿using LmpCommon.Message;
+using LmpCommon.Message.Data.Chat;
 using LmpCommon.Message.Server;
 using Server.Client;
+using Server.Context;
 using Server.Server;
 using Server.Settings.Structures;
 using System;
@@ -20,7 +22,7 @@ namespace JPCC.Handler
 
         public void DispatchMessageToSingleClient(string message, ClientStructure client) 
         {
-            var messageData = new ChatMsgData();
+            var messageData = ServerContext.ServerMessageFactory.CreateNewMessageData<ChatMsgData>();
             messageData.From = serverName;
             messageData.Relay = true;
             messageData.Text = message;
@@ -30,7 +32,7 @@ namespace JPCC.Handler
 
         public void DispatchMessageToAllClients(string message)
         {
-            var messageData = new ChatMsgData();
+            var messageData = ServerContext.ServerMessageFactory.CreateNewMessageData<ChatMsgData>();
             messageData.From = serverName;
             messageData.Relay = true;
             messageData.Text = message;

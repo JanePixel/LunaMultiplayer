@@ -61,7 +61,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lidgren.Net", "Lidgren.Net\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LmpMasterServerTest", "LmpMasterServerTest\LmpMasterServerTest.csproj", "{12D5EB00-0B9B-46E6-B1D3-89D416D43092}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JPCC", "JPCC\JPCC.csproj", "{FF207B0C-FD2E-45D3-8033-6F9E29ADDD6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JPCC", "JPCC\JPCC.csproj", "{FF207B0C-FD2E-45D3-8033-6F9E29ADDD6B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
