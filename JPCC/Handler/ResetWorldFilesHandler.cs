@@ -12,7 +12,7 @@ namespace JPCC.Handler
     public class ResetWorldFilesHandler
     {
         private static SettingsKeeper _settingsKeeper;
-        private string saveFilePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "..\\..\\Universe\\";
+        private string saveFilePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "..\\..\\..\\Universe\\";
 
         public ResetWorldFilesHandler(SettingsKeeper settingsKeeper)
         {
