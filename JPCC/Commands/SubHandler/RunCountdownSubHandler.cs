@@ -21,7 +21,6 @@ namespace JPCC.Commands.SubHandler
         {
             _messageDispatcherHandler = messageDispatcherHandler;
             _countdownTracker = countdownTracker;
-            LunaLog.Info($"RunCountdownSubHandler object spawned");
         }
 
         public void StartCountdownHandler(string[] command, ClientStructure client)

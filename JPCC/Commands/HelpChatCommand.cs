@@ -16,7 +16,6 @@ namespace JPCC.Commands
         {
             _messageDispatcherHandler = messageDispatcherHandler;
             _chatCommands = chatCommands;
-            LunaLog.Info($"HelpChatCommand object spawned");
         }
 
         public void HelpCommandHandler(string[] command, ClientStructure client)

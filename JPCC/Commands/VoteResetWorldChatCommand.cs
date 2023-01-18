@@ -19,7 +19,6 @@ namespace JPCC.Commands
             _messageDispatcherHandler = messageDispatcherHandler;
             _votingTracker = votingTracker;
             _runVoteSubHandler= runVoteSubHandler;
-            LunaLog.Info($"VoteResetWorldChatCommand object spawned");
         }
 
         public void VoteResetWorldCommandHandler(string[] command, ClientStructure client)

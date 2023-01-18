@@ -21,7 +21,6 @@ namespace JPCC.Commands.SubHandler
         {
             _messageDispatcherHandler = messageDispatcherHandler;
             _votingTracker = votingTracker;
-            LunaLog.Info($"RunVoteSubHandler object spawned");
         }
 
         public void StartVoteHandler(string[] command, ClientStructure client)

@@ -17,7 +17,7 @@ namespace JPCC.Handler
 
         public BroadcastHandler()
         {
-            LunaLog.Info($"BroadcastHandler object spawned");
+            
         }
 
         public void StartBroadcast()
@@ -32,7 +32,7 @@ namespace JPCC.Handler
         private async Task BroadcasterLoop()
         {
             await Task.Delay(0100);
-            LunaLog.Info($"A new Broadcaster instance has started!");
+            LunaLog.Info($"Starting message Broadcasts!");
 
             _broadcasterWheel.SelectedMessage = 0;
 

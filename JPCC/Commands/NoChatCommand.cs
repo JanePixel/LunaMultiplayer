@@ -16,7 +16,6 @@ namespace JPCC.Commands
         {
             _messageDispatcherHandler = messageDispatcherHandler;
             _votingTracker = votingTracker;
-            LunaLog.Info($"NoChatCommand object spawned");
         }
 
         public void NoCommandHandler(string[] command, ClientStructure client)

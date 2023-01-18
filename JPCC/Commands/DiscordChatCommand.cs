@@ -16,7 +16,6 @@ namespace JPCC.Commands
         {
             _messageDispatcherHandler = messageDispatcherHandler;
             _chatCommands = chatCommands;
-            LunaLog.Info($"DiscordChatCommand object spawned");
         }
 
         public void DiscordCommandHandler(string[] command, ClientStructure client)

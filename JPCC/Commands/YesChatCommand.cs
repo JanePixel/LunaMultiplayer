@@ -16,7 +16,6 @@ namespace JPCC.Commands
         {
             _messageDispatcherHandler = messageDispatcherHandler;
             _votingTracker = votingTracker;
-            LunaLog.Info($"YesChatCommand object spawned");
         }
 
         public void YesCommandHandler(string[] command, ClientStructure client)

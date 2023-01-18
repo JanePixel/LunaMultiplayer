@@ -12,7 +12,6 @@ namespace JPCC.Commands
         public InvalidChatCommand(MessageDispatcherHandler messageDispatcherHandler) 
         {
             _messageDispatcherHandler = messageDispatcherHandler;
-            LunaLog.Info($"InvalidChatCommand object spawned");
         }
 
         public void InvalidCommandHandler(string[] command, ClientStructure client)

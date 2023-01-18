@@ -19,7 +19,6 @@ namespace JPCC.Commands
             _messageDispatcherHandler = messageDispatcherHandler;
             _votingTracker = votingTracker;
             _runVoteSubHandler = runVoteSubHandler;
-            LunaLog.Info($"VoteKickPlayerChatCommand object spawned");
         }
 
         public void VoteKickPlayerCommandHandler(string[] command, ClientStructure client)

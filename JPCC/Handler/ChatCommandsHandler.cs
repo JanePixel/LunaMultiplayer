@@ -34,7 +34,7 @@ namespace JPCC.Handler
 
         public ChatCommandsHandler()
         {
-            LunaLog.Info($"ChatCommandsHandler object spawned");
+            
         }
 
         public async Task HandleChatCommand(ClientStructure client, IClientMessageBase message)
