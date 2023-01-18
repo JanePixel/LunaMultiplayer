@@ -42,6 +42,7 @@ namespace JPCC
 
         public virtual void OnServerStop()
         {
+            LunaLog.Info("J.P.C.C. is signing off!");
         }
 
         public virtual void OnClientConnect(ClientStructure client)
