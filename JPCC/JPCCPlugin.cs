@@ -13,6 +13,9 @@ namespace JPCC
     public class JPCCPlugin : ILmpPlugin
     {
         private static string version = "v2.0.0";
+        public readonly string about = "J.P. Custom Commands " + version + " by Jane Pixel. GitHub Repository: https://github.com/JanePixel/LunaMultiplayer";
+
+        private static bool loadingDone = false;
 
         private static SettingsLoader settingsLoader;
         private static SettingsKeeper settingsKeeper;
@@ -28,10 +31,16 @@ namespace JPCC
             try
             {
                 LunaLog.Info("Loading J.P.C.C. Systems and Settings...");
+                
                 chatCommands = new ChatCommandsHandler();
                 settingsLoader = new SettingsLoader();
+                
                 settingsKeeper = settingsLoader.GetSettings();
+                
                 settingsKeeper.Version = version;
+                settingsKeeper.About = about;
+                
+                loadingDone = true;
                 LunaLog.Info("J.P.C.C. " + settingsKeeper.Version + " Loaded!");
             }
             catch (Exception ex) 
@@ -59,7 +68,7 @@ namespace JPCC
 
         public virtual void OnMessageReceived(ClientStructure client, IClientMessageBase messageData)
         {
-            if (messageData.MessageType == ClientMessageType.Chat) 
+            if (loadingDone && settingsKeeper.EnableCommands && messageData.MessageType == ClientMessageType.Chat) 
             {
                 chatCommands.CheckAndHandleChatCommand(client, messageData);
             }

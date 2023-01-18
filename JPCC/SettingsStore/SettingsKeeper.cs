@@ -8,12 +8,27 @@ namespace JPCC.SettingsStore
 {
     public class SettingsKeeper
     {
-        public SettingsKeeper() { }
+        public SettingsKeeper() 
+        {
+        
+        }
 
         public string Version = "";
 
-        public string One = "";
+        public string About = "";
 
-        public string Two = "";
+        public bool OverrideDefaultMotd = false;
+
+        public bool EnableCommands = false;
+
+        public string DiscordUrl = "";
+
+        public List<string> UniverseFoldersToReset;
+
+        public bool EnableBroadcaster = false;
+
+        public double BroadcasterIntervalInMinutes = 0.5;
+
+        public List<string> BroadcasterMessages;
     }
 }

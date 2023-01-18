@@ -34,11 +34,26 @@ namespace JPCC.SettingsStore
             {
                 switch (pair[0])
                 {
-                    case "flymode":
-                        settingsKeeper.One = pair[1];
+                    case "OverrideDefaultMotd":
+                        settingsKeeper.OverrideDefaultMotd = bool.Parse(pair[1]);
                         break;
-                    case "mcmode":
-                        settingsKeeper.Two = pair[1];
+                    case "EnableCommands":
+                        settingsKeeper.EnableCommands = bool.Parse(pair[1]);
+                        break;
+                    case "DiscordUrl":
+                        settingsKeeper.DiscordUrl = pair[1];
+                        break;
+                    case "UniverseFoldersToReset":
+                        settingsKeeper.UniverseFoldersToReset = ParseList(pair[1]);
+                        break;
+                    case "EnableBroadcaster":
+                        settingsKeeper.EnableBroadcaster = bool.Parse(pair[1]);
+                        break;
+                    case "BroadcasterIntervalInMinutes":
+                        settingsKeeper.BroadcasterIntervalInMinutes = double.Parse(pair[1]);
+                        break;
+                    case "BroadcasterMessages":
+                        settingsKeeper.BroadcasterMessages = ParseList(pair[1]);
                         break;
                     default:
                         break;
@@ -46,6 +61,22 @@ namespace JPCC.SettingsStore
             }
 
             return settingsKeeper;
+        }
+
+        private List<string> ParseList(string rawList) 
+        {
+            List<string> parsedList = new List<string>();
+
+            var items = rawList.Split("],[");
+
+            foreach (var item in items) 
+            {
+                item.Replace("[", "");
+                item.Replace("]", "");
+                parsedList.Add(item);
+            }
+
+            return parsedList;
         }
     }
 }
