@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JPCC.SettingsStore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +9,19 @@ namespace JPCC.Models
 {
     public class ChatCommands
     {
-        public ChatCommands() 
+        private static SettingsKeeper _settingsKeeper;
+
+        public ChatCommands(SettingsKeeper settingsKeeper) 
         {
-        
+            _settingsKeeper = settingsKeeper;
+
+            About = _settingsKeeper.About;
+            DiscordText = DiscordText + _settingsKeeper.DiscordUrl;
         }
 
-        public readonly string About = "J.P. Custom Commands v1.0.2 by Jane Pixel. GitHub Repository: https://github.com/JanePixel/LunaMultiplayer";
+        public readonly string About = "";
 
-        public readonly string DiscordText = "Link to public Discord server: https://discord.gg/SKqYxWHFth";
+        public readonly string DiscordText = "Link to public Discord server: ";
 
         public readonly string[] CommandsList = { "/help", "/about", "/msg", "/yes", "/no", "/vote_resetworld", "/vote_kickplayer", "/vote_banplayer", "/say", "/discord", "/countdown" };
 

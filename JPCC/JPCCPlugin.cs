@@ -39,7 +39,7 @@ namespace JPCC
                 settingsKeeper.Version = version;
                 settingsKeeper.About = about;
 
-                chatCommands = new ChatCommandsHandler();
+                chatCommands = new ChatCommandsHandler(settingsKeeper);
 
                 loadingDone = true;
                 LunaLog.Info("J.P.C.C. " + settingsKeeper.Version + " Loaded!");
@@ -52,6 +52,11 @@ namespace JPCC
 
         public virtual void OnServerStop()
         {
+            if (settingsKeeper.ResetWorld) 
+            {
+                
+            }
+
             LunaLog.Info("J.P.C.C. is signing off!");
         }
 

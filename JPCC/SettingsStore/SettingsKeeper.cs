@@ -17,6 +17,8 @@ namespace JPCC.SettingsStore
 
         public string About = "";
 
+        public bool ResetWorld = false;
+
         public bool OverrideDefaultMotd = false;
 
         public bool EnableCommands = false;

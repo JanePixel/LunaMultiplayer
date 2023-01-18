@@ -6,38 +6,62 @@ using JPCC.Commands.SubHandler;
 using JPCC.Models;
 using Server.Log;
 using LmpCommon.Message;
+using JPCC.SettingsStore;
 
 namespace JPCC.Handler
 {
     public class ChatCommandsHandler
     {
-        private static MessageDispatcherHandler _messageDispatcherHandler = new MessageDispatcherHandler();
-        private static VotingTracker _votingTracker = new VotingTracker();
-        private static CountdownTracker _countdownTracker = new CountdownTracker();
-        private static readonly ChatCommands _chatCommands = new ChatCommands();
+        private static SettingsKeeper _settingsKeeper;
 
-        private static RunVoteSubHandler _runVoteSubHandler = new RunVoteSubHandler(_messageDispatcherHandler, _votingTracker);
-        private static RunCountdownSubHandler _runCountdownSubHandler = new RunCountdownSubHandler(_messageDispatcherHandler, _countdownTracker);
+        private static MessageDispatcherHandler _messageDispatcherHandler;
+        private static VotingTracker _votingTracker;
+        private static CountdownTracker _countdownTracker;
+        private static ChatCommands _chatCommands;
 
-        private static InvalidChatCommand _invalidChatCommand = new InvalidChatCommand(_messageDispatcherHandler);
-        private static HelpChatCommand _helpChatCommand = new HelpChatCommand(_messageDispatcherHandler, _chatCommands);
-        private static AboutChatCommand _aboutChatCommand = new AboutChatCommand(_messageDispatcherHandler, _chatCommands);
-        private static DiscordChatCommand _discordChatCommand = new DiscordChatCommand(_messageDispatcherHandler, _chatCommands);
-        private static MsgChatCommand _msgChatCommand = new MsgChatCommand(_messageDispatcherHandler);
-        private static SayChatCommand _sayChatCommand = new SayChatCommand(_messageDispatcherHandler);
-        private static YesChatCommand _yesChatCommand = new YesChatCommand(_messageDispatcherHandler, _votingTracker);
-        private static NoChatCommand _noChatCommand = new NoChatCommand(_messageDispatcherHandler, _votingTracker);
-        private static VoteResetWorldChatCommand _voteResetWorldChatCommand = new VoteResetWorldChatCommand(_messageDispatcherHandler, _votingTracker, _runVoteSubHandler);
-        private static VoteKickPlayerChatCommand _voteKickPlayerChatCommand = new VoteKickPlayerChatCommand(_messageDispatcherHandler, _votingTracker, _runVoteSubHandler);
-        private static VoteBanPlayerChatCommand _voteBanPlayerChatCommand = new VoteBanPlayerChatCommand(_messageDispatcherHandler, _votingTracker, _runVoteSubHandler);
-        private static CountdownChatCommand _countdownChatCommand = new CountdownChatCommand(_messageDispatcherHandler, _countdownTracker, _runCountdownSubHandler);
+        private static RunVoteSubHandler _runVoteSubHandler;
+        private static RunCountdownSubHandler _runCountdownSubHandler;
 
-        public ChatCommandsHandler()
+        private static InvalidChatCommand _invalidChatCommand;
+        private static HelpChatCommand _helpChatCommand;
+        private static AboutChatCommand _aboutChatCommand;
+        private static DiscordChatCommand _discordChatCommand;
+        private static MsgChatCommand _msgChatCommand;
+        private static SayChatCommand _sayChatCommand;
+        private static YesChatCommand _yesChatCommand;
+        private static NoChatCommand _noChatCommand;
+        private static VoteResetWorldChatCommand _voteResetWorldChatCommand;
+        private static VoteKickPlayerChatCommand _voteKickPlayerChatCommand;
+        private static VoteBanPlayerChatCommand _voteBanPlayerChatCommand;
+        private static CountdownChatCommand _countdownChatCommand;
+
+        public ChatCommandsHandler(SettingsKeeper settingsKeeper)
         {
-            
+            _settingsKeeper = settingsKeeper;
+
+            _messageDispatcherHandler = new MessageDispatcherHandler();
+            _votingTracker = new VotingTracker();
+            _countdownTracker = new CountdownTracker();
+            _chatCommands = new ChatCommands(_settingsKeeper);
+
+            _runVoteSubHandler = new RunVoteSubHandler(_messageDispatcherHandler, _votingTracker);
+            _runCountdownSubHandler = new RunCountdownSubHandler(_messageDispatcherHandler, _countdownTracker);
+
+            _invalidChatCommand = new InvalidChatCommand(_messageDispatcherHandler);
+            _helpChatCommand = new HelpChatCommand(_messageDispatcherHandler, _chatCommands);
+            _aboutChatCommand = new AboutChatCommand(_messageDispatcherHandler, _chatCommands);
+            _discordChatCommand = new DiscordChatCommand(_messageDispatcherHandler, _chatCommands);
+            _msgChatCommand = new MsgChatCommand(_messageDispatcherHandler);
+            _sayChatCommand = new SayChatCommand(_messageDispatcherHandler);
+            _yesChatCommand = new YesChatCommand(_messageDispatcherHandler, _votingTracker);
+            _noChatCommand = new NoChatCommand(_messageDispatcherHandler, _votingTracker);
+            _voteResetWorldChatCommand = new VoteResetWorldChatCommand(_messageDispatcherHandler, _votingTracker, _runVoteSubHandler);
+            _voteKickPlayerChatCommand = new VoteKickPlayerChatCommand(_messageDispatcherHandler, _votingTracker, _runVoteSubHandler);
+            _voteBanPlayerChatCommand = new VoteBanPlayerChatCommand(_messageDispatcherHandler, _votingTracker, _runVoteSubHandler);
+            _countdownChatCommand = new CountdownChatCommand(_messageDispatcherHandler, _countdownTracker, _runCountdownSubHandler);
         }
 
-        public void CheckAndHandleChatCommand(ClientStructure client, IClientMessageBase message) 
+        public void CheckAndHandleChatCommand(ClientStructure client, IClientMessageBase message)
         {
             var chatMessage = (ChatMsgData)message.Data;
             var rawMessageText = chatMessage.Text;
