@@ -37,10 +37,8 @@ namespace JPCC.Handler
             
         }
 
-        public async Task HandleChatCommand(ClientStructure client, IClientMessageBase message)
+        public void CheckAndHandleChatCommand(ClientStructure client, IClientMessageBase message) 
         {
-            await Task.Delay(0005);
-
             var chatMessage = (ChatMsgData)message.Data;
             var rawMessageText = chatMessage.Text;
 
@@ -50,63 +48,70 @@ namespace JPCC.Handler
                 // Message was a command, use custom handler to deal with it
                 message.Handled = true;
 
-                // Inform server console about command usage and log it
-                LunaLog.Info($"Player {client.PlayerName} used command: {rawMessageText}");
+                HandleChatCommand(client, rawMessageText);
+            }
+        }
 
-                var parsedCommand = rawMessageText.Split(' ');
+        private async Task HandleChatCommand(ClientStructure client, string rawMessageText)
+        {
+            await Task.Delay(0005);
 
-                // Check what command we have
-                switch (parsedCommand[0])
-                {
-                    case var value when value == _chatCommands.CommandsList[0]:
-                        // Help command handler
-                        _helpChatCommand.HelpCommandHandler(parsedCommand, client);
-                        break;
-                    case var value when value == _chatCommands.CommandsList[1]:
-                        // About command handler
-                        _aboutChatCommand.AboutCommandHandler(parsedCommand, client);
-                        break;
-                    case var value when value == _chatCommands.CommandsList[2]:
-                        // Msg command handler
-                        _msgChatCommand.MsgCommandHandler(parsedCommand, client);
-                        break;
-                    case var value when value == _chatCommands.CommandsList[3]:
-                        // Yes command handler
-                        _yesChatCommand.YesCommandHandler(parsedCommand, client);
-                        break;
-                    case var value when value == _chatCommands.CommandsList[4]:
-                        // No command handler
-                        _noChatCommand.NoCommandHandler(parsedCommand, client);
-                        break;
-                    case var value when value == _chatCommands.CommandsList[5]:
-                        // Reset world command handler
-                        _voteResetWorldChatCommand.VoteResetWorldCommandHandler(parsedCommand, client);
-                        break;
-                    case var value when value == _chatCommands.CommandsList[6]:
-                        // Kick player command handler
-                        _voteKickPlayerChatCommand.VoteKickPlayerCommandHandler(parsedCommand, client);
-                        break;
-                    case var value when value == _chatCommands.CommandsList[7]:
-                        // Ban player command handler
-                        _voteBanPlayerChatCommand.VoteBanPlayerCommandHandler(parsedCommand, client);
-                        break;
-                    case var value when value == _chatCommands.CommandsList[8]:
-                        // Say command handler
-                        _sayChatCommand.SayCommandHandler(parsedCommand, client);
-                        break;
-                    case var value when value == _chatCommands.CommandsList[9]:
-                        // Discord command handler
-                        _discordChatCommand.DiscordCommandHandler(parsedCommand, client);
-                        break;
-                    case var value when value == _chatCommands.CommandsList[10]:
-                        // Countdown command handler
-                        _countdownChatCommand.CountdownCommandHandler(parsedCommand, client);
-                        break;
-                    default:
-                        // No valid command found
-                        _invalidChatCommand.InvalidCommandHandler(parsedCommand, client);
-                        break;
-                }
+            // Inform server console about command usage and log it
+            LunaLog.Info($"Player {client.PlayerName} used command: {rawMessageText}");
+
+            var parsedCommand = rawMessageText.Split(' ');
+
+            // Check what command we have
+            switch (parsedCommand[0])
+            {
+                case var value when value == _chatCommands.CommandsList[0]:
+                    // Help command handler
+                    _helpChatCommand.HelpCommandHandler(parsedCommand, client);
+                    break;
+                case var value when value == _chatCommands.CommandsList[1]:
+                    // About command handler
+                    _aboutChatCommand.AboutCommandHandler(parsedCommand, client);
+                    break;
+                case var value when value == _chatCommands.CommandsList[2]:
+                    // Msg command handler
+                    _msgChatCommand.MsgCommandHandler(parsedCommand, client);
+                    break;
+                case var value when value == _chatCommands.CommandsList[3]:
+                    // Yes command handler
+                    _yesChatCommand.YesCommandHandler(parsedCommand, client);
+                    break;
+                case var value when value == _chatCommands.CommandsList[4]:
+                    // No command handler
+                    _noChatCommand.NoCommandHandler(parsedCommand, client);
+                    break;
+                case var value when value == _chatCommands.CommandsList[5]:
+                    // Reset world command handler
+                    _voteResetWorldChatCommand.VoteResetWorldCommandHandler(parsedCommand, client);
+                    break;
+                case var value when value == _chatCommands.CommandsList[6]:
+                    // Kick player command handler
+                    _voteKickPlayerChatCommand.VoteKickPlayerCommandHandler(parsedCommand, client);
+                    break;
+                case var value when value == _chatCommands.CommandsList[7]:
+                    // Ban player command handler
+                    _voteBanPlayerChatCommand.VoteBanPlayerCommandHandler(parsedCommand, client);
+                    break;
+                case var value when value == _chatCommands.CommandsList[8]:
+                    // Say command handler
+                    _sayChatCommand.SayCommandHandler(parsedCommand, client);
+                    break;
+                case var value when value == _chatCommands.CommandsList[9]:
+                    // Discord command handler
+                    _discordChatCommand.DiscordCommandHandler(parsedCommand, client);
+                    break;
+                case var value when value == _chatCommands.CommandsList[10]:
+                    // Countdown command handler
+                    _countdownChatCommand.CountdownCommandHandler(parsedCommand, client);
+                    break;
+                default:
+                    // No valid command found
+                    _invalidChatCommand.InvalidCommandHandler(parsedCommand, client);
+                    break;
             }
         }
     }

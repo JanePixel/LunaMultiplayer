@@ -61,7 +61,7 @@ namespace JPCC
         {
             if (messageData.MessageType == ClientMessageType.Chat) 
             {
-                chatCommands.HandleChatCommand(client, messageData);
+                chatCommands.CheckAndHandleChatCommand(client, messageData);
             }
         }
 
