@@ -54,7 +54,8 @@ namespace JPCC
         {
             if (settingsKeeper.ResetWorld) 
             {
-                
+                ResetWorldFilesHandler resetWorldFilesHandler = new ResetWorldFilesHandler(settingsKeeper);
+                resetWorldFilesHandler.ResetWorld();
             }
 
             LunaLog.Info("J.P.C.C. is signing off!");

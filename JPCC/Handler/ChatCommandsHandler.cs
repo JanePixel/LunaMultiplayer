@@ -44,7 +44,7 @@ namespace JPCC.Handler
             _countdownTracker = new CountdownTracker();
             _chatCommands = new ChatCommands(_settingsKeeper);
 
-            _runVoteSubHandler = new RunVoteSubHandler(_messageDispatcherHandler, _votingTracker);
+            _runVoteSubHandler = new RunVoteSubHandler(_settingsKeeper, _messageDispatcherHandler, _votingTracker);
             _runCountdownSubHandler = new RunCountdownSubHandler(_messageDispatcherHandler, _countdownTracker);
 
             _invalidChatCommand = new InvalidChatCommand(_messageDispatcherHandler);

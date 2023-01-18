@@ -9,16 +9,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using JPCC.SettingsStore;
 
 namespace JPCC.Commands.SubHandler
 {
     public class RunVoteSubHandler
     {
+        private static SettingsKeeper _settingsKeeper;
+
         private static MessageDispatcherHandler _messageDispatcherHandler;
         private static VotingTracker _votingTracker;
 
-        public RunVoteSubHandler(MessageDispatcherHandler messageDispatcherHandler, VotingTracker votingTracker) 
+        public RunVoteSubHandler(SettingsKeeper settingsKeeper, MessageDispatcherHandler messageDispatcherHandler, VotingTracker votingTracker) 
         {
+            _settingsKeeper = settingsKeeper;
+
             _messageDispatcherHandler = messageDispatcherHandler;
             _votingTracker = votingTracker;
         }
@@ -106,6 +111,7 @@ namespace JPCC.Commands.SubHandler
 
                     //MainServer.ResetWorldAndRestart();
 
+                    _settingsKeeper.ResetWorld = true;
                     CommandHandler.Commands["restartserver"].Func(null);
                 }
                 else
