@@ -1,5 +1,5 @@
 ﻿using JPCC.Handler;
-using JPCC.SettingsStore;
+using JPCC.BaseStore;
 using LmpCommon.Enums;
 using LmpCommon.Message.Interface;
 using Server;
@@ -7,6 +7,8 @@ using Server.Client;
 using Server.Events;
 using Server.Log;
 using Server.Plugin;
+using JPCC.Settings;
+using JPCC.Settings.Structures;
 
 namespace JPCC
 {
@@ -17,8 +19,7 @@ namespace JPCC
 
         private static bool loadingDone = false;
 
-        private static SettingsLoader settingsLoader;
-        private static SettingsKeeper settingsKeeper;
+        private static BaseKeeper baseKeeper;
 
         private static ChatCommandsHandler chatCommands;
 
@@ -31,18 +32,17 @@ namespace JPCC
             try
             {
                 LunaLog.Info("Loading J.P.C.C. Systems and Settings...");
-                
-                settingsLoader = new SettingsLoader();
 
-                settingsKeeper = settingsLoader.GetSettings();
+                baseKeeper = new BaseKeeper();
+                baseKeeper.Version = version;
+                baseKeeper.About = about;
 
-                settingsKeeper.Version = version;
-                settingsKeeper.About = about;
+                SettingsHandler.LoadSettings();
 
-                chatCommands = new ChatCommandsHandler(settingsKeeper);
+                chatCommands = new ChatCommandsHandler(baseKeeper);
 
                 loadingDone = true;
-                LunaLog.Info("J.P.C.C. " + settingsKeeper.Version + " Loaded!");
+                LunaLog.Info("J.P.C.C. " + baseKeeper.Version + " Loaded!");
             }
             catch (Exception ex) 
             {
@@ -52,9 +52,9 @@ namespace JPCC
 
         public virtual void OnServerStop()
         {
-            if (settingsKeeper.ResetWorld) 
+            if (baseKeeper.ResetWorld) 
             {
-                ResetWorldFilesHandler resetWorldFilesHandler = new ResetWorldFilesHandler(settingsKeeper);
+                ResetWorldFilesHandler resetWorldFilesHandler = new ResetWorldFilesHandler();
                 resetWorldFilesHandler.ResetWorld();
             }
 
@@ -75,7 +75,7 @@ namespace JPCC
 
         public virtual void OnMessageReceived(ClientStructure client, IClientMessageBase messageData)
         {
-            if (loadingDone && settingsKeeper.EnableCommands && messageData.MessageType == ClientMessageType.Chat) 
+            if (loadingDone && messageData.MessageType == ClientMessageType.Chat && BaseSettings.SettingsStore.EnableCommands) 
             {
                 chatCommands.CheckAndHandleChatCommand(client, messageData);
             }

@@ -1,4 +1,5 @@
-﻿using JPCC.SettingsStore;
+﻿using JPCC.BaseStore;
+using JPCC.Settings.Structures;
 using Server.Log;
 using System;
 using System.Collections.Generic;
@@ -11,12 +12,11 @@ namespace JPCC.Handler
 {
     public class ResetWorldFilesHandler
     {
-        private static SettingsKeeper _settingsKeeper;
-        private string saveFilePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "..\\..\\..\\Universe\\";
+        private string saveFilePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "..\\..\\Universe\\";
 
-        public ResetWorldFilesHandler(SettingsKeeper settingsKeeper)
+        public ResetWorldFilesHandler()
         {
-            _settingsKeeper = settingsKeeper;
+
         }
 
         public void ResetWorld()
@@ -25,7 +25,7 @@ namespace JPCC.Handler
 
             try 
             {
-                foreach (var item in _settingsKeeper.UniverseFolderFilesToReset) 
+                foreach (var item in BackupAndRestoreSettings.SettingsStore.ItemsToReset) 
                 {
                     FileAttributes attr = File.GetAttributes(saveFilePath + item);
 

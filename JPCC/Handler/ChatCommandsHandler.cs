@@ -6,13 +6,13 @@ using JPCC.Commands.SubHandler;
 using JPCC.Models;
 using Server.Log;
 using LmpCommon.Message;
-using JPCC.SettingsStore;
+using JPCC.BaseStore;
 
 namespace JPCC.Handler
 {
     public class ChatCommandsHandler
     {
-        private static SettingsKeeper _settingsKeeper;
+        private static BaseKeeper _baseKeeper;
 
         private static MessageDispatcherHandler _messageDispatcherHandler;
         private static VotingTracker _votingTracker;
@@ -35,16 +35,16 @@ namespace JPCC.Handler
         private static VoteBanPlayerChatCommand _voteBanPlayerChatCommand;
         private static CountdownChatCommand _countdownChatCommand;
 
-        public ChatCommandsHandler(SettingsKeeper settingsKeeper)
+        public ChatCommandsHandler(BaseKeeper baseKeeper)
         {
-            _settingsKeeper = settingsKeeper;
+            _baseKeeper = baseKeeper;
 
             _messageDispatcherHandler = new MessageDispatcherHandler();
             _votingTracker = new VotingTracker();
             _countdownTracker = new CountdownTracker();
-            _chatCommands = new ChatCommands(_settingsKeeper);
+            _chatCommands = new ChatCommands(_baseKeeper);
 
-            _runVoteSubHandler = new RunVoteSubHandler(_settingsKeeper, _messageDispatcherHandler, _votingTracker);
+            _runVoteSubHandler = new RunVoteSubHandler(_baseKeeper, _messageDispatcherHandler, _votingTracker);
             _runCountdownSubHandler = new RunCountdownSubHandler(_messageDispatcherHandler, _countdownTracker);
 
             _invalidChatCommand = new InvalidChatCommand(_messageDispatcherHandler);

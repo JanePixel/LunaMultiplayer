@@ -1,4 +1,5 @@
-﻿using JPCC.SettingsStore;
+﻿using JPCC.BaseStore;
+using JPCC.Settings.Structures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,14 @@ namespace JPCC.Models
 {
     public class ChatCommands
     {
-        private static SettingsKeeper _settingsKeeper;
+        private static BaseKeeper _baseKeeper;
 
-        public ChatCommands(SettingsKeeper settingsKeeper) 
+        public ChatCommands(BaseKeeper baseKeeper) 
         {
-            _settingsKeeper = settingsKeeper;
+            _baseKeeper = baseKeeper;
 
-            About = _settingsKeeper.About;
-            DiscordText = DiscordText + _settingsKeeper.DiscordUrl;
+            About = _baseKeeper.About;
+            DiscordText = DiscordText + BaseSettings.SettingsStore.DiscordUrl;
         }
 
         public readonly string About = "";
