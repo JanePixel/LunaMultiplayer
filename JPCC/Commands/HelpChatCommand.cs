@@ -12,17 +12,59 @@ namespace JPCC.Commands
         private static MessageDispatcherHandler _messageDispatcherHandler;
         private static ChatCommands _chatCommands;
 
+        private static int itemsPerPage = 4;
+        private static int totalPages = 0;
+
         public HelpChatCommand(MessageDispatcherHandler messageDispatcherHandler, ChatCommands chatCommands) 
         {
             _messageDispatcherHandler = messageDispatcherHandler;
             _chatCommands = chatCommands;
+
+            totalPages = (int)Math.Ceiling(Convert.ToDouble(_chatCommands.GetEnabledCommands().Count) / Convert.ToDouble(itemsPerPage));
         }
 
         public void HelpCommandHandler(string[] command, ClientStructure client)
         {
             LunaLog.Info($"Help Command Handler activated for player {client.PlayerName}");
 
-            _messageDispatcherHandler.DispatchMessageToSingleClient("Available commands are: " + Environment.NewLine + string.Join(Environment.NewLine, _chatCommands.CommandsDescriptionList), client);
+            string helpOutput = "";
+            int selectedPage = 1;
+
+            try 
+            {
+                if (command.Length > 1)
+                {
+                    selectedPage = int.Parse(command[1]);
+                }
+
+                if (selectedPage >= 1 && selectedPage <= totalPages)
+                {
+                    string commandsInFocus = "";
+
+                    for (int i = (((selectedPage - 1) * itemsPerPage) + 1); i <= (((selectedPage - 1) * itemsPerPage) + itemsPerPage); i++) 
+                    {
+                        if (!string.IsNullOrEmpty(_chatCommands.GetEnabledCommands().ElementAt(i).Value))
+                        {
+                            commandsInFocus = commandsInFocus + _chatCommands.GetEnabledCommands().ElementAt(i).Value + "\n";
+                        }
+                    }
+
+                    helpOutput =
+                        "<---Help Menu--->\n" +
+                        commandsInFocus +
+                        $"<---Page {selectedPage}/{totalPages}--->";
+                }
+                else 
+                {
+                    _messageDispatcherHandler.DispatchMessageToSingleClient("Error, page number out of range!", client);
+                }
+            }
+            catch (Exception ex) 
+            {
+                _messageDispatcherHandler.DispatchMessageToSingleClient("Error, page must be a number!", client);
+            }
+
+            _messageDispatcherHandler.DispatchMessageToSingleClient(helpOutput, client);
         }
     }
 }

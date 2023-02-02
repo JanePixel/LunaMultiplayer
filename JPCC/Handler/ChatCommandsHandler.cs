@@ -7,6 +7,7 @@ using JPCC.Models;
 using Server.Log;
 using LmpCommon.Message;
 using JPCC.BaseStore;
+using JPCC.Settings.Structures;
 
 namespace JPCC.Handler
 {
@@ -85,58 +86,86 @@ namespace JPCC.Handler
 
             var parsedCommand = rawMessageText.Split(' ');
 
+            // Get enabled commands
+            var activeCommands = _chatCommands.GetEnabledCommands();
+
             // Check what command we have
-            switch (parsedCommand[0])
+            string commandBase = parsedCommand[0];
+            
+            bool foundCommand = false;
+
+            if (commandBase == "/help" && activeCommands.ContainsKey("/help")) 
             {
-                case var value when value == _chatCommands.CommandsList[0]:
-                    // Help command handler
-                    _helpChatCommand.HelpCommandHandler(parsedCommand, client);
-                    break;
-                case var value when value == _chatCommands.CommandsList[1]:
-                    // About command handler
-                    _aboutChatCommand.AboutCommandHandler(parsedCommand, client);
-                    break;
-                case var value when value == _chatCommands.CommandsList[2]:
-                    // Msg command handler
-                    _msgChatCommand.MsgCommandHandler(parsedCommand, client);
-                    break;
-                case var value when value == _chatCommands.CommandsList[3]:
-                    // Yes command handler
-                    _yesChatCommand.YesCommandHandler(parsedCommand, client);
-                    break;
-                case var value when value == _chatCommands.CommandsList[4]:
-                    // No command handler
-                    _noChatCommand.NoCommandHandler(parsedCommand, client);
-                    break;
-                case var value when value == _chatCommands.CommandsList[5]:
-                    // Reset world command handler
-                    _voteResetWorldChatCommand.VoteResetWorldCommandHandler(parsedCommand, client);
-                    break;
-                case var value when value == _chatCommands.CommandsList[6]:
-                    // Kick player command handler
-                    _voteKickPlayerChatCommand.VoteKickPlayerCommandHandler(parsedCommand, client);
-                    break;
-                case var value when value == _chatCommands.CommandsList[7]:
-                    // Ban player command handler
-                    _voteBanPlayerChatCommand.VoteBanPlayerCommandHandler(parsedCommand, client);
-                    break;
-                case var value when value == _chatCommands.CommandsList[8]:
-                    // Say command handler
-                    _sayChatCommand.SayCommandHandler(parsedCommand, client);
-                    break;
-                case var value when value == _chatCommands.CommandsList[9]:
-                    // Discord command handler
-                    _discordChatCommand.DiscordCommandHandler(parsedCommand, client);
-                    break;
-                case var value when value == _chatCommands.CommandsList[10]:
-                    // Countdown command handler
-                    _countdownChatCommand.CountdownCommandHandler(parsedCommand, client);
-                    break;
-                default:
-                    // No valid command found
-                    _invalidChatCommand.InvalidCommandHandler(parsedCommand, client);
-                    break;
+                foundCommand = true;
+                // Help command handler
+                _helpChatCommand.HelpCommandHandler(parsedCommand, client);
             }
+            if (commandBase == "/about" && activeCommands.ContainsKey("/about"))
+            {
+                foundCommand = true;
+                // About command handler
+                _aboutChatCommand.AboutCommandHandler(parsedCommand, client);
+            }
+            if (commandBase == "/discord" && activeCommands.ContainsKey("/discord") && BaseSettings.SettingsStore.DiscordUrl != "")
+            {
+                foundCommand = true;
+                // Discord command handler
+                _discordChatCommand.DiscordCommandHandler(parsedCommand, client);
+            }
+            if (commandBase == "/msg" && activeCommands.ContainsKey("/msg"))
+            {
+                foundCommand = true;
+                // Msg command handler
+                _msgChatCommand.MsgCommandHandler(parsedCommand, client);
+            }
+            if (commandBase == "/say" && activeCommands.ContainsKey("/say"))
+            {
+                foundCommand = true;
+                // Say command handler
+                _sayChatCommand.SayCommandHandler(parsedCommand, client);
+            }
+            if (commandBase == "/countdown" && activeCommands.ContainsKey("/countdown"))
+            {
+                foundCommand = true;
+                // Countdown command handler
+                _countdownChatCommand.CountdownCommandHandler(parsedCommand, client);
+            }
+            if (commandBase == "/vote_resetworld" && activeCommands.ContainsKey("/vote_resetworld"))
+            {
+                foundCommand = true;
+                // Reset world command handler
+                _voteResetWorldChatCommand.VoteResetWorldCommandHandler(parsedCommand, client);
+            }
+            if (commandBase == "/vote_kickplayer" && activeCommands.ContainsKey("/vote_kickplayer"))
+            {
+                foundCommand = true;
+                // Kick player command handler
+                _voteKickPlayerChatCommand.VoteKickPlayerCommandHandler(parsedCommand, client);
+            }
+            if (commandBase == "/vote_banplayer" && activeCommands.ContainsKey("/vote_banplayer"))
+            {
+                foundCommand = true;
+                // Ban player command handler
+                _voteBanPlayerChatCommand.VoteBanPlayerCommandHandler(parsedCommand, client);
+            }
+            if (commandBase == "/yes" && activeCommands.ContainsKey("/yes"))
+            {
+                foundCommand = true;
+                // Yes command handler
+                _yesChatCommand.YesCommandHandler(parsedCommand, client);
+            }
+            if (commandBase == "/no" && activeCommands.ContainsKey("/no"))
+            {
+                foundCommand = true;
+                // No command handler
+                _noChatCommand.NoCommandHandler(parsedCommand, client);
+            }
+
+            // No valid command found
+            if (!foundCommand)
+            {
+                _invalidChatCommand.InvalidCommandHandler(parsedCommand, client); 
+            }            
         }
     }
 }
