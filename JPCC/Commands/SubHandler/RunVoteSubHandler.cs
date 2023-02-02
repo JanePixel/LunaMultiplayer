@@ -42,21 +42,21 @@ namespace JPCC.Commands.SubHandler
 
                 if (_votingTracker.VoteType == "resetworld")
                 {
-                    _messageDispatcherHandler.DispatchMessageToAllClients("A vote on resetting the world has been initiated! Please use the commands /yes or /no to cast your vote!");
+                    _messageDispatcherHandler.DispatchMessageToAllClients($"Player {client.PlayerName} has initiated a vote on resetting the world!{Environment.NewLine}Please use the commands /yes or /no to cast your vote!");
                     LunaLog.Info($"{client.PlayerName} has started a vote on resetting the world!");
 
                     VoteTimerAsync(command, client);
                 }
                 if (_votingTracker.VoteType == "kickplayer")
                 {
-                    _messageDispatcherHandler.DispatchMessageToAllClients($"A vote on kicking {command[1]} from the server has been initiated! Please use the commands /yes or /no to cast your vote!");
+                    _messageDispatcherHandler.DispatchMessageToAllClients($"Player {client.PlayerName} has initiated a vote on kicking {command[1]} from the server!{Environment.NewLine}Please use the commands /yes or /no to cast your vote!");
                     LunaLog.Info($"{client.PlayerName} has started a vote on kicking {command[1]} from the server!");
 
                     VoteTimerAsync(command, client);
                 }
                 if (_votingTracker.VoteType == "banplayer")
                 {
-                    _messageDispatcherHandler.DispatchMessageToAllClients($"A vote on banning {command[1]} from the server has been initiated! Please use the commands /yes or /no to cast your vote!");
+                    _messageDispatcherHandler.DispatchMessageToAllClients($"Player {client.PlayerName} has initiated a vote on banning {command[1]} from the server!{Environment.NewLine}Please use the commands /yes or /no to cast your vote!");
                     LunaLog.Info($"{client.PlayerName} has started a vote on banning {command[1]} from the server!");
 
                     VoteTimerAsync(command, client);
@@ -93,7 +93,7 @@ namespace JPCC.Commands.SubHandler
         {
             await Task.Delay(0100);
             _votingTracker.IsVoteRunning = false;
-            _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has finished! Results: {_votingTracker.PlayersWhoVoted.Count()} total votes, {_votingTracker.VotedYesCount.ToString()} voted yes, {_votingTracker.VotedNoCount.ToString()} voted no");
+            _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has finished! Results:{Environment.NewLine}{_votingTracker.PlayersWhoVoted.Count()} total votes{Environment.NewLine}{_votingTracker.VotedYesCount.ToString()} voted yes{Environment.NewLine}{_votingTracker.VotedNoCount.ToString()} voted no");
             LunaLog.Info($"Vote is over! Results: {_votingTracker.PlayersWhoVoted.Count()} total votes, {_votingTracker.VotedYesCount.ToString()} voted yes, {_votingTracker.VotedNoCount.ToString()} voted no");
             await Task.Delay(4000);
             if (_votingTracker.VoteType == "resetworld")

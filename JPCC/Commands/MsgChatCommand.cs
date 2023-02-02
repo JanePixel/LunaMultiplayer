@@ -20,24 +20,29 @@ namespace JPCC.Commands
         {
             LunaLog.Info($"Private Message Command Handler activated for player {client.PlayerName}");
 
-            if (!(command.Count() <= 2))
+            ParseAndSendMessage(command, client);
+        }
+
+        private async Task ParseAndSendMessage(string[] command, ClientStructure client) 
+        {
+            await Task.Delay(0001);
+
+            if (command.Count() >= 3)
             {
                 var player = ClientRetriever.GetClientByName(command[1]);
 
                 if (player != null)
                 {
-                    _messageDispatcherHandler.DispatchMessageToSingleClient($"Sending message to: {player.PlayerName}", client);
-
-                    var messageContentPrefix = $"{client.PlayerName} has sent you a private message: ";
-                    var messageContent = "";
-                    for (var i = 2; i < command.Count(); i++)
-                    {
-                        messageContent = messageContent + command[i] + " ";
-                    }
-
-                    _messageDispatcherHandler.DispatchMessageToSingleClient(messageContentPrefix + messageContent, player);
+                    var messageContentPrefix = $"{client.PlayerName} has sent you a private message:\n";
+                    var messageContent = string.Join(" ", command.Skip(2));
 
                     LunaLog.Info($"{client.PlayerName} sent {player.PlayerName} the following message: {messageContent}");
+
+                    _messageDispatcherHandler.DispatchMessageToSingleClient($"Sent {player.PlayerName} the following message:\n{messageContent}", client);
+
+                    //Delay sending message due to message duplication bug
+                    await Task.Delay(1000);
+                    _messageDispatcherHandler.DispatchMessageToSingleClient(messageContentPrefix + messageContent, player);
                 }
                 else
                 {
