@@ -1,5 +1,6 @@
 ﻿using LmpCommon.Message;
 using LmpCommon.Message.Data.Chat;
+using LmpCommon.Message.Data.Motd;
 using LmpCommon.Message.Server;
 using Server.Client;
 using Server.Context;
@@ -38,6 +39,14 @@ namespace JPCC.Handler
             messageData.Text = message;
 
             MessageQueuer.SendToAllClients<ChatSrvMsg>(messageData);
+        }
+
+        public void DispatchMotd(string motd, ClientStructure client) 
+        {
+            var motdMessage = ServerContext.ServerMessageFactory.CreateNewMessageData<MotdReplyMsgData>();
+            motdMessage.MessageOfTheDay = motd;
+
+            MessageQueuer.SendToClient<MotdSrvMsg>(client, motdMessage);
         }
     }
 }

@@ -21,7 +21,9 @@ namespace JPCC
 
         private static BaseKeeper baseKeeper;
 
+        private static MessageDispatcherHandler messageDispatcher;
         private static ChatCommandsHandler chatCommands;
+        private static MotdHandler motdHandler;
 
         public virtual void OnUpdate()
         {
@@ -29,6 +31,7 @@ namespace JPCC
 
         public virtual void OnServerStart()
         {
+            //Try and load all classes and settings, in case of an error print output to console
             try
             {
                 LunaLog.Info("Loading J.P.C.C. Systems and Settings...");
@@ -39,7 +42,9 @@ namespace JPCC
 
                 SettingsHandler.LoadSettings();
 
-                chatCommands = new ChatCommandsHandler(baseKeeper);
+                messageDispatcher = new MessageDispatcherHandler();
+                chatCommands = new ChatCommandsHandler(baseKeeper, messageDispatcher);
+                motdHandler = new MotdHandler(messageDispatcher);
 
                 loadingDone = true;
                 LunaLog.Info("J.P.C.C. " + baseKeeper.Version + " Loaded!");
@@ -52,6 +57,7 @@ namespace JPCC
 
         public virtual void OnServerStop()
         {
+            //Reset the world if requested
             if (baseKeeper.ResetWorld) 
             {
                 ResetWorldFilesHandler resetWorldFilesHandler = new ResetWorldFilesHandler();
@@ -75,9 +81,16 @@ namespace JPCC
 
         public virtual void OnMessageReceived(ClientStructure client, IClientMessageBase messageData)
         {
+            // Deal with chat commands if enabled
             if (loadingDone && messageData.MessageType == ClientMessageType.Chat && BaseSettings.SettingsStore.EnableCommands) 
             {
                 chatCommands.CheckAndHandleChatCommand(client, messageData);
+            }
+
+            // Deal with the custom MOTD if enabled
+            if (loadingDone && messageData.MessageType == ClientMessageType.Motd && BaseSettings.SettingsStore.OverrideDefaultMotd)
+            {
+                motdHandler.HandleMotd(client, messageData);
             }
         }
 

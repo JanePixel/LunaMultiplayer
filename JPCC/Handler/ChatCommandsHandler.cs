@@ -13,8 +13,8 @@ namespace JPCC.Handler
     public class ChatCommandsHandler
     {
         private static BaseKeeper _baseKeeper;
-
         private static MessageDispatcherHandler _messageDispatcherHandler;
+        
         private static VotingTracker _votingTracker;
         private static CountdownTracker _countdownTracker;
         private static ChatCommands _chatCommands;
@@ -35,11 +35,11 @@ namespace JPCC.Handler
         private static VoteBanPlayerChatCommand _voteBanPlayerChatCommand;
         private static CountdownChatCommand _countdownChatCommand;
 
-        public ChatCommandsHandler(BaseKeeper baseKeeper)
+        public ChatCommandsHandler(BaseKeeper baseKeeper, MessageDispatcherHandler messageDispatcherHandler)
         {
             _baseKeeper = baseKeeper;
+            _messageDispatcherHandler = messageDispatcherHandler;
 
-            _messageDispatcherHandler = new MessageDispatcherHandler();
             _votingTracker = new VotingTracker();
             _countdownTracker = new CountdownTracker();
             _chatCommands = new ChatCommands(_baseKeeper);
