@@ -25,7 +25,9 @@ namespace JPCC.Handler
 
             try 
             {
-                foreach (var item in BackupAndRestoreSettings.SettingsStore.ItemsToReset) 
+                string[] parsedResetItems = BackupAndRestoreSettings.SettingsStore.ItemsToReset.Split(",\n");
+
+                foreach (var item in parsedResetItems) 
                 {
                     FileAttributes attr = File.GetAttributes(saveFilePath + item);
 
