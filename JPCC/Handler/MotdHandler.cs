@@ -39,11 +39,11 @@ namespace JPCC.Handler
                 .Replace(@"\n", Environment.NewLine)
                 + jpcc;
 
-            if (BaseSettings.SettingsStore.EnabledCommands.Contains("/help")) 
+            if (BaseSettings.SettingsStore.EnableCommands && BaseSettings.SettingsStore.EnabledCommands.Contains("/help")) 
             {
                 motdToSend = motdToSend + helpCommandInfo;
             }
-            if (BaseSettings.SettingsStore.EnabledCommands.Contains("/discord") && BaseSettings.SettingsStore.DiscordUrl != "") 
+            if (BaseSettings.SettingsStore.EnableCommands && BaseSettings.SettingsStore.EnabledCommands.Contains("/discord") && BaseSettings.SettingsStore.DiscordUrl != "") 
             {
                 motdToSend = motdToSend + discordInfo;
             }
