@@ -12,12 +12,12 @@ namespace JPCC.Handler
 {
     public class BroadcastHandler
     {
-        private static MessageDispatcherHandler _messageDispatcherHandler = new MessageDispatcherHandler();
+        private static MessageDispatcherHandler _messageDispatcherHandler;
         private static BroadcasterWheel _broadcasterWheel = new BroadcasterWheel();
 
-        public BroadcastHandler()
+        public BroadcastHandler(MessageDispatcherHandler messageDispatcherHandler)
         {
-            
+            _messageDispatcherHandler = messageDispatcherHandler;
         }
 
         public void StartBroadcast()

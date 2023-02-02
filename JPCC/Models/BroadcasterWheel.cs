@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JPCC.Settings.Structures;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,16 +9,18 @@ namespace JPCC.Models
 {
     public class BroadcasterWheel
     {
-        public BroadcasterWheel() 
+        public BroadcasterWheel()
         {
+            TimeBetweenBroadcastsInMilliseconds = Convert.ToInt32(BroadcasterSettings.SettingsStore.BroadcasterIntervalInMinutes * 60000);
+            Broadcast = BroadcasterSettings.SettingsStore.BroadcasterMessages.Trim('"').Split("\",\n\"");
         }
 
-        public readonly int TimeBetweenBroadcastsInMilliseconds = 480000;
+        public int TimeBetweenBroadcastsInMilliseconds { get; set; }
+
+        public string[] Broadcast { get; set; }
 
         public bool IsBroadcasting = false;
 
         public int SelectedMessage = 0;
-
-        public readonly string[] Broadcast = { "", "", "", "", "" };
     }
 }

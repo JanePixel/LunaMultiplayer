@@ -24,6 +24,7 @@ namespace JPCC
         private static MessageDispatcherHandler messageDispatcher;
         private static ChatCommandsHandler chatCommands;
         private static MotdHandler motdHandler;
+        private static BroadcastHandler broadcastHandler;
 
         public virtual void OnUpdate()
         {
@@ -45,9 +46,17 @@ namespace JPCC
                 messageDispatcher = new MessageDispatcherHandler();
                 chatCommands = new ChatCommandsHandler(baseKeeper, messageDispatcher);
                 motdHandler = new MotdHandler(messageDispatcher);
+                broadcastHandler = new BroadcastHandler(messageDispatcher);
 
+                //Everything loaded!
                 loadingDone = true;
                 LunaLog.Info("J.P.C.C. " + baseKeeper.Version + " Loaded!");
+
+                //Start a broadcaster loop if enabled
+                if (BroadcasterSettings.SettingsStore.EnableBroadcaster) 
+                {
+                    broadcastHandler.StartBroadcast();
+                }
             }
             catch (Exception ex) 
             {
