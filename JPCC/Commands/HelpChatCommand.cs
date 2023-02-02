@@ -43,16 +43,18 @@ namespace JPCC.Commands
 
                     for (int i = (((selectedPage - 1) * itemsPerPage) + 1); i <= (((selectedPage - 1) * itemsPerPage) + itemsPerPage); i++) 
                     {
-                        if (!string.IsNullOrEmpty(_chatCommands.GetEnabledCommands().ElementAt(i).Value))
+                        if (i <= _chatCommands.GetEnabledCommands().Count())
                         {
-                            commandsInFocus = commandsInFocus + _chatCommands.GetEnabledCommands().ElementAt(i).Value + "\n";
+                            commandsInFocus = commandsInFocus + _chatCommands.GetEnabledCommands().ElementAt(i-1).Value + "\n";
                         }
                     }
 
                     helpOutput =
-                        "<---Help Menu--->\n" +
+                        "\n<---Help Menu--->\n" +
                         commandsInFocus +
                         $"<---Page {selectedPage}/{totalPages}--->";
+
+                    _messageDispatcherHandler.DispatchMessageToSingleClient(helpOutput, client);
                 }
                 else 
                 {
@@ -63,8 +65,6 @@ namespace JPCC.Commands
             {
                 _messageDispatcherHandler.DispatchMessageToSingleClient("Error, page must be a number!", client);
             }
-
-            _messageDispatcherHandler.DispatchMessageToSingleClient(helpOutput, client);
         }
     }
 }
