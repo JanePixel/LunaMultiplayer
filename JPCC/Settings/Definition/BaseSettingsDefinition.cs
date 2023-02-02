@@ -20,14 +20,14 @@ namespace JPCC.Settings.Definition
         public string EnabledCommands { get; set; } =
             "/help,\n" +
             "/about,\n" +
+            "/discord,\n" +
             "/msg,\n" +
-            "/yes,\n" +
-            "/no,\n" +
+            "/say,\n" +
+            "/countdown,\n" +
             "/vote_resetworld,\n" +
             "/vote_kickplayer,\n" +
             "/vote_banplayer,\n" +
-            "/say,\n" +
-            "/discord,\n" +
-            "/countdown";
+            "/yes,\n" +
+            "/no";
     }
 }
