@@ -14,11 +14,14 @@ namespace JPCC
 {
     public class JPCCPlugin : ILmpPlugin
     {
-        private static string version = "v2.0.0";
-        public readonly string about = "J.P. Custom Commands " + version + " by Jane Pixel. GitHub Repository: https://github.com/JanePixel/LunaMultiplayer";
+        // About and Version number
+        private static readonly string version = "v2.0.0";
+        public static readonly string about = "J.P. Custom Commands " + version + " by Jane Pixel. GitHub Repository: https://github.com/JanePixel/LunaMultiplayer";
 
+        // Bool to signal loading completion
         private static bool loadingDone = false;
 
+        // Define needed objects
         private static BaseKeeper baseKeeper;
 
         private static MessageDispatcherHandler messageDispatcher;
@@ -37,12 +40,15 @@ namespace JPCC
             {
                 LunaLog.Info("Loading J.P.C.C. Systems and Settings...");
 
+                // We use the BaseKeeper as a store for non settings related items
                 baseKeeper = new BaseKeeper();
                 baseKeeper.Version = version;
                 baseKeeper.About = about;
 
+                // Load settings
                 SettingsHandler.LoadSettings();
 
+                // Initialize objects
                 messageDispatcher = new MessageDispatcherHandler();
                 chatCommands = new ChatCommandsHandler(baseKeeper, messageDispatcher);
                 motdHandler = new MotdHandler(messageDispatcher);

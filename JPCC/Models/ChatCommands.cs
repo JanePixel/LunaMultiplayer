@@ -14,16 +14,20 @@ namespace JPCC.Models
         {
             _baseKeeper = baseKeeper;
 
+            // Fetch needed variables
             About = _baseKeeper.About;
             WebsiteText = BaseSettings.SettingsStore.WebsiteUrl;
 
+            // Check if the server administrator entered a valid command string in the config
             if (BaseSettings.SettingsStore.WebsiteCommand == "" || BaseSettings.SettingsStore.WebsiteCommand[0] != '/' || BaseSettings.SettingsStore.WebsiteCommand.Contains(' '))
             {
                 throw new Exception("Invalid website command!");
             }
 
+            // Dictionary for storing the enabled commands
             enabledCommands = new Dictionary<string, string>();
 
+            // Check the commands array against the config to see what commands we should enable and add to the dictionary
             for (int i = 0; i < CommandsList.Count(); i++)
             {
                 if (BaseSettings.SettingsStore.EnabledCommands.Contains(CommandsList[i]))
@@ -32,12 +36,14 @@ namespace JPCC.Models
                 }
             }
 
+            // If no website text was set, remove the website command from the dictionary
             if (BaseSettings.SettingsStore.WebsiteUrl == "")
             {
                 enabledCommands.Remove(BaseSettings.SettingsStore.WebsiteCommand);
             }
         }
 
+        // Returns the dictionary object reference
         public Dictionary<string, string> GetEnabledCommands() 
         {
             return enabledCommands;    
@@ -46,6 +52,8 @@ namespace JPCC.Models
         public string About = "";
 
         public string WebsiteText = "";
+
+        // *** The chat commands and their descriptions ***
 
         private readonly string[] CommandsList =
         {

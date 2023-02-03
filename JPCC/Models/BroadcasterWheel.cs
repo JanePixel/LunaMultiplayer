@@ -7,10 +7,12 @@ using System.Threading.Tasks;
 
 namespace JPCC.Models
 {
+    // Keeps track of the broadcaster's current state and messages
     public class BroadcasterWheel
     {
         public BroadcasterWheel()
         {
+            // Read and convert data from config
             TimeBetweenBroadcastsInMilliseconds = Convert.ToInt32(BroadcasterSettings.SettingsStore.BroadcasterIntervalInMinutes * 60000);
             Broadcast = BroadcasterSettings.SettingsStore.BroadcasterMessages.Trim('"').Split("\",\n\"");
         }

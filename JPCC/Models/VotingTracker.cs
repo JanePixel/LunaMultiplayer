@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace JPCC.Models
 {
+    // Keeps track of the state of a running vote
     public class VotingTracker
     {
         public VotingTracker() 
