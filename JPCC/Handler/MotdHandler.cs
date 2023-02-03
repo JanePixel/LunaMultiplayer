@@ -44,7 +44,7 @@ namespace JPCC.Handler
             }
             if (BaseSettings.SettingsStore.EnableCommands && BaseSettings.SettingsStore.EnabledCommands.Contains(BaseSettings.SettingsStore.WebsiteCommand) && BaseSettings.SettingsStore.WebsiteAnnounceText != "" && BaseSettings.SettingsStore.AnnounceWebsite) 
             {
-                motdToSend = motdToSend + BaseSettings.SettingsStore.WebsiteAnnounceText;
+                motdToSend = motdToSend + "\n" + BaseSettings.SettingsStore.WebsiteAnnounceText;
             }
 
             _messageDispatcher.DispatchMotd(motdToSend, client);
