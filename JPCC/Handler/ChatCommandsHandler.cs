@@ -106,7 +106,7 @@ namespace JPCC.Handler
                 // About command handler
                 _aboutChatCommand.AboutCommandHandler(parsedCommand, client);
             }
-            if (commandBase == BaseSettings.SettingsStore.WebsiteCommand && activeCommands.ContainsKey(BaseSettings.SettingsStore.WebsiteCommand) && BaseSettings.SettingsStore.WebsiteUrl != "")
+            if (commandBase == BaseSettings.SettingsStore.WebsiteCommand && activeCommands.ContainsKey(BaseSettings.SettingsStore.WebsiteCommand))
             {
                 foundCommand = true;
                 // Website command handler
