@@ -27,6 +27,7 @@ namespace JPCC.Commands.SubHandler
         {
             LunaLog.Info($"Start Countdown Sub Handler activated for player {client.PlayerName}");
 
+            // Check if we already have a countdown running, if not proceed
             if (!_countdownTracker.IsCountdownRunning && _countdownTracker.CanStartNewCountdown)
             {
                 _countdownTracker.IsCountdownRunning = true;
@@ -49,50 +50,28 @@ namespace JPCC.Commands.SubHandler
 
             await Task.Delay(5000);
 
-            while (_countdownTracker.SecondsCount >= -1)
+            // Count backwards every second
+            while (_countdownTracker.SecondsCount >= 0)
             {
-                switch (_countdownTracker.SecondsCount)
+                if (((_countdownTracker.SecondsCount % 5) == 0) && (_countdownTracker.SecondsCount > 5)) // Is the current value a multiple of 5?
                 {
-                    case 30:
-                        AnnounceSecondsAsync(30);
-                        break;
-                    case 25:
-                        AnnounceSecondsAsync(25);
-                        break;
-                    case 20:
-                        AnnounceSecondsAsync(20);
-                        break;
-                    case 15:
-                        AnnounceSecondsAsync(15);
-                        break;
-                    case 10:
-                        AnnounceSecondsAsync(10);
-                        break;
-                    case 5:
-                        AnnounceSecondsAsync(5);
-                        break;
-                    case 4:
-                        AnnounceSecondsAsync(4);
-                        break;
-                    case 3:
-                        AnnounceSecondsAsync(3);
-                        break;
-                    case 2:
-                        AnnounceSecondsAsync(2);
-                        break;
-                    case 1:
-                        AnnounceSecondsAsync(1);
-                        break;
-                    case 0:
-                        _messageDispatcherHandler.DispatchMessageToAllClients($"Go Go Go!");
-                        LunaLog.Info($"Go! Countdown has finished!");
-                        break;
+                    AnnounceSecondsAsync(_countdownTracker.SecondsCount);
+                }
+                if ((_countdownTracker.SecondsCount <= 5) && (_countdownTracker.SecondsCount > 0)) // Count every second of the last five seconds
+                {
+                    AnnounceSecondsAsync(_countdownTracker.SecondsCount);
+                }
+                if (_countdownTracker.SecondsCount == 0) // We reached 0
+                {
+                    _messageDispatcherHandler.DispatchMessageToAllClients($"Go Go Go!");
+                    LunaLog.Info($"Go! Countdown has finished!");
                 }
 
                 await Task.Delay(1000);
                 _countdownTracker.SecondsCount = _countdownTracker.SecondsCount - 1;
             }
 
+            // Reset state for next countdown
             _countdownTracker.SecondsCount = 0;
             _countdownTracker.IsCountdownRunning = false;
             _countdownTracker.CanStartNewCountdown = true;
@@ -101,8 +80,8 @@ namespace JPCC.Commands.SubHandler
         private async Task AnnounceSecondsAsync(int seconds)
         {
             await Task.Delay(0010);
-            _messageDispatcherHandler.DispatchMessageToAllClients($"T minus {seconds} seconds");
-            LunaLog.Info($"Countdown: T minus {seconds} seconds");
+            _messageDispatcherHandler.DispatchMessageToAllClients($"T- {seconds} seconds");
+            LunaLog.Info($"Countdown: T- {seconds} seconds");
         }
     }
 }
