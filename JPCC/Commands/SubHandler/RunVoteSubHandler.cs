@@ -1,14 +1,8 @@
-﻿using LmpCommon.Message.Interface;
-using Server.Client;
+﻿using Server.Client;
 using Server.Command;
 using JPCC.Handler;
 using JPCC.Models;
 using Server.Log;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using JPCC.BaseStore;
 
 namespace JPCC.Commands.SubHandler
@@ -32,14 +26,17 @@ namespace JPCC.Commands.SubHandler
         {
             LunaLog.Info($"Start Vote Sub Handler activated for player {client.PlayerName}");
 
+            // Do we have a vote running already? If not, proceed
             if (!_votingTracker.IsVoteRunning && _votingTracker.CanStartNewVote)
             {
+                // Set states
                 _votingTracker.IsVoteRunning = true;
                 _votingTracker.CanStartNewVote = false;
                 _votingTracker.PlayersWhoVoted.Clear();
                 _votingTracker.VotedYesCount = 0;
                 _votingTracker.VotedNoCount = 0;
 
+                // What type of vote do we have?
                 if (_votingTracker.VoteType == "resetworld")
                 {
                     _messageDispatcherHandler.DispatchMessageToAllClients($"Player {client.PlayerName} has initiated a vote on resetting the world!{Environment.NewLine}Please use the commands /yes or /no to cast your vote!");
@@ -68,6 +65,7 @@ namespace JPCC.Commands.SubHandler
             }
         }
 
+        // Counter, used for all vote types
         private async Task VoteTimerAsync(string[] command, ClientStructure client)
         {
             await Task.Delay(5000);
@@ -92,102 +90,145 @@ namespace JPCC.Commands.SubHandler
         private async Task VoteResultHandlerAsync(string[] command, ClientStructure client)
         {
             await Task.Delay(0100);
+            
+            // Players will no longer be able to vote
             _votingTracker.IsVoteRunning = false;
+            
+            // Print vote reults
             _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has finished! Results:{Environment.NewLine}{_votingTracker.PlayersWhoVoted.Count()} total votes{Environment.NewLine}{_votingTracker.VotedYesCount.ToString()} voted yes{Environment.NewLine}{_votingTracker.VotedNoCount.ToString()} voted no");
             LunaLog.Info($"Vote is over! Results: {_votingTracker.PlayersWhoVoted.Count()} total votes, {_votingTracker.VotedYesCount.ToString()} voted yes, {_votingTracker.VotedNoCount.ToString()} voted no");
+            
+            // Use vote specific result handler methods
             await Task.Delay(4000);
             if (_votingTracker.VoteType == "resetworld")
             {
-                if (_votingTracker.VotedYesCount > _votingTracker.VotedNoCount)
-                {
-                    _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has succeeded! Enough players voted yes. World will be reset.");
-                    LunaLog.Info($"Vote has succeeded! Enough players voted yes. World will be reset.");
-                    await Task.Delay(4000);
-
-                    _messageDispatcherHandler.DispatchMessageToAllClients($"Server will reboot in 5 seconds...");
-                    LunaLog.Info($"Server will reboot in 5 seconds...");
-
-                    await Task.Delay(5000);
-
-                    //MainServer.ResetWorldAndRestart();
-
-                    _baseKeeper.ResetWorld = true;
-                    CommandHandler.Commands["restartserver"].Func(null);
-                }
-                else
-                {
-                    _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has failed! Not enough players voted yes. World will not be reset.");
-                    LunaLog.Info($"Vote has failed! Not enough players voted yes. World will not be reset.");
-                }
+                await HandleResetVoteResults(command, client);
             }
             if (_votingTracker.VoteType == "kickplayer")
             {
-                if ((_votingTracker.VotedYesCount > _votingTracker.VotedNoCount) && _votingTracker.PlayersWhoVoted.Count() >= 1)
-                {
-                    _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be kicked.");
-                    LunaLog.Info($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be kicked.");
-
-                    await Task.Delay(2000);
-
-                    var player = ClientRetriever.GetClientByName(command[1]);
-
-                    if (player != null)
-                    {
-                        var kickMessage = "The server voted to kick you out!";
-                        CommandHandler.Commands["kick"].Func($"{player.PlayerName} {kickMessage}");
-
-                        _messageDispatcherHandler.DispatchMessageToAllClients($"{command[1]} has been kicked!");
-                        LunaLog.Info($"{command[1]} has been kicked!");
-                    }
-                    else
-                    {
-                        _messageDispatcherHandler.DispatchMessageToAllClients($"Error, {command[1]} could not be kicked as they are no longer on the server!");
-                        LunaLog.Info($"Error, {command[1]} could not be kicked as they are no longer on the server!");
-                    }
-                }
-                else
-                {
-                    _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be kicked.");
-                    LunaLog.Info($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be kicked.");
-                }
+                await HandleKickVoteResults(command, client);
             }
             if (_votingTracker.VoteType == "banplayer")
             {
-                if ((_votingTracker.VotedYesCount > _votingTracker.VotedNoCount) && _votingTracker.PlayersWhoVoted.Count() >= 2)
-                {
-                    _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be banned.");
-                    LunaLog.Info($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be banned.");
-
-                    await Task.Delay(2000);
-
-                    var player = ClientRetriever.GetClientByName(command[1]);
-
-                    if (player != null)
-                    {
-                        var banMessage = "The server voted to ban you!";
-                        CommandHandler.Commands["ban"].Func($"{player.PlayerName} {banMessage}");
-
-                        _messageDispatcherHandler.DispatchMessageToAllClients($"{command[1]} has been banned!");
-                        LunaLog.Info($"{command[1]} has been banned!");
-                    }
-                    else
-                    {
-                        _messageDispatcherHandler.DispatchMessageToAllClients($"Error, {command[1]} could not be banned as they are no longer on the server!");
-                        LunaLog.Info($"Error, {command[1]} could not be banned as they are no longer on the server!");
-                    }
-                }
-                else
-                {
-                    _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be banned.");
-                    LunaLog.Info($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be banned.");
-                }
+                await HandleBanVoteResults(command, client);
             }
 
+            // Reset the base state for the next vote
             _votingTracker.VoteType = "";
             _votingTracker.PlayersWhoVoted.Clear();
             _votingTracker.VotedYesCount = 0;
             _votingTracker.VotedNoCount = 0;
             _votingTracker.CanStartNewVote = true;
+        }
+
+        // Methods for dealing with the results
+
+        // Handle the reset vote results
+        private async Task HandleResetVoteResults(string[] command, ClientStructure client) 
+        {
+            await Task.Delay(0001);
+            
+            // Do we have enough votes?
+            if (_votingTracker.VotedYesCount > _votingTracker.VotedNoCount)
+            {
+                _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has succeeded! Enough players voted yes. World will be reset.");
+                LunaLog.Info($"Vote has succeeded! Enough players voted yes. World will be reset.");
+                await Task.Delay(4000);
+
+                _messageDispatcherHandler.DispatchMessageToAllClients($"Server will reboot in 5 seconds...");
+                LunaLog.Info($"Server will reboot in 5 seconds...");
+
+                await Task.Delay(5000);
+
+                // Old reset logic, no longer used
+                //MainServer.ResetWorldAndRestart();
+
+                // Set reset state to true, then reboot
+                _baseKeeper.ResetWorld = true;
+                CommandHandler.Commands["restartserver"].Func(null);
+            }
+            else
+            {
+                _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has failed! Not enough players voted yes. World will not be reset.");
+                LunaLog.Info($"Vote has failed! Not enough players voted yes. World will not be reset.");
+            }
+        }
+
+        // Handle kick vote results
+        private async Task HandleKickVoteResults(string[] command, ClientStructure client)
+        {
+            await Task.Delay(0001);
+
+            // Do we have enough votes, and do we have more yes than no votes?
+            if ((_votingTracker.VotedYesCount > _votingTracker.VotedNoCount) && _votingTracker.PlayersWhoVoted.Count() >= 1)
+            {
+                _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be kicked.");
+                LunaLog.Info($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be kicked.");
+
+                await Task.Delay(2000);
+
+                // Fetch player details
+                var player = ClientRetriever.GetClientByName(command[1]);
+
+                // If player still online, proceed with kick
+                if (player != null)
+                {
+                    var kickMessage = "The server voted to kick you out!";
+                    CommandHandler.Commands["kick"].Func($"{player.PlayerName} {kickMessage}");
+
+                    _messageDispatcherHandler.DispatchMessageToAllClients($"{command[1]} has been kicked!");
+                    LunaLog.Info($"{command[1]} has been kicked!");
+                }
+                else
+                {
+                    _messageDispatcherHandler.DispatchMessageToAllClients($"Error, {command[1]} could not be kicked as they are no longer on the server!");
+                    LunaLog.Info($"Error, {command[1]} could not be kicked as they are no longer on the server!");
+                }
+            }
+            else
+            {
+                _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be kicked.");
+                LunaLog.Info($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be kicked.");
+            }
+        }
+
+        // Handle the ban vote reults
+        private async Task HandleBanVoteResults(string[] command, ClientStructure client)
+        {
+            await Task.Delay(0001);
+
+            // Do we have enough votes and more yes than no votes?
+            if ((_votingTracker.VotedYesCount > _votingTracker.VotedNoCount) && _votingTracker.PlayersWhoVoted.Count() >= 2)
+            {
+                _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be banned.");
+                LunaLog.Info($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be banned.");
+
+                await Task.Delay(2000);
+
+                // Fetch player details
+                var player = ClientRetriever.GetClientByName(command[1]);
+
+                // If player still online, proceed with ban.
+                // !!!!!!!!!!!!! Major loophole here as a player can quit before the vote runs out, thus not getting banned. Fix using database storing player ids.
+                if (player != null)
+                {
+                    var banMessage = "The server voted to ban you!";
+                    CommandHandler.Commands["ban"].Func($"{player.PlayerName} {banMessage}");
+
+                    _messageDispatcherHandler.DispatchMessageToAllClients($"{command[1]} has been banned!");
+                    LunaLog.Info($"{command[1]} has been banned!");
+                }
+                else
+                {
+                    _messageDispatcherHandler.DispatchMessageToAllClients($"Error, {command[1]} could not be banned as they are no longer on the server!");
+                    LunaLog.Info($"Error, {command[1]} could not be banned as they are no longer on the server!");
+                }
+            }
+            else
+            {
+                _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be banned.");
+                LunaLog.Info($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be banned.");
+            }
         }
     }
 }
