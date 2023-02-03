@@ -11,7 +11,6 @@ namespace JPCC.Handler
         private static string defaultMotd = GeneralSettings.SettingsStore.ServerMotd;
         private static string jpcc = "\nThis server is using J.P. Custom Commands!";
         private static string helpCommandInfo = "\nTo view all available commands, type /help in chat!";
-        private static string discordInfo = "\nWe have a Discord! Type /discord to join.";
 
         private static MessageDispatcherHandler _messageDispatcher;
 
@@ -43,9 +42,9 @@ namespace JPCC.Handler
             {
                 motdToSend = motdToSend + helpCommandInfo;
             }
-            if (BaseSettings.SettingsStore.EnableCommands && BaseSettings.SettingsStore.EnabledCommands.Contains("/discord") && BaseSettings.SettingsStore.DiscordUrl != "") 
+            if (BaseSettings.SettingsStore.EnableCommands && BaseSettings.SettingsStore.EnabledCommands.Contains(BaseSettings.SettingsStore.WebsiteCommand) && BaseSettings.SettingsStore.WebsiteAnnounceText != "" && BaseSettings.SettingsStore.AnnounceWebsite) 
             {
-                motdToSend = motdToSend + discordInfo;
+                motdToSend = motdToSend + BaseSettings.SettingsStore.WebsiteAnnounceText;
             }
 
             _messageDispatcher.DispatchMotd(motdToSend, client);

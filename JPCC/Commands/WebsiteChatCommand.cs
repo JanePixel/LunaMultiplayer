@@ -7,22 +7,22 @@ using System;
 
 namespace JPCC.Commands
 {
-    public class DiscordChatCommand
+    public class WebsiteChatCommand
     {
         private static MessageDispatcherHandler _messageDispatcherHandler;
         private static ChatCommands _chatCommands;
 
-        public DiscordChatCommand(MessageDispatcherHandler messageDispatcherHandler, ChatCommands chatCommands) 
+        public WebsiteChatCommand(MessageDispatcherHandler messageDispatcherHandler, ChatCommands chatCommands) 
         {
             _messageDispatcherHandler = messageDispatcherHandler;
             _chatCommands = chatCommands;
         }
 
-        public void DiscordCommandHandler(string[] command, ClientStructure client)
+        public void WebsiteCommandHandler(string[] command, ClientStructure client)
         {
-            LunaLog.Info($"Discord Command Handler activated for player {client.PlayerName}");
+            LunaLog.Info($"Website Command Handler activated for player {client.PlayerName}");
 
-            _messageDispatcherHandler.DispatchMessageToSingleClient(_chatCommands.DiscordText, client);
+            _messageDispatcherHandler.DispatchMessageToSingleClient(_chatCommands.WebsiteText, client);
         }
     }
 }

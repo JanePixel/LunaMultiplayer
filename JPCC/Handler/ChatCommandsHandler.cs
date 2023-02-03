@@ -26,7 +26,7 @@ namespace JPCC.Handler
         private static InvalidChatCommand _invalidChatCommand;
         private static HelpChatCommand _helpChatCommand;
         private static AboutChatCommand _aboutChatCommand;
-        private static DiscordChatCommand _discordChatCommand;
+        private static WebsiteChatCommand _websiteChatCommand;
         private static MsgChatCommand _msgChatCommand;
         private static SayChatCommand _sayChatCommand;
         private static YesChatCommand _yesChatCommand;
@@ -51,7 +51,7 @@ namespace JPCC.Handler
             _invalidChatCommand = new InvalidChatCommand(_messageDispatcherHandler);
             _helpChatCommand = new HelpChatCommand(_messageDispatcherHandler, _chatCommands);
             _aboutChatCommand = new AboutChatCommand(_messageDispatcherHandler, _chatCommands);
-            _discordChatCommand = new DiscordChatCommand(_messageDispatcherHandler, _chatCommands);
+            _websiteChatCommand = new WebsiteChatCommand(_messageDispatcherHandler, _chatCommands);
             _msgChatCommand = new MsgChatCommand(_messageDispatcherHandler);
             _sayChatCommand = new SayChatCommand(_messageDispatcherHandler);
             _yesChatCommand = new YesChatCommand(_messageDispatcherHandler, _votingTracker);
@@ -106,11 +106,11 @@ namespace JPCC.Handler
                 // About command handler
                 _aboutChatCommand.AboutCommandHandler(parsedCommand, client);
             }
-            if (commandBase == "/discord" && activeCommands.ContainsKey("/discord") && BaseSettings.SettingsStore.DiscordUrl != "")
+            if (commandBase == BaseSettings.SettingsStore.WebsiteCommand && activeCommands.ContainsKey(BaseSettings.SettingsStore.WebsiteCommand) && BaseSettings.SettingsStore.WebsiteUrl != "")
             {
                 foundCommand = true;
-                // Discord command handler
-                _discordChatCommand.DiscordCommandHandler(parsedCommand, client);
+                // Website command handler
+                _websiteChatCommand.WebsiteCommandHandler(parsedCommand, client);
             }
             if (commandBase == "/msg" && activeCommands.ContainsKey("/msg"))
             {

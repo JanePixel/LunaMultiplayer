@@ -1,5 +1,6 @@
 ﻿using JPCC.BaseStore;
 using JPCC.Settings.Structures;
+using Server.Settings.Structures;
 
 namespace JPCC.Models
 {
@@ -14,7 +15,12 @@ namespace JPCC.Models
             _baseKeeper = baseKeeper;
 
             About = _baseKeeper.About;
-            DiscordText = DiscordText + BaseSettings.SettingsStore.DiscordUrl;
+            WebsiteText = BaseSettings.SettingsStore.WebsiteUrl;
+
+            if (BaseSettings.SettingsStore.WebsiteCommand == "" || BaseSettings.SettingsStore.WebsiteCommand[0] != '/' || BaseSettings.SettingsStore.WebsiteCommand.Contains(' '))
+            {
+                throw new Exception("Invalid website command!");
+            }
 
             enabledCommands = new Dictionary<string, string>();
 
@@ -26,9 +32,9 @@ namespace JPCC.Models
                 }
             }
 
-            if (BaseSettings.SettingsStore.DiscordUrl == "")
+            if (BaseSettings.SettingsStore.WebsiteUrl == "")
             {
-                enabledCommands.Remove("/discord");
+                enabledCommands.Remove(BaseSettings.SettingsStore.WebsiteCommand);
             }
         }
 
@@ -39,13 +45,13 @@ namespace JPCC.Models
 
         public string About = "";
 
-        public string DiscordText = "Link to public Discord server: ";
+        public string WebsiteText = "";
 
         private readonly string[] CommandsList =
         {
             "/help",
             "/about",
-            "/discord",
+            $"{BaseSettings.SettingsStore.WebsiteCommand}",
             "/msg",
             "/say",
             "/countdown",
@@ -60,7 +66,7 @@ namespace JPCC.Models
         {
             "/help <page number> - lists all commands",
             "/about - about J.P. Custom Commands",
-            "/discord - link to the Discord server",
+            $"{BaseSettings.SettingsStore.WebsiteCommand} - returns the URL",
             "/msg <playername> <message text> - sends a private message to a player",
             "/say <message text> - say something as the server, people will still see you sent the message",
             "/countdown <5-30> - starts a countdown using the specified amount of seconds, useful for starting races",
