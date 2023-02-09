@@ -1,17 +1,10 @@
-﻿using LmpCommon.Message;
-using LmpCommon.Message.Data.Chat;
+﻿using LmpCommon.Message.Data.Chat;
 using LmpCommon.Message.Data.Motd;
 using LmpCommon.Message.Server;
 using Server.Client;
 using Server.Context;
 using Server.Server;
 using Server.Settings.Structures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using uhttpsharp.Clients;
 
 namespace JPCC.Handler
 {

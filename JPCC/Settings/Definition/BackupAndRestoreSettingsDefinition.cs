@@ -1,6 +1,4 @@
-﻿using LmpCommon.Enums;
-using LmpCommon.Xml;
-using System;
+﻿using LmpCommon.Xml;
 
 namespace JPCC.Settings.Definition
 {

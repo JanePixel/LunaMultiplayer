@@ -1,12 +1,5 @@
-﻿using Server.Client;
-using JPCC.Models;
+﻿using JPCC.Models;
 using Server.Log;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using uhttpsharp.Clients;
 
 namespace JPCC.Handler
 {

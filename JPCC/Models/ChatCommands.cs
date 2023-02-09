@@ -1,6 +1,5 @@
 ﻿using JPCC.BaseStore;
 using JPCC.Settings.Structures;
-using Server.Settings.Structures;
 
 namespace JPCC.Models
 {

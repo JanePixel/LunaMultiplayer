@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace JPCC.Models
+﻿namespace JPCC.Models
 {
     // Keeps track of the state of a running vote
     public class VotingTracker
     {
-        public VotingTracker() 
-        {
-        
-        }
+        public VotingTracker() {}
 
         public bool IsVoteRunning = false;
 
