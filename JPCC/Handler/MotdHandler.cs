@@ -11,6 +11,7 @@ namespace JPCC.Handler
         private static string defaultMotd = GeneralSettings.SettingsStore.ServerMotd;
         private static string jpcc = "\nThis server is using J.P. Custom Commands!";
         private static string helpCommandInfo = "\nTo view all available commands, type /help in chat!";
+        private static string rulesCommandInfo = "\nType /rules to see the server rules!";
 
         private static MessageDispatcherHandler _messageDispatcher;
 
@@ -43,6 +44,11 @@ namespace JPCC.Handler
             if (BaseSettings.SettingsStore.EnableCommands && BaseSettings.SettingsStore.EnabledCommands.Contains("/help")) 
             {
                 motdToSend = motdToSend + helpCommandInfo;
+            }
+            // If the rules command is enabled and if broadcast rules info on join is enabled, broadcast about it on join
+            if (BaseSettings.SettingsStore.EnableCommands && BaseSettings.SettingsStore.EnabledCommands.Contains("/rules") && BaseSettings.SettingsStore.RulesText != "" && BaseSettings.SettingsStore.AnnounceRules)
+            {
+                motdToSend = motdToSend + rulesCommandInfo;
             }
             // Are all conditions met to enable the broadcasting of the website command on join?
             if (BaseSettings.SettingsStore.EnableCommands && BaseSettings.SettingsStore.EnabledCommands.Contains(BaseSettings.SettingsStore.WebsiteCommand) && BaseSettings.SettingsStore.WebsiteAnnounceText != "" && BaseSettings.SettingsStore.AnnounceWebsite) 

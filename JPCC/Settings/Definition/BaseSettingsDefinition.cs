@@ -20,6 +20,15 @@ namespace JPCC.Settings.Definition
         [XmlComment(Value = "The custom command used for displaying the website URL. Make sure to update the EnabledCommands with the new command.")]
         public string WebsiteCommand { get; set; } = "/discord";
 
+        [XmlComment(Value = "The rules text that will be displayed when using /rules")]
+        public string RulesText { get; set; } =
+            "1. No harassment, treat everyone with respect.\n" +
+            "2. Use fair language.\n" +
+            "3. Finally, have fun!";
+
+        [XmlComment(Value = "Should we announce /rules on join?")]
+        public bool AnnounceRules { get; set; } = true;
+
         [XmlComment(Value = "Should we enable the command system?")]
         public bool EnableCommands { get; set; } = true;
 
@@ -27,6 +36,7 @@ namespace JPCC.Settings.Definition
         public string EnabledCommands { get; set; } =
             "/help,\n" +
             "/about,\n" +
+            "/rules,\n" +
             "/discord,\n" +
             "/msg,\n" +
             "/say,\n" +

@@ -40,6 +40,11 @@ namespace JPCC.Models
             {
                 enabledCommands.Remove(BaseSettings.SettingsStore.WebsiteCommand);
             }
+            // If no rules text was set, remove the rules command from the dictionary
+            if (BaseSettings.SettingsStore.RulesText == "")
+            {
+                enabledCommands.Remove("/rules");
+            }
         }
 
         // Returns the dictionary object reference
@@ -58,6 +63,7 @@ namespace JPCC.Models
         {
             "/help",
             "/about",
+            "/rules",
             $"{BaseSettings.SettingsStore.WebsiteCommand}",
             "/msg",
             "/say",
@@ -73,6 +79,7 @@ namespace JPCC.Models
         {
             "/help <page number> - lists all commands",
             "/about - about J.P. Custom Commands",
+            "/rules - displays the server rules",
             $"{BaseSettings.SettingsStore.WebsiteCommand} - returns the URL",
             "/msg <playername> <message text> - sends a private message to a player",
             "/say <message text> - say something as the server, people will still see you sent the message",

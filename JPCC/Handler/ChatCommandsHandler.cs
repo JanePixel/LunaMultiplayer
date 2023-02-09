@@ -25,6 +25,7 @@ namespace JPCC.Handler
         private static InvalidChatCommand _invalidChatCommand;
         private static HelpChatCommand _helpChatCommand;
         private static AboutChatCommand _aboutChatCommand;
+        private static RulesChatCommand _rulesChatCommand;
         private static WebsiteChatCommand _websiteChatCommand;
         private static MsgChatCommand _msgChatCommand;
         private static SayChatCommand _sayChatCommand;
@@ -50,6 +51,7 @@ namespace JPCC.Handler
             _invalidChatCommand = new InvalidChatCommand(_messageDispatcherHandler);
             _helpChatCommand = new HelpChatCommand(_messageDispatcherHandler, _chatCommands);
             _aboutChatCommand = new AboutChatCommand(_messageDispatcherHandler, _chatCommands);
+            _rulesChatCommand = new RulesChatCommand(_messageDispatcherHandler);
             _websiteChatCommand = new WebsiteChatCommand(_messageDispatcherHandler, _chatCommands);
             _msgChatCommand = new MsgChatCommand(_messageDispatcherHandler);
             _sayChatCommand = new SayChatCommand(_messageDispatcherHandler);
@@ -104,6 +106,12 @@ namespace JPCC.Handler
                 foundCommand = true;
                 // About command handler
                 _aboutChatCommand.AboutCommandHandler(parsedCommand, client);
+            }
+            if (commandBase == "/rules" && activeCommands.ContainsKey("/rules"))
+            {
+                foundCommand = true;
+                // Rules command handler
+                _rulesChatCommand.RulesCommandHandler(parsedCommand, client);
             }
             if (commandBase == BaseSettings.SettingsStore.WebsiteCommand && activeCommands.ContainsKey(BaseSettings.SettingsStore.WebsiteCommand))
             {
