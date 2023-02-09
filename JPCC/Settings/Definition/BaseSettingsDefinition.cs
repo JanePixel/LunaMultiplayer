@@ -22,6 +22,7 @@ namespace JPCC.Settings.Definition
 
         [XmlComment(Value = "The rules text that will be displayed when using /rules")]
         public string RulesText { get; set; } =
+            "Rules:\n" +
             "1. No harassment, treat everyone with respect.\n" +
             "2. Use fair language.\n" +
             "3. Finally, have fun!";

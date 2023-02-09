@@ -19,7 +19,7 @@ namespace JPCC.Commands
         {
             LunaLog.Info($"Rules Command Handler activated for player {client.PlayerName}");
 
-            _messageDispatcherHandler.DispatchMessageToSingleClient(BaseSettings.SettingsStore.RulesText, client);
+            _messageDispatcherHandler.DispatchMessageToSingleClient("\n" + BaseSettings.SettingsStore.RulesText, client);
         }
     }
 }
