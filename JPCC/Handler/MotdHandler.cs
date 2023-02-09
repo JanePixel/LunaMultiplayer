@@ -31,6 +31,7 @@ namespace JPCC.Handler
         {
             await Task.Delay(0001);
 
+            // Convert the variables from the config
             string motdToSend = defaultMotd
                 .Replace("%Name%", client.PlayerName)
                 .Replace("%ServerName%", GeneralSettings.SettingsStore.ServerName)
@@ -38,10 +39,12 @@ namespace JPCC.Handler
                 .Replace(@"\n", Environment.NewLine)
                 + jpcc;
 
+            // If the help command is enabled, broadcast about it on join
             if (BaseSettings.SettingsStore.EnableCommands && BaseSettings.SettingsStore.EnabledCommands.Contains("/help")) 
             {
                 motdToSend = motdToSend + helpCommandInfo;
             }
+            // Are all conditions met to enable the broadcasting of the website command on join?
             if (BaseSettings.SettingsStore.EnableCommands && BaseSettings.SettingsStore.EnabledCommands.Contains(BaseSettings.SettingsStore.WebsiteCommand) && BaseSettings.SettingsStore.WebsiteAnnounceText != "" && BaseSettings.SettingsStore.AnnounceWebsite) 
             {
                 motdToSend = motdToSend + "\n" + BaseSettings.SettingsStore.WebsiteAnnounceText;

@@ -9,6 +9,7 @@ using System.Linq;
 
 namespace JPCC.Commands
 {
+    // Countdown chat command
     public class CountdownChatCommand
     {
         private static MessageDispatcherHandler _messageDispatcherHandler;
@@ -26,11 +27,13 @@ namespace JPCC.Commands
         {
             LunaLog.Info($"Countdown Command Handler activated for player {client.PlayerName}");
 
+            // Did the user input enough parameters?
             if (command.Count() >= 2)
             {
                 int seconds = 0;
                 bool intParseState = false;
 
+                // Check if the user input a valid integer
                 try
                 {
                     seconds = Int32.Parse(command[1]);
@@ -42,14 +45,18 @@ namespace JPCC.Commands
                     _messageDispatcherHandler.DispatchMessageToSingleClient("Error, input must be an integer!", client);
                 }
 
+                // If the input was a valid integer, check if it is within the allowed range
                 if (intParseState) 
                 {
                     if (seconds >= 5 && seconds <= 30) 
                     {
+                        // If no countdown is already running, set the count to the user input
                         if (!_countdownTracker.IsCountdownRunning && _countdownTracker.CanStartNewCountdown) 
                         {
                             _countdownTracker.SecondsCount = seconds;
                         }
+
+                        // Use subhandler to run the countdown
                         _runCountdownSubHandler.StartCountdownHandler(command, client);
                     }
                     else 

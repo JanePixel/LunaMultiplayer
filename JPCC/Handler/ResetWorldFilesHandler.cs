@@ -14,19 +14,18 @@ namespace JPCC.Handler
     {
         private string saveFilePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "..\\..\\Universe\\";
 
-        public ResetWorldFilesHandler()
-        {
-
-        }
+        public ResetWorldFilesHandler() {}
 
         public void ResetWorld()
         {
             LunaLog.Info("Resetting the Universe Folder Files...");
 
+            // Catch any errors while deleting the world folder files
             try 
             {
                 string[] parsedResetItems = BackupAndRestoreSettings.SettingsStore.ItemsToReset.Split(",\n");
 
+                // For each item in the array, check if it is a folder or a file, then delete it
                 foreach (var item in parsedResetItems) 
                 {
                     FileAttributes attr = File.GetAttributes(saveFilePath + item);

@@ -7,6 +7,7 @@ using System;
 
 namespace JPCC.Commands
 {
+    // Help chat command
     public class HelpChatCommand
     {
         private static MessageDispatcherHandler _messageDispatcherHandler;
@@ -20,6 +21,7 @@ namespace JPCC.Commands
             _messageDispatcherHandler = messageDispatcherHandler;
             _chatCommands = chatCommands;
 
+            // Get the total help page count by using the total number of entries vs allowed items per page
             totalPages = (int)Math.Ceiling(Convert.ToDouble(_chatCommands.GetEnabledCommands().Count) / Convert.ToDouble(itemsPerPage));
         }
 
@@ -32,15 +34,18 @@ namespace JPCC.Commands
 
             try 
             {
+                // If the user input enough parameters, check if the requested page is an integer
                 if (command.Length > 1)
                 {
                     selectedPage = int.Parse(command[1]);
                 }
 
+                // Is the input in the page range?
                 if (selectedPage >= 1 && selectedPage <= totalPages)
                 {
                     string commandsInFocus = "";
 
+                    // Add the entries that should be on the selected page
                     for (int i = (((selectedPage - 1) * itemsPerPage) + 1); i <= (((selectedPage - 1) * itemsPerPage) + itemsPerPage); i++) 
                     {
                         if (i <= _chatCommands.GetEnabledCommands().Count())
@@ -49,6 +54,7 @@ namespace JPCC.Commands
                         }
                     }
 
+                    // Create the final message text the player will see
                     helpOutput =
                         "\n<---Help Menu--->\n" +
                         commandsInFocus +

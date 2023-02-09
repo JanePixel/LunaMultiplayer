@@ -7,6 +7,7 @@ using System;
 
 namespace JPCC.Commands
 {
+    // About chat command
     public class AboutChatCommand
     {
         private static MessageDispatcherHandler _messageDispatcherHandler;

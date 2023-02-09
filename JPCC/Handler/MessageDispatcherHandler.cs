@@ -21,6 +21,7 @@ namespace JPCC.Handler
 
         public MessageDispatcherHandler() { }
 
+        // Method to send a chat message to a specific client
         public void DispatchMessageToSingleClient(string message, ClientStructure client) 
         {
             var messageData = ServerContext.ServerMessageFactory.CreateNewMessageData<ChatMsgData>();
@@ -31,6 +32,7 @@ namespace JPCC.Handler
             MessageQueuer.SendToClient<ChatSrvMsg>(client, messageData);
         }
 
+        // Method to send a chat message to all clients
         public void DispatchMessageToAllClients(string message)
         {
             var messageData = ServerContext.ServerMessageFactory.CreateNewMessageData<ChatMsgData>();
@@ -41,6 +43,7 @@ namespace JPCC.Handler
             MessageQueuer.SendToAllClients<ChatSrvMsg>(messageData);
         }
 
+        // Method to send a MOTD message to a specific client
         public void DispatchMotd(string motd, ClientStructure client) 
         {
             var motdMessage = ServerContext.ServerMessageFactory.CreateNewMessageData<MotdReplyMsgData>();

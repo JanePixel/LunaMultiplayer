@@ -22,6 +22,7 @@ namespace JPCC.Handler
 
         public void StartBroadcast()
         {
+            // We don't want two or more broadcasters running
             if (!_broadcasterWheel.IsBroadcasting)
             {
                 _broadcasterWheel.IsBroadcasting = true;
@@ -36,6 +37,7 @@ namespace JPCC.Handler
 
             _broadcasterWheel.SelectedMessage = 0;
 
+            // Stay in this loop
             while (true)
             {
                 await Task.Delay(_broadcasterWheel.TimeBetweenBroadcastsInMilliseconds);
@@ -43,6 +45,7 @@ namespace JPCC.Handler
                 _messageDispatcherHandler.DispatchMessageToAllClients($"Broadcast: {_broadcasterWheel.Broadcast[_broadcasterWheel.SelectedMessage]}");
                 LunaLog.Info($"Broadcast {_broadcasterWheel.SelectedMessage} dispatched!");
 
+                // If we reached the end of the array, reset position back to 0, else add 1 to the position
                 if (_broadcasterWheel.SelectedMessage >= (_broadcasterWheel.Broadcast.Count() - 1))
                 {
                     _broadcasterWheel.SelectedMessage = 0;
