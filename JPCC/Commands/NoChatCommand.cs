@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace JPCC.Commands
 {
+    // User voted No chat command
     public class NoChatCommand
     {
         private static MessageDispatcherHandler _messageDispatcherHandler;
@@ -22,10 +23,13 @@ namespace JPCC.Commands
         {
             LunaLog.Info($"No Vote Command Handler activated for player {client.PlayerName}");
 
+            // Do we have a running vote? If yes, proceed
             if (_votingTracker.IsVoteRunning)
             {
+                // Check if a player already voted
                 if (!(_votingTracker.PlayersWhoVoted.Contains(client.PlayerName)))
                 {
+                    // Player voted, add name to list and up the vote count
                     _votingTracker.PlayersWhoVoted.Add(client.PlayerName);
                     _votingTracker.VotedNoCount = _votingTracker.VotedNoCount + 1;
 

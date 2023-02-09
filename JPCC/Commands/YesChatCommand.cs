@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace JPCC.Commands
 {
+    // User voted Yes chat command
     public class YesChatCommand
     {
         private static MessageDispatcherHandler _messageDispatcherHandler;
@@ -22,10 +23,13 @@ namespace JPCC.Commands
         {
             LunaLog.Info($"Yes Vote Command Handler activated for player {client.PlayerName}");
 
+            // Do we have a running vote?
             if (_votingTracker.IsVoteRunning)
             {
+                // Check if player already voted on this vote
                 if (!(_votingTracker.PlayersWhoVoted.Contains(client.PlayerName)))
                 {
+                    // Add player to array and up the vote count
                     _votingTracker.PlayersWhoVoted.Add(client.PlayerName);
                     _votingTracker.VotedYesCount = _votingTracker.VotedYesCount + 1;
 

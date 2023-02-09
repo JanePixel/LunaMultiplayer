@@ -8,6 +8,7 @@ using System.Linq;
 
 namespace JPCC.Commands
 {
+    // Vote reset world chat command
     public class VoteResetWorldChatCommand
     {
         private static MessageDispatcherHandler _messageDispatcherHandler;
@@ -25,11 +26,13 @@ namespace JPCC.Commands
         {
             LunaLog.Info($"Vote Reset World Command Handler activated for player {client.PlayerName}");
 
+            // Do we already have a vote running? If not, proceed and start a new one
             if (!_votingTracker.IsVoteRunning && _votingTracker.CanStartNewVote) 
             {
                 _votingTracker.VoteType = "resetworld";
             }
 
+            // Use vote subhandler to run vote
             _runVoteSubHandler.StartVoteHandler(command, client);
         }
     }

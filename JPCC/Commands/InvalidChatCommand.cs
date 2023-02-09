@@ -5,6 +5,7 @@ using Server.Log;
 
 namespace JPCC.Commands
 {
+    // Handler for letting the user know that no valid command was used
     public class InvalidChatCommand
     {
         private static MessageDispatcherHandler _messageDispatcherHandler;

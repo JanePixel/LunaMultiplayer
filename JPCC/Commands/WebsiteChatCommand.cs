@@ -7,6 +7,7 @@ using System;
 
 namespace JPCC.Commands
 {
+    // Custom website URL chat command
     public class WebsiteChatCommand
     {
         private static MessageDispatcherHandler _messageDispatcherHandler;

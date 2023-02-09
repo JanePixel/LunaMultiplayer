@@ -7,6 +7,7 @@ using System.Linq;
 
 namespace JPCC.Commands
 {
+    // Say chat command
     public class SayChatCommand
     {
         private static MessageDispatcherHandler _messageDispatcherHandler;
@@ -20,8 +21,10 @@ namespace JPCC.Commands
         {
             LunaLog.Info($"Say Command Handler activated for player {client.PlayerName}");
 
+            // Check if we have enough input parameters
             if (command.Count() >= 2)
             {
+                // Construct the message
                 var messageContentPrefix = $"({client.PlayerName}): ";
                 var messageContent = "";
                 for (var i = 1; i < command.Count(); i++)
