@@ -26,13 +26,14 @@ namespace JPCC.Handler
         private async Task BroadcasterLoop()
         {
             await Task.Delay(0100);
-            LunaLog.Info($"Starting message Broadcasts!");
+            LunaLog.Info($"Loaded {_broadcasterWheel.Broadcast.Count()} Broadcasts! Starting message Broadcasts with an interval of {_broadcasterWheel.TimeBetweenBroadcastsInMilliseconds / 60000} minutes!");
 
             _broadcasterWheel.SelectedMessage = 0;
 
             // Stay in this loop
             while (true)
             {
+                // Wait the configured minute count between broadcasts
                 await Task.Delay(_broadcasterWheel.TimeBetweenBroadcastsInMilliseconds);
 
                 _messageDispatcherHandler.DispatchMessageToAllClients($"Broadcast: {_broadcasterWheel.Broadcast[_broadcasterWheel.SelectedMessage]}");
