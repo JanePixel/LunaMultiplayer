@@ -19,17 +19,12 @@ namespace JPCC
         // Bool to signal loading completion
         private static bool loadingDone = false;
 
-        // Define needed objects
         private static BaseKeeper baseKeeper;
 
         private static MessageDispatcherHandler messageDispatcher;
         private static ChatCommandsHandler chatCommands;
         private static MotdHandler motdHandler;
         private static BroadcastHandler broadcastHandler;
-
-        public virtual void OnUpdate()
-        {
-        }
 
         public virtual void OnServerStart()
         {
@@ -80,35 +75,49 @@ namespace JPCC
             LunaLog.Info("J.P.C.C. is signing off!");
         }
 
-        public virtual void OnClientConnect(ClientStructure client)
-        {
-        }
-
-        public virtual void OnClientAuthenticated(ClientStructure client)
-        {
-        }
-
-        public virtual void OnClientDisconnect(ClientStructure client)
-        {
-        }
-
         public virtual void OnMessageReceived(ClientStructure client, IClientMessageBase messageData)
         {
+            // Check what type of server message we have
+            switch (messageData.MessageType)
+            {
+                case ClientMessageType.Chat:
+                    HandleChatMessageType(client, messageData);
+                    break;
+                case ClientMessageType.Motd:
+                    HandleMotdMessageType(client, messageData);
+                    break;
+            }
+        }
+
+        private void HandleChatMessageType(ClientStructure client, IClientMessageBase messageData)
+        {
             // Deal with chat commands if enabled
-            if (loadingDone && messageData.MessageType == ClientMessageType.Chat && BaseSettings.SettingsStore.EnableCommands) 
+            if (loadingDone && BaseSettings.SettingsStore.EnableCommands)
             {
                 chatCommands.CheckAndHandleChatCommand(client, messageData);
             }
+        }
 
+        private void HandleMotdMessageType(ClientStructure client, IClientMessageBase messageData)
+        {
             // Deal with the custom MOTD if enabled
-            if (loadingDone && messageData.MessageType == ClientMessageType.Motd && BaseSettings.SettingsStore.OverrideDefaultMotd)
+            if (loadingDone && BaseSettings.SettingsStore.OverrideDefaultMotd)
             {
                 motdHandler.HandleMotd(client, messageData);
             }
         }
 
-        public virtual void OnMessageSent(ClientStructure client, IServerMessageBase messageData)
-        {
-        }
+        // ***************
+        // Unused methods
+        // ***************
+        public virtual void OnUpdate() {}
+
+        public virtual void OnMessageSent(ClientStructure client, IServerMessageBase messageData) {}
+
+        public virtual void OnClientConnect(ClientStructure client) {}
+
+        public virtual void OnClientAuthenticated(ClientStructure client) {}
+
+        public virtual void OnClientDisconnect(ClientStructure client) {}
     }
 }
