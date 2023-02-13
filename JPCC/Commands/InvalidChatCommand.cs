@@ -1,6 +1,6 @@
 ﻿using Server.Client;
 using JPCC.Handler;
-using Server.Log;
+using JPCC.Logging;
 
 namespace JPCC.Commands
 {
@@ -16,7 +16,7 @@ namespace JPCC.Commands
 
         public void InvalidCommandHandler(string[] command, ClientStructure client)
         {
-            LunaLog.Info($"Invalid Command Handler activated for player {client.PlayerName}");
+            JPCCLog.Debug($"Invalid Command Handler activated for player {client.PlayerName}");
 
             _messageDispatcherHandler.DispatchMessageToSingleClient("Beep Boop, command not recognized!", client);
         }

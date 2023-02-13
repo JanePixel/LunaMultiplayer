@@ -4,7 +4,7 @@ using Server.Client;
 using JPCC.Commands;
 using JPCC.Commands.SubHandler;
 using JPCC.Models;
-using Server.Log;
+using JPCC.Logging;
 using JPCC.BaseStore;
 using JPCC.Settings.Structures;
 
@@ -83,7 +83,7 @@ namespace JPCC.Handler
             await Task.Delay(0005);
 
             // Inform server console about command usage and log it
-            LunaLog.Info($"Player {client.PlayerName} used command: {rawMessageText}");
+            JPCCLog.Normal($"Player {client.PlayerName} used command: {rawMessageText}");
 
             var parsedCommand = rawMessageText.Split(' ');
 

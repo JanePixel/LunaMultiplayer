@@ -2,7 +2,7 @@
 using JPCC.Commands.SubHandler;
 using JPCC.Handler;
 using JPCC.Models;
-using Server.Log;
+using JPCC.Logging;
 
 namespace JPCC.Commands
 {
@@ -22,7 +22,7 @@ namespace JPCC.Commands
 
         public void CountdownCommandHandler(string[] command, ClientStructure client)
         {
-            LunaLog.Info($"Countdown Command Handler activated for player {client.PlayerName}");
+            JPCCLog.Debug($"Countdown Command Handler activated for player {client.PlayerName}");
 
             // Did the user input enough parameters?
             if (command.Count() >= 2)

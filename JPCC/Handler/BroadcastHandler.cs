@@ -1,5 +1,5 @@
 ﻿using JPCC.Models;
-using Server.Log;
+using JPCC.Logging;
 
 namespace JPCC.Handler
 {
@@ -26,7 +26,7 @@ namespace JPCC.Handler
         private async Task BroadcasterLoop()
         {
             await Task.Delay(0100);
-            LunaLog.Info($"Loaded {_broadcasterWheel.Broadcast.Count()} Broadcasts! Starting message Broadcasts with an interval of {_broadcasterWheel.TimeBetweenBroadcastsInMilliseconds / 60000} minutes!");
+            JPCCLog.Normal($"Loaded {_broadcasterWheel.Broadcast.Count()} Broadcasts! Starting message Broadcasts with an interval of {_broadcasterWheel.TimeBetweenBroadcastsInMilliseconds / 60000} minutes!");
 
             _broadcasterWheel.SelectedMessage = 0;
 
@@ -37,7 +37,7 @@ namespace JPCC.Handler
                 await Task.Delay(_broadcasterWheel.TimeBetweenBroadcastsInMilliseconds);
 
                 _messageDispatcherHandler.DispatchMessageToAllClients($"Broadcast: {_broadcasterWheel.Broadcast[_broadcasterWheel.SelectedMessage]}");
-                LunaLog.Info($"Broadcast {_broadcasterWheel.SelectedMessage} dispatched!");
+                JPCCLog.Debug($"Broadcast {_broadcasterWheel.SelectedMessage} dispatched!");
 
                 // If we reached the end of the array, reset position back to 0, else add 1 to the position
                 if (_broadcasterWheel.SelectedMessage >= (_broadcasterWheel.Broadcast.Count() - 1))

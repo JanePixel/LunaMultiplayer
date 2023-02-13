@@ -1,7 +1,7 @@
 ﻿using Server.Client;
 using JPCC.Handler;
 using JPCC.Models;
-using Server.Log;
+using JPCC.Logging;
 
 namespace JPCC.Commands.SubHandler
 {
@@ -18,7 +18,7 @@ namespace JPCC.Commands.SubHandler
 
         public void StartCountdownHandler(string[] command, ClientStructure client)
         {
-            LunaLog.Info($"Start Countdown Sub Handler activated for player {client.PlayerName}");
+            JPCCLog.Debug($"Start Countdown Sub Handler activated for player {client.PlayerName}");
 
             // Check if we already have a countdown running, if not proceed
             if (!_countdownTracker.IsCountdownRunning && _countdownTracker.CanStartNewCountdown)
@@ -39,7 +39,7 @@ namespace JPCC.Commands.SubHandler
             await Task.Delay(0100);
 
             _messageDispatcherHandler.DispatchMessageToAllClients($"Player {client.PlayerName} has started a countdown of {_countdownTracker.SecondsCount} seconds. Get ready!");
-            LunaLog.Info($"Player {client.PlayerName} has started a countdown of {_countdownTracker.SecondsCount} seconds!");
+            JPCCLog.Normal($"Player {client.PlayerName} has started a countdown of {_countdownTracker.SecondsCount} seconds!");
 
             await Task.Delay(5000);
 
@@ -57,7 +57,7 @@ namespace JPCC.Commands.SubHandler
                 if (_countdownTracker.SecondsCount == 0) // We reached 0
                 {
                     _messageDispatcherHandler.DispatchMessageToAllClients($"Go Go Go!");
-                    LunaLog.Info($"Go! Countdown has finished!");
+                    JPCCLog.Debug($"Go! Countdown has finished!");
                 }
 
                 await Task.Delay(1000);
@@ -74,7 +74,7 @@ namespace JPCC.Commands.SubHandler
         {
             await Task.Delay(0010);
             _messageDispatcherHandler.DispatchMessageToAllClients($"T- {seconds} seconds");
-            LunaLog.Info($"Countdown: T- {seconds} seconds");
+            JPCCLog.Debug($"Countdown: T- {seconds} seconds");
         }
     }
 }

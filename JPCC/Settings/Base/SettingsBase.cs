@@ -1,5 +1,5 @@
 ﻿using LmpCommon.Xml;
-using Server.Log;
+using JPCC.Logging;
 using Server.System;
 
 namespace JPCC.Settings.Base
@@ -32,7 +32,7 @@ namespace JPCC.Settings.Base
             }
             catch (Exception)
             {
-                LunaLog.Fatal($"Error while trying to read {SettingsPath}. Default settings will be used. Please remove the file so a new one can be generated");
+                JPCCLog.Fatal($"Error while trying to read {SettingsPath}. Default settings will be used. Please remove the file so a new one can be generated");
             }
         }
 

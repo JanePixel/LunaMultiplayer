@@ -1,6 +1,6 @@
 ﻿using Server.Client;
 using JPCC.Handler;
-using Server.Log;
+using JPCC.Logging;
 using JPCC.Settings.Structures;
 
 namespace JPCC.Commands
@@ -17,7 +17,7 @@ namespace JPCC.Commands
 
         public void RulesCommandHandler(string[] command, ClientStructure client)
         {
-            LunaLog.Info($"Rules Command Handler activated for player {client.PlayerName}");
+            JPCCLog.Debug($"Rules Command Handler activated for player {client.PlayerName}");
 
             _messageDispatcherHandler.DispatchMessageToSingleClient("\n" + BaseSettings.SettingsStore.RulesText, client);
         }

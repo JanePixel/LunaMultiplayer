@@ -1,6 +1,6 @@
 ﻿using Server.Client;
 using JPCC.Handler;
-using Server.Log;
+using JPCC.Logging;
 
 namespace JPCC.Commands
 {
@@ -16,7 +16,7 @@ namespace JPCC.Commands
 
         public void MsgCommandHandler(string[] command, ClientStructure client)
         {
-            LunaLog.Info($"Private Message Command Handler activated for player {client.PlayerName}");
+            JPCCLog.Debug($"Private Message Command Handler activated for player {client.PlayerName}");
 
             ParseAndSendMessage(command, client);
         }
@@ -37,7 +37,7 @@ namespace JPCC.Commands
                     var messageContentPrefix = $"{client.PlayerName} has sent you a private message:\n";
                     var messageContent = string.Join(" ", command.Skip(2));
 
-                    LunaLog.Info($"{client.PlayerName} sent {player.PlayerName} the following message: {messageContent}");
+                    JPCCLog.Normal($"{client.PlayerName} sent {player.PlayerName} the following message: {messageContent}");
 
                     _messageDispatcherHandler.DispatchMessageToSingleClient($"Sent {player.PlayerName} the following message:\n{messageContent}", client);
 

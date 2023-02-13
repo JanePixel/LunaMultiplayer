@@ -1,7 +1,7 @@
 ﻿using Server.Client;
 using JPCC.Handler;
 using JPCC.Models;
-using Server.Log;
+using JPCC.Logging;
 
 namespace JPCC.Commands
 {
@@ -19,7 +19,7 @@ namespace JPCC.Commands
 
         public void NoCommandHandler(string[] command, ClientStructure client)
         {
-            LunaLog.Info($"No Vote Command Handler activated for player {client.PlayerName}");
+            JPCCLog.Debug($"No Vote Command Handler activated for player {client.PlayerName}");
 
             // Do we have a running vote? If yes, proceed
             if (_votingTracker.IsVoteRunning)
@@ -32,7 +32,7 @@ namespace JPCC.Commands
                     _votingTracker.VotedNoCount = _votingTracker.VotedNoCount + 1;
 
                     _messageDispatcherHandler.DispatchMessageToSingleClient("You have voted! Please wait until the next vote in order to vote again.", client);
-                    LunaLog.Info($"{client.PlayerName} has voted: no");
+                    JPCCLog.Normal($"{client.PlayerName} has voted: no");
                 }
                 else
                 {

@@ -1,5 +1,5 @@
 ﻿using JPCC.Settings.Structures;
-using Server.Log;
+using JPCC.Logging;
 using System.Reflection;
 
 namespace JPCC.Handler
@@ -12,7 +12,7 @@ namespace JPCC.Handler
 
         public void ResetWorld()
         {
-            LunaLog.Info("Resetting the Universe Folder Files...");
+            JPCCLog.Normal("Resetting the Universe Folder Files...");
 
             // Catch any errors while deleting the world folder files
             try 
@@ -33,14 +33,14 @@ namespace JPCC.Handler
                         File.Delete(saveFilePath + item);
                     }
 
-                    LunaLog.Info($"Removed: {item}");
+                    JPCCLog.Debug($"Removed: {item}");
                 }
 
-                LunaLog.Info("All items removed successfully!");
+                JPCCLog.Normal("All items removed successfully!");
             }
             catch (Exception ex) 
             {
-                LunaLog.Error($"An error has occurred while resetting the Universe folder: {ex}");
+                JPCCLog.Error($"An error has occurred while resetting the Universe folder: {ex}");
             }
         }
     }

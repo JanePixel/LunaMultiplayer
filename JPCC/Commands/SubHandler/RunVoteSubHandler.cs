@@ -2,7 +2,7 @@
 using Server.Command;
 using JPCC.Handler;
 using JPCC.Models;
-using Server.Log;
+using JPCC.Logging;
 using JPCC.BaseStore;
 
 namespace JPCC.Commands.SubHandler
@@ -24,7 +24,7 @@ namespace JPCC.Commands.SubHandler
 
         public void StartVoteHandler(string[] command, ClientStructure client)
         {
-            LunaLog.Info($"Start Vote Sub Handler activated for player {client.PlayerName}");
+            JPCCLog.Debug($"Start Vote Sub Handler activated for player {client.PlayerName}");
 
             // Do we have a vote running already? If not, proceed
             if (!_votingTracker.IsVoteRunning && _votingTracker.CanStartNewVote)
@@ -40,21 +40,21 @@ namespace JPCC.Commands.SubHandler
                 if (_votingTracker.VoteType == "resetworld")
                 {
                     _messageDispatcherHandler.DispatchMessageToAllClients($"Player {client.PlayerName} has initiated a vote on resetting the world!{Environment.NewLine}Please use the commands /yes or /no to cast your vote!");
-                    LunaLog.Info($"{client.PlayerName} has started a vote on resetting the world!");
+                    JPCCLog.Normal($"{client.PlayerName} has started a vote on resetting the world!");
 
                     VoteTimerAsync(command, client);
                 }
                 if (_votingTracker.VoteType == "kickplayer")
                 {
                     _messageDispatcherHandler.DispatchMessageToAllClients($"Player {client.PlayerName} has initiated a vote on kicking {command[1]} from the server!{Environment.NewLine}Please use the commands /yes or /no to cast your vote!");
-                    LunaLog.Info($"{client.PlayerName} has started a vote on kicking {command[1]} from the server!");
+                    JPCCLog.Normal($"{client.PlayerName} has started a vote on kicking {command[1]} from the server!");
 
                     VoteTimerAsync(command, client);
                 }
                 if (_votingTracker.VoteType == "banplayer")
                 {
                     _messageDispatcherHandler.DispatchMessageToAllClients($"Player {client.PlayerName} has initiated a vote on banning {command[1]} from the server!{Environment.NewLine}Please use the commands /yes or /no to cast your vote!");
-                    LunaLog.Info($"{client.PlayerName} has started a vote on banning {command[1]} from the server!");
+                    JPCCLog.Normal($"{client.PlayerName} has started a vote on banning {command[1]} from the server!");
 
                     VoteTimerAsync(command, client);
                 }
@@ -71,17 +71,17 @@ namespace JPCC.Commands.SubHandler
             await Task.Delay(5000);
 
             _messageDispatcherHandler.DispatchMessageToAllClients("30 seconds left to vote!");
-            LunaLog.Info($"Vote has 30 seconds left!");
+            JPCCLog.Debug($"Vote has 30 seconds left!");
 
             await Task.Delay(10000);
 
             _messageDispatcherHandler.DispatchMessageToAllClients("20 seconds left to vote!");
-            LunaLog.Info($"Vote has 20 seconds left!");
+            JPCCLog.Debug($"Vote has 20 seconds left!");
 
             await Task.Delay(10000);
 
             _messageDispatcherHandler.DispatchMessageToAllClients("10 seconds left to vote!");
-            LunaLog.Info($"Vote has 10 seconds left!");
+            JPCCLog.Debug($"Vote has 10 seconds left!");
 
             await Task.Delay(10000);
             VoteResultHandlerAsync(command, client);
@@ -96,7 +96,7 @@ namespace JPCC.Commands.SubHandler
             
             // Print vote reults
             _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has finished! Results:{Environment.NewLine}{_votingTracker.PlayersWhoVoted.Count()} total votes{Environment.NewLine}{_votingTracker.VotedYesCount.ToString()} voted yes{Environment.NewLine}{_votingTracker.VotedNoCount.ToString()} voted no");
-            LunaLog.Info($"Vote is over! Results: {_votingTracker.PlayersWhoVoted.Count()} total votes, {_votingTracker.VotedYesCount.ToString()} voted yes, {_votingTracker.VotedNoCount.ToString()} voted no");
+            JPCCLog.Normal($"Vote is over! Results: {_votingTracker.PlayersWhoVoted.Count()} total votes, {_votingTracker.VotedYesCount.ToString()} voted yes, {_votingTracker.VotedNoCount.ToString()} voted no");
             
             // Use vote specific result handler methods
             await Task.Delay(4000);
@@ -132,11 +132,11 @@ namespace JPCC.Commands.SubHandler
             if (_votingTracker.VotedYesCount > _votingTracker.VotedNoCount)
             {
                 _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has succeeded! Enough players voted yes. World will be reset.");
-                LunaLog.Info($"Vote has succeeded! Enough players voted yes. World will be reset.");
+                JPCCLog.Normal($"Vote has succeeded! Enough players voted yes. World will be reset.");
                 await Task.Delay(4000);
 
                 _messageDispatcherHandler.DispatchMessageToAllClients($"Server will reboot in 5 seconds...");
-                LunaLog.Info($"Server will reboot in 5 seconds...");
+                JPCCLog.Normal($"Server will reboot in 5 seconds...");
 
                 await Task.Delay(5000);
 
@@ -150,7 +150,7 @@ namespace JPCC.Commands.SubHandler
             else
             {
                 _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has failed! Not enough players voted yes. World will not be reset.");
-                LunaLog.Info($"Vote has failed! Not enough players voted yes. World will not be reset.");
+                JPCCLog.Normal($"Vote has failed! Not enough players voted yes. World will not be reset.");
             }
         }
 
@@ -163,7 +163,7 @@ namespace JPCC.Commands.SubHandler
             if ((_votingTracker.VotedYesCount > _votingTracker.VotedNoCount) && _votingTracker.PlayersWhoVoted.Count() >= 1)
             {
                 _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be kicked.");
-                LunaLog.Info($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be kicked.");
+                JPCCLog.Normal($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be kicked.");
 
                 await Task.Delay(2000);
 
@@ -177,18 +177,18 @@ namespace JPCC.Commands.SubHandler
                     CommandHandler.Commands["kick"].Func($"{player.PlayerName} {kickMessage}");
 
                     _messageDispatcherHandler.DispatchMessageToAllClients($"{command[1]} has been kicked!");
-                    LunaLog.Info($"{command[1]} has been kicked!");
+                    JPCCLog.Normal($"{command[1]} has been kicked!");
                 }
                 else
                 {
                     _messageDispatcherHandler.DispatchMessageToAllClients($"Error, {command[1]} could not be kicked as they are no longer on the server!");
-                    LunaLog.Info($"Error, {command[1]} could not be kicked as they are no longer on the server!");
+                    JPCCLog.Normal($"Error, {command[1]} could not be kicked as they are no longer on the server!");
                 }
             }
             else
             {
                 _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be kicked.");
-                LunaLog.Info($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be kicked.");
+                JPCCLog.Normal($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be kicked.");
             }
         }
 
@@ -201,7 +201,7 @@ namespace JPCC.Commands.SubHandler
             if ((_votingTracker.VotedYesCount > _votingTracker.VotedNoCount) && _votingTracker.PlayersWhoVoted.Count() >= 2)
             {
                 _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be banned.");
-                LunaLog.Info($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be banned.");
+                JPCCLog.Normal($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be banned.");
 
                 await Task.Delay(2000);
 
@@ -216,18 +216,18 @@ namespace JPCC.Commands.SubHandler
                     CommandHandler.Commands["ban"].Func($"{player.PlayerName} {banMessage}");
 
                     _messageDispatcherHandler.DispatchMessageToAllClients($"{command[1]} has been banned!");
-                    LunaLog.Info($"{command[1]} has been banned!");
+                    JPCCLog.Normal($"{command[1]} has been banned!");
                 }
                 else
                 {
                     _messageDispatcherHandler.DispatchMessageToAllClients($"Error, {command[1]} could not be banned as they are no longer on the server!");
-                    LunaLog.Info($"Error, {command[1]} could not be banned as they are no longer on the server!");
+                    JPCCLog.Normal($"Error, {command[1]} could not be banned as they are no longer on the server!");
                 }
             }
             else
             {
                 _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be banned.");
-                LunaLog.Info($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be banned.");
+                JPCCLog.Normal($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be banned.");
             }
         }
     }

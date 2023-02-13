@@ -2,7 +2,7 @@
 using JPCC.Commands.SubHandler;
 using JPCC.Handler;
 using JPCC.Models;
-using Server.Log;
+using JPCC.Logging;
 
 namespace JPCC.Commands
 {
@@ -22,7 +22,7 @@ namespace JPCC.Commands
 
         public void VoteResetWorldCommandHandler(string[] command, ClientStructure client)
         {
-            LunaLog.Info($"Vote Reset World Command Handler activated for player {client.PlayerName}");
+            JPCCLog.Debug($"Vote Reset World Command Handler activated for player {client.PlayerName}");
 
             // Do we already have a vote running? If not, proceed and start a new one
             if (!_votingTracker.IsVoteRunning && _votingTracker.CanStartNewVote) 

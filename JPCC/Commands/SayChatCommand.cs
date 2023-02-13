@@ -1,6 +1,6 @@
 ﻿using Server.Client;
 using JPCC.Handler;
-using Server.Log;
+using JPCC.Logging;
 
 namespace JPCC.Commands
 {
@@ -16,7 +16,7 @@ namespace JPCC.Commands
 
         public void SayCommandHandler(string[] command, ClientStructure client)
         {
-            LunaLog.Info($"Say Command Handler activated for player {client.PlayerName}");
+            JPCCLog.Debug($"Say Command Handler activated for player {client.PlayerName}");
 
             // Check if we have enough input parameters
             if (command.Count() >= 2)
@@ -30,7 +30,7 @@ namespace JPCC.Commands
                 }
 
                 _messageDispatcherHandler.DispatchMessageToAllClients(messageContentPrefix + messageContent);
-                LunaLog.Info($"{client.PlayerName} has sent everyone the following message: {messageContent}");
+                JPCCLog.Normal($"{client.PlayerName} has sent everyone the following message: {messageContent}");
             }
             else
             {

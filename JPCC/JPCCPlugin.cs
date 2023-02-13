@@ -3,10 +3,10 @@ using JPCC.BaseStore;
 using LmpCommon.Enums;
 using LmpCommon.Message.Interface;
 using Server.Client;
-using Server.Log;
 using Server.Plugin;
 using JPCC.Settings;
 using JPCC.Settings.Structures;
+using JPCC.Logging;
 
 namespace JPCC
 {
@@ -31,7 +31,7 @@ namespace JPCC
             //Try and load all classes and settings, in case of an error print output to console
             try
             {
-                LunaLog.Info("Loading J.P.C.C. Systems and Settings...");
+                JPCCLog.Normal("Loading J.P.C.C. Systems and Settings...");
 
                 // We use the BaseKeeper as a store for non settings related items
                 baseKeeper = new BaseKeeper();
@@ -49,7 +49,7 @@ namespace JPCC
 
                 //Everything loaded!
                 loadingDone = true;
-                LunaLog.Info("J.P.C.C. " + baseKeeper.Version + " Loaded!");
+                JPCCLog.Normal("J.P.C.C. " + baseKeeper.Version + " Loaded!");
 
                 //Start a broadcaster loop if enabled
                 if (BroadcasterSettings.SettingsStore.EnableBroadcaster) 
@@ -59,7 +59,7 @@ namespace JPCC
             }
             catch (Exception ex) 
             {
-                LunaLog.Error($"Error! Could not load J.P.C.C.! Exception: {ex}");
+                JPCCLog.Fatal($"Error! Could not load J.P.C.C.! Exception: {ex}");
             }
         }
 
@@ -72,7 +72,7 @@ namespace JPCC
                 resetWorldFilesHandler.ResetWorld();
             }
 
-            LunaLog.Info("J.P.C.C. is signing off!");
+            JPCCLog.Normal("J.P.C.C. is signing off!");
         }
 
         public virtual void OnMessageReceived(ClientStructure client, IClientMessageBase messageData)

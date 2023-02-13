@@ -1,7 +1,7 @@
 ﻿using Server.Client;
 using JPCC.Handler;
 using JPCC.Models;
-using Server.Log;
+using JPCC.Logging;
 
 namespace JPCC.Commands
 {
@@ -25,7 +25,7 @@ namespace JPCC.Commands
 
         public void HelpCommandHandler(string[] command, ClientStructure client)
         {
-            LunaLog.Info($"Help Command Handler activated for player {client.PlayerName}");
+            JPCCLog.Debug($"Help Command Handler activated for player {client.PlayerName}");
 
             string helpOutput = "";
             int selectedPage = 1;

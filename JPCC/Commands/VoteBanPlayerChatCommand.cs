@@ -2,7 +2,7 @@
 using JPCC.Commands.SubHandler;
 using JPCC.Handler;
 using JPCC.Models;
-using Server.Log;
+using JPCC.Logging;
 
 namespace JPCC.Commands
 {
@@ -22,7 +22,7 @@ namespace JPCC.Commands
 
         public void VoteBanPlayerCommandHandler(string[] command, ClientStructure client)
         {
-            LunaLog.Info($"Vote Ban Player Command Handler activated for player {client.PlayerName}");
+            JPCCLog.Debug($"Vote Ban Player Command Handler activated for player {client.PlayerName}");
 
             // Do we have enough input parameters?
             if (command.Count() >= 2)
