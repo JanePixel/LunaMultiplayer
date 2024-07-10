@@ -39,29 +39,29 @@ namespace JPCC.Commands.SubHandler
                 // What type of vote do we have?
                 if (_votingTracker.VoteType == "resetworld")
                 {
-                    _messageDispatcherHandler.DispatchMessageToAllClients($"Player {client.PlayerName} has initiated a vote on resetting the world!{Environment.NewLine}Please use the commands /yes or /no to cast your vote!");
-                    JPCCLog.Normal($"{client.PlayerName} has started a vote on resetting the world!");
+                    _messageDispatcherHandler.DispatchMessageToAllClients($"{client.PlayerName} started a vote on resetting the world!{Environment.NewLine}Use the commands /yes or /no to cast your vote.");
+                    JPCCLog.Normal($"{client.PlayerName} started a vote on resetting the world.");
 
                     VoteTimerAsync(command, client);
                 }
                 if (_votingTracker.VoteType == "kickplayer")
                 {
-                    _messageDispatcherHandler.DispatchMessageToAllClients($"Player {client.PlayerName} has initiated a vote on kicking {command[1]} from the server!{Environment.NewLine}Please use the commands /yes or /no to cast your vote!");
-                    JPCCLog.Normal($"{client.PlayerName} has started a vote on kicking {command[1]} from the server!");
+                    _messageDispatcherHandler.DispatchMessageToAllClients($"{client.PlayerName} started a vote on kicking {command[1]} from the server!{Environment.NewLine}Use the commands /yes or /no to cast your vote.");
+                    JPCCLog.Normal($"{client.PlayerName} started a vote on kicking {command[1]} from the server.");
 
                     VoteTimerAsync(command, client);
                 }
                 if (_votingTracker.VoteType == "banplayer")
                 {
-                    _messageDispatcherHandler.DispatchMessageToAllClients($"Player {client.PlayerName} has initiated a vote on banning {command[1]} from the server!{Environment.NewLine}Please use the commands /yes or /no to cast your vote!");
-                    JPCCLog.Normal($"{client.PlayerName} has started a vote on banning {command[1]} from the server!");
+                    _messageDispatcherHandler.DispatchMessageToAllClients($"{client.PlayerName} started a vote on banning {command[1]} from the server!{Environment.NewLine}Use the commands /yes or /no to cast your vote.");
+                    JPCCLog.Normal($"{client.PlayerName} started a vote on banning {command[1]} from the server.");
 
                     VoteTimerAsync(command, client);
                 }
             }
             else
             {
-                _messageDispatcherHandler.DispatchMessageToSingleClient("Vote is currently running, can not start a new one!", client);
+                _messageDispatcherHandler.DispatchMessageToSingleClient("Vote is currently running, cannot start a new one.", client);
             }
         }
 
@@ -70,17 +70,17 @@ namespace JPCC.Commands.SubHandler
         {
             await Task.Delay(5000);
 
-            _messageDispatcherHandler.DispatchMessageToAllClients("30 seconds left to vote!");
+            _messageDispatcherHandler.DispatchMessageToAllClients("30 seconds left to vote.");
             JPCCLog.Debug($"Vote has 30 seconds left!");
 
             await Task.Delay(10000);
 
-            _messageDispatcherHandler.DispatchMessageToAllClients("20 seconds left to vote!");
+            _messageDispatcherHandler.DispatchMessageToAllClients("20 seconds left to vote.");
             JPCCLog.Debug($"Vote has 20 seconds left!");
 
             await Task.Delay(10000);
 
-            _messageDispatcherHandler.DispatchMessageToAllClients("10 seconds left to vote!");
+            _messageDispatcherHandler.DispatchMessageToAllClients("10 seconds left to vote.");
             JPCCLog.Debug($"Vote has 10 seconds left!");
 
             await Task.Delay(10000);
@@ -131,12 +131,12 @@ namespace JPCC.Commands.SubHandler
             // Do we have enough votes?
             if (_votingTracker.VotedYesCount > _votingTracker.VotedNoCount)
             {
-                _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has succeeded! Enough players voted yes. World will be reset.");
-                JPCCLog.Normal($"Vote has succeeded! Enough players voted yes. World will be reset.");
+                _messageDispatcherHandler.DispatchMessageToAllClients($"Enough players voted yes, so the world will be reset.");
+                JPCCLog.Normal($"Enough players voted yes, the world will be reset.");
                 await Task.Delay(4000);
 
-                _messageDispatcherHandler.DispatchMessageToAllClients($"Server will reboot in 5 seconds...");
-                JPCCLog.Normal($"Server will reboot in 5 seconds...");
+                _messageDispatcherHandler.DispatchMessageToAllClients($"Server will restart in 5 seconds...");
+                JPCCLog.Normal($"Server will restart in 5 seconds...");
 
                 await Task.Delay(5000);
 
@@ -149,8 +149,8 @@ namespace JPCC.Commands.SubHandler
             }
             else
             {
-                _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has failed! Not enough players voted yes. World will not be reset.");
-                JPCCLog.Normal($"Vote has failed! Not enough players voted yes. World will not be reset.");
+                _messageDispatcherHandler.DispatchMessageToAllClients($"Not enough players voted yes, so the world won't be reset.");
+                JPCCLog.Normal($"Not enough players voted yes, so the world won't be reset.");
             }
         }
 
@@ -162,8 +162,8 @@ namespace JPCC.Commands.SubHandler
             // Do we have enough votes, and do we have more yes than no votes?
             if ((_votingTracker.VotedYesCount > _votingTracker.VotedNoCount) && _votingTracker.PlayersWhoVoted.Count() >= 1)
             {
-                _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be kicked.");
-                JPCCLog.Normal($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be kicked.");
+                _messageDispatcherHandler.DispatchMessageToAllClients($"Enough players voted yes, so {command[1]} will be kicked.");
+                JPCCLog.Normal($"Enough players voted yes, so {command[1]} will be kicked.");
 
                 await Task.Delay(2000);
 
@@ -176,19 +176,19 @@ namespace JPCC.Commands.SubHandler
                     var kickMessage = "The server voted to kick you out!";
                     CommandHandler.Commands["kick"].Func($"{player.PlayerName} {kickMessage}");
 
-                    _messageDispatcherHandler.DispatchMessageToAllClients($"{command[1]} has been kicked!");
-                    JPCCLog.Normal($"{command[1]} has been kicked!");
+                    _messageDispatcherHandler.DispatchMessageToAllClients($"{command[1]} has been kicked.");
+                    JPCCLog.Normal($"{command[1]} has been kicked.");
                 }
                 else
                 {
-                    _messageDispatcherHandler.DispatchMessageToAllClients($"Error, {command[1]} could not be kicked as they are no longer on the server!");
-                    JPCCLog.Normal($"Error, {command[1]} could not be kicked as they are no longer on the server!");
+                    _messageDispatcherHandler.DispatchMessageToAllClients($"Can't kick {command[1]}, since they left the server.");
+                    JPCCLog.Normal($"Can't kick {command[1]}, since they left the server.");
                 }
             }
             else
             {
-                _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be kicked.");
-                JPCCLog.Normal($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be kicked.");
+                _messageDispatcherHandler.DispatchMessageToAllClients($"Not enough players voted yes, so {command[1]} will not be kicked.");
+                JPCCLog.Normal($"Not enough players voted yes, so {command[1]} will not be kicked.");
             }
         }
 
@@ -200,8 +200,8 @@ namespace JPCC.Commands.SubHandler
             // Do we have enough votes and more yes than no votes?
             if ((_votingTracker.VotedYesCount > _votingTracker.VotedNoCount) && _votingTracker.PlayersWhoVoted.Count() >= 2)
             {
-                _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be banned.");
-                JPCCLog.Normal($"Vote has succeeded! Enough players voted yes. Player {command[1]} will be banned.");
+                _messageDispatcherHandler.DispatchMessageToAllClients($"Enough players voted yes, so {command[1]} will be banned.");
+                JPCCLog.Normal($"Enough players voted yes, so {command[1]} will be banned.");
 
                 await Task.Delay(2000);
 
@@ -215,19 +215,19 @@ namespace JPCC.Commands.SubHandler
                     var banMessage = "The server voted to ban you!";
                     CommandHandler.Commands["ban"].Func($"{player.PlayerName} {banMessage}");
 
-                    _messageDispatcherHandler.DispatchMessageToAllClients($"{command[1]} has been banned!");
+                    _messageDispatcherHandler.DispatchMessageToAllClients($"{command[1]} has been struck by the Ban Hammer!");
                     JPCCLog.Normal($"{command[1]} has been banned!");
                 }
                 else
                 {
-                    _messageDispatcherHandler.DispatchMessageToAllClients($"Error, {command[1]} could not be banned as they are no longer on the server!");
-                    JPCCLog.Normal($"Error, {command[1]} could not be banned as they are no longer on the server!");
+                    _messageDispatcherHandler.DispatchMessageToAllClients($"Can't ban {command[1]}, since they left the server.");
+                    JPCCLog.Normal($"Can't ban {command[1]}, since they left the server.");
                 }
             }
             else
             {
-                _messageDispatcherHandler.DispatchMessageToAllClients($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be banned.");
-                JPCCLog.Normal($"Vote has failed! Not enough players voted yes. Player {command[1]} will not be banned.");
+                _messageDispatcherHandler.DispatchMessageToAllClients($"Not enough players voted yes, so command[1]} won't be banned.");
+                JPCCLog.Normal($"Not enough players voted yes, so command[1]} won't be banned.");
             }
         }
     }
