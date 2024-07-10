@@ -40,21 +40,21 @@ namespace JPCC.Commands.SubHandler
                 if (_votingTracker.VoteType == "resetworld")
                 {
                     _messageDispatcherHandler.DispatchMessageToAllClients($"{client.PlayerName} started a vote on resetting the world!{Environment.NewLine}Use the commands /yes or /no to cast your vote.");
-                    JPCCLog.Normal($"{client.PlayerName} started a vote on resetting the world");
+                    JPCCLog.Normal($"{client.PlayerName} started a vote on resetting the world.");
 
                     VoteTimerAsync(command, client);
                 }
                 if (_votingTracker.VoteType == "kickplayer")
                 {
                     _messageDispatcherHandler.DispatchMessageToAllClients($"{client.PlayerName} started a vote on kicking {command[1]} from the server!{Environment.NewLine}Use the commands /yes or /no to cast your vote.");
-                    JPCCLog.Normal($"{client.PlayerName} started a vote on kicking {command[1]} from the server");
+                    JPCCLog.Normal($"{client.PlayerName} started a vote on kicking {command[1]} from the server.");
 
                     VoteTimerAsync(command, client);
                 }
                 if (_votingTracker.VoteType == "banplayer")
                 {
                     _messageDispatcherHandler.DispatchMessageToAllClients($"{client.PlayerName} started a vote on banning {command[1]} from the server!{Environment.NewLine}Use the commands /yes or /no to cast your vote.");
-                    JPCCLog.Normal($"{client.PlayerName} started a vote on banning {command[1]} from the server");
+                    JPCCLog.Normal($"{client.PlayerName} started a vote on banning {command[1]} from the server.");
 
                     VoteTimerAsync(command, client);
                 }
@@ -131,7 +131,7 @@ namespace JPCC.Commands.SubHandler
             // Do we have enough votes?
             if (_votingTracker.VotedYesCount > _votingTracker.VotedNoCount)
             {
-                _messageDispatcherHandler.DispatchMessageToAllClients($"Enough players voted yes, so the world willll be reset.");
+                _messageDispatcherHandler.DispatchMessageToAllClients($"Enough players voted yes, so the world will be reset.");
                 JPCCLog.Normal($"Enough players voted yes, the world will be reset.");
                 await Task.Delay(4000);
 
